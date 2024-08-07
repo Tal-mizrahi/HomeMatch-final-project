@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "856433933975",
+    "project_id": "homematch-df85e",
+    "storage_bucket": "homematch-df85e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:856433933975:android:37fed32fd95d0c021ff3d2",
+        "android_client_info": {
+          "package_name": "com.example.homematch"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCV4fja8b3aNG1xa67_sZXI0jqZmS14Ik"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
