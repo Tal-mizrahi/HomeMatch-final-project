@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.homematch.R;
+import com.example.homematch.fragments.AddingApartmentFragment;
 import com.example.homematch.fragments.AllHousesPageFragment;
 import com.example.homematch.fragments.BrokerFragment;
 import com.example.homematch.utilities.FullScreenManager;
@@ -49,11 +50,11 @@ public class HomePageBrokerActivity extends AppCompatActivity {
             if(item.getItemId() == R.id.homeMatch_ITM_profile){
                 replaceFragment(new BrokerFragment());
             }
-            if (item.getItemId() == R.id.homeMatch_ITM_add_house){
-
-            }
             if (item.getItemId() == R.id.homeMatch_ITM_all_houses) {
                 replaceFragment(new AllHousesPageFragment());
+            }
+            if (item.getItemId() == R.id.homeMatch_ITM_add_house) {
+                replaceFragment(new AddingApartmentFragment());
             }
             return true;
         });

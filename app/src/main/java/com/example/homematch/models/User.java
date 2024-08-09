@@ -7,20 +7,21 @@ public abstract class User {
     private String phoneNumber;
     private String password;
     private String uid;
-    private String image;
+    private String imageUrl;
 
 
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, String phoneNumber, String password, String uid, String image) {
+    public User(String firstName, String lastName, String email, String phoneNumber, String password
+            , String uid, String imageUrl) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.password = password;
         this.uid = uid;
-        this.image = image;
+        this.imageUrl = imageUrl;
     }
 
     public String getFirstName() {
@@ -71,11 +72,24 @@ public abstract class User {
         this.uid = uid;
     }
 
-    public String getImage() {
-        return image;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImageUrl(String image) {
+        this.imageUrl = image;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", password='" + password + '\'' +
+                ", uid='" + uid + '\'' +
+                ", imageUri='" + imageUrl + '\'' +
+                '}';
     }
 }

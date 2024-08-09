@@ -3,11 +3,15 @@ package com.example.homematch.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.Window;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.cardview.widget.CardView;
 
 import com.example.homematch.R;
 import com.example.homematch.interaces.LoginCallBack;
@@ -27,6 +31,11 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputLayout login_LAY_password;
     private MaterialButton login_BTN_login;
     private MaterialTextView login_LBL_create_account;
+
+    private LinearLayoutCompat login_LL_main;
+    private ProgressBar login_PB_loading;
+
+    private CardView login_CARD_loading;
 
 
     @Override
@@ -51,6 +60,10 @@ public class LoginActivity extends AppCompatActivity {
     public void login() {
 
         if (!TextUtils.isEmpty(login_INP_email.getText()) && !TextUtils.isEmpty(login_INP_password.getText())) {
+
+            login_LL_main.setAlpha(0.5f);
+            login_CARD_loading.setVisibility(View.VISIBLE);
+
             MyDbUserManager.getInstance().loginUser(login_INP_email.getText().toString(), login_INP_password.getText().toString(), this, new LoginCallBack() {
                 @Override
                 public void onLoginSuccess(String uid) {
@@ -94,6 +107,10 @@ public class LoginActivity extends AppCompatActivity {
 
         login_BTN_login = findViewById(R.id.login_BTN_login);
         login_LBL_create_account = findViewById(R.id.login_LBL_create_account);
+
+        login_LL_main = findViewById(R.id.login_LL_main);
+        login_PB_loading = findViewById(R.id.login_PB_loading);
+        login_CARD_loading = findViewById(R.id.login_CARD_loading);
     }
 
 

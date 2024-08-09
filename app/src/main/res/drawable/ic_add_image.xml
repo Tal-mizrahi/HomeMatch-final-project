@@ -50,7 +50,7 @@
         android:strokeWidth="1"
         android:pathData="M 511.5,167.5 C 511.5,180.833 511.5,194.167 511.5,207.5C 506.167,207.5 500.833,207.5 495.5,207.5C 495.5,194.167 495.5,180.833 495.5,167.5C 500.833,167.5 506.167,167.5 511.5,167.5 Z" />
     <path
-        android:fillColor="#e11b1a"
+        android:fillColor="#1B1919"
         android:fillAlpha="0.987"
         android:strokeAlpha="0.987"
         android:strokeWidth="1"

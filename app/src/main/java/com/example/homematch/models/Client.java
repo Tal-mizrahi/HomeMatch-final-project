@@ -7,8 +7,8 @@ public class Client extends User {
     }
 
     public Client(String firstName, String lastName, String email, String phoneNumber
-            , String password, String uid, String image) {
-        super(firstName, lastName, email, phoneNumber, password, uid, image);
+            , String password, String uid, String imageUrl) {
+        super(firstName, lastName, email, phoneNumber, password, uid, imageUrl);
     }
 }
 

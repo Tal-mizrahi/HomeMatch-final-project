@@ -33,6 +33,7 @@
         <activity
             android:name=".activities.LoginActivity"
             android:exported="true"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,12 +44,14 @@
         <activity
             android:name=".activities.RegisterActivity"
             android:exported="true"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait">
 
         </activity>
         <activity
-            android:name=".activities.AddingApartmentActivity"
+            android:name=".fragments.AddingApartmentFragment"
             android:exported="true"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait">
 
         </activity>

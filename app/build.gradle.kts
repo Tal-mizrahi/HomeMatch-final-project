@@ -54,6 +54,8 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.firebase.storage)
     implementation(libs.glide)
+    implementation ("com.github.denzcoskun:ImageSlideshow:0.1.2")
+    implementation ("com.github.dhaval2404:imagepicker:2.1")
 
 
 }

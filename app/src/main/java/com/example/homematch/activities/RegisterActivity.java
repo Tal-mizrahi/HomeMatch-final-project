@@ -6,10 +6,13 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.example.homematch.R;
 import com.example.homematch.interaces.UserCreationCallBack;
@@ -21,6 +24,7 @@ import com.example.homematch.utilities.MyDbDataManager;
 import com.example.homematch.utilities.MyDbUserManager;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
@@ -43,6 +47,12 @@ public class RegisterActivity extends AppCompatActivity {
     private TextInputLayout register_LAY_email;
     private TextInputLayout register_LAY_phone;
     private TextInputLayout register_LAY_password;
+
+    private RelativeLayout register_REL_main;
+
+    private CardView register_CARD_loading;
+
+    private ProgressBar register_PB_loading;
 
     private MaterialButton btnRegister;
     private MaterialTextView haveAccount;
@@ -90,6 +100,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         btnRegister.setOnClickListener(v -> {
             if (validateFields()) {
+
+                register_REL_main.setAlpha(0.5f);
+                register_CARD_loading.setVisibility(View.VISIBLE);
+
                 String firstName = fixName(Objects.requireNonNull(register_INP_first_name.getText()).toString());
                 String lastName = fixName(Objects.requireNonNull(register_INP_last_name.getText()).toString());
                 String email = Objects.requireNonNull(register_INP_email.getText()).toString();
@@ -101,7 +115,7 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onUserCreated(String uid) {
                         String userType;
                         User theUser;
-                        String imageUrl = null; // init the image url in the homepage
+                        String imageUrl = null; // the user will init the image url in the homepage
                         if(isBroker){
                             String agencyName = Objects.requireNonNull(register_INP_agency_name.getText()).toString();
                             userType = "Broker";
@@ -192,7 +206,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         // Validate password
-        if (TextUtils.isEmpty(register_INP_password.getText().toString().trim())) {
+        if (TextUtils.isEmpty(register_INP_password.getText())) {
             register_LAY_password.setError("Password is required");
             isValid = false;
         } else {
@@ -226,6 +240,12 @@ public class RegisterActivity extends AppCompatActivity {
         register_LAY_email = findViewById(R.id.register_LAY_email);
         register_LAY_phone = findViewById(R.id.register_LAY_phone);
         register_LAY_password = findViewById(R.id.register_LAY_password);
+
+        register_REL_main = findViewById(R.id.main);
+
+        register_CARD_loading = findViewById(R.id.register_CARD_loading);
+
+        register_PB_loading = findViewById(R.id.register_PB_loading);
 
         btnRegister = findViewById(R.id.register_BTN_register);
         haveAccount = findViewById(R.id.register_LBL_have_account);
