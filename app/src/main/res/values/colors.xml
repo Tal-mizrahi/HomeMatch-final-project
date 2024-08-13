@@ -13,7 +13,10 @@
     <color name="pink_100">#F8BBD0</color>
     <color name="yellow_100">#FFF9C4</color>
     <color name="light_orange">#FFE6D5</color>
+    <color name="light_orange2">#E4FFE6D5</color>
     <color name="red">#FF0000</color>
+    <color name="ic_home_match_launcher_background">#FFFFFF</color>
+    <color name="corner_card_details">#DEDDDD</color>
 
 
 </resources>

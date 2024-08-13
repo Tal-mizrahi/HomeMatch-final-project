@@ -1,0 +1,644 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/houseDetails_CARD_close">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="190dp"
+
+            android:elevation="10dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.denzcoskun.imageslider.ImageSlider
+                android:id="@+id/houseDetails_image_slider"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:iss_auto_cycle="true"
+                app:iss_period="1000"
+                app:iss_delay="1000"
+                app:iss_text_align="CENTER"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/houseDetails_IMG_favorite"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/ic_empty_heart" />
+
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/houseDetails_CARD_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="5dp"
+            android:elevation="8dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="190dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/houseDetails_LBL_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/white"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:fontFamily="@font/poppins_medium"
+                        android:minHeight="0dp"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:text="For Sale"
+                        android:textColor="@color/orange"
+                        android:textSize="12sp"
+                        app:icon="@drawable/ic_nis"
+                        app:iconPadding="4dp"
+                        app:iconSize="11dp"
+                        app:iconTint="@color/orange"
+                        app:strokeColor="@color/corner_card_details"
+                        app:strokeWidth="2dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/houseDetails_LBL_property_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:backgroundTint="@color/white"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:fontFamily="@font/poppins_medium"
+                        android:minHeight="0dp"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:text="Private House"
+                        android:textColor="@color/orange"
+                        android:textSize="12sp"
+                        app:icon="@drawable/ic_home"
+                        app:iconPadding="4dp"
+                        app:iconSize="18dp"
+                        app:iconTint="@color/orange"
+                        app:strokeColor="@color/corner_card_details"
+                        app:strokeWidth="2dp" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/houseDetails_LBL_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_bold"
+                    android:gravity="end"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    tools:text="₪4,500,000" />
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/houseDetails_LBL_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textSize="12sp"
+                    tools:text="Bnei Ephraim 218, Tel Aviv" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/houseDetails_LBL_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textSize="11sp"
+                    tools:text="A modern, spacious apartment located in a quiet neighborhood, featuring 5 rooms and a bright living area. The apartment includes a protected room for added security, as well as a private balcony with a stunning city view. Ideal for both families and individuals seeking comfort and convenience." />
+
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
+                        android:orientation="horizontal">
+
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/houseDetails_CARD_area_size"
+                            android:layout_width="@dimen/house_dialog_mini_card_size"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/white"
+                            app:strokeColor="@color/corner_card_details"
+                            app:strokeWidth="2dp">
+
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="8dp">
+
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:layout_width="@dimen/house_dialog_ic"
+                                    android:layout_height="@dimen/house_dialog_ic"
+                                    android:layout_gravity="start"
+                                    android:src="@drawable/ic_area"
+                                    android:tint="@color/burnt_orange"
+                                    android:layout_marginBottom="6dp"/>
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/houseDetails_LBL_area_size"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="6dp"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:gravity="start"
+                                    android:textSize="@dimen/house_dialog_txt_in_card"
+                                    tools:text="165 m²" />
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/houseDetails_CARD_rooms"
+                            android:layout_width="@dimen/house_dialog_mini_card_size"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="12dp"
+                            android:backgroundTint="@color/white"
+                            app:strokeColor="@color/corner_card_details"
+                            app:strokeWidth="2dp">
+
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="8dp">
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:layout_width="@dimen/house_dialog_ic"
+                                    android:layout_height="@dimen/house_dialog_ic"
+                                    android:layout_gravity="start"
+                                    android:layout_marginEnd="4dp"
+                                    android:tint="@color/burnt_orange"
+                                    android:layout_marginBottom="6dp"
+                                    android:src="@drawable/ic_bed" />
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/houseDetails_LBL_rooms"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:gravity="start"
+                                    android:textSize="@dimen/house_dialog_txt_in_card"
+                                    tools:text="5 rooms" />
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/houseDetails_CARD_balcony_size"
+                            android:layout_width="@dimen/house_dialog_mini_card_size"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/white"
+                            app:strokeColor="@color/corner_card_details"
+                            app:strokeWidth="2dp">
+
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="8dp">
+
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:layout_width="@dimen/house_dialog_ic"
+                                    android:layout_height="@dimen/house_dialog_ic"
+                                    android:layout_gravity="start"
+                                    android:src="@drawable/ic_balcony"
+                                    android:tint="@color/burnt_orange"
+                                    android:layout_marginBottom="6dp"/>
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/houseDetails_LBL_balcony_size"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="6dp"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:gravity="start"
+                                    android:textSize="@dimen/house_dialog_txt_in_card"
+                                    tools:text="66 m²" />
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="12dp">
+
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/houseDetails_IMG_protected"
+                                android:layout_width="@dimen/house_dialog_additional_ic_size"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+
+
+                                android:src="@drawable/ic_protected"/>
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/houseDetails_TXT_protected"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginHorizontal="5dp"
+                                android:paddingTop="2dp"
+                                android:layout_gravity="center"
+                                android:fontFamily="@font/poppins_medium"
+                                android:textSize="@dimen/additional_house_features_text_size"
+                                android:text="Protected Room"/>
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:layout_marginTop="6dp"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/houseDetails_IMG_garage"
+                                android:layout_width="@dimen/house_dialog_additional_ic_size"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:src="@drawable/ic_garage"/>
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/houseDetails_TXT_garage"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginHorizontal="5dp"
+                                android:paddingTop="2dp"
+                                android:fontFamily="@font/poppins_medium"
+                                android:layout_gravity="center"
+                                android:textSize="@dimen/additional_house_features_text_size"
+                                android:text="Garage"/>
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:layout_marginTop="6dp"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/houseDetails_IMG_balcony"
+                                android:layout_width="@dimen/house_dialog_additional_ic_size"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:src="@drawable/ic_balcony"/>
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/houseDetails_TXT_balcony"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginHorizontal="5dp"
+                                android:paddingTop="2dp"
+                                android:fontFamily="@font/poppins_medium"
+                                android:layout_gravity="center"
+                                android:textSize="@dimen/additional_house_features_text_size"
+                                android:text="Balcony"/>
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/houseDetails_LAY_smoke"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:layout_marginTop="6dp"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/houseDetails_IMG_smoke"
+                                android:layout_width="@dimen/house_dialog_additional_ic_size"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:src="@drawable/ic_smoke"/>
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/houseDetails_TXT_smoke"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:paddingTop="5dp"
+                                android:layout_marginHorizontal="5dp"
+                                android:fontFamily="@font/poppins_medium"
+                                android:layout_gravity="center"
+                                android:gravity="bottom"
+                                android:textSize="@dimen/additional_house_features_text_size"
+                                android:text="Can Smoke"/>
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="35dp"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/houseDetails_IMG_elevator"
+                        android:layout_width="@dimen/house_dialog_additional_ic_size"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_elevator"/>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/houseDetails_TXT_elevator"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingTop="4dp"
+                        android:layout_marginHorizontal="5dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/additional_house_features_text_size"
+                        android:text="Elevator"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/houseDetails_LAY_pets"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/houseDetails_IMG_pets"
+                        android:layout_width="@dimen/house_dialog_additional_ic_size"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_paw"/>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/houseDetails_TXT_pets"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginHorizontal="5dp"
+                        android:paddingTop="5dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/additional_house_features_text_size"
+                        android:text="Pets Allowed"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/houseDetails_IMG_parking"
+                        android:layout_width="@dimen/house_dialog_additional_ic_size"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_parking"/>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/houseDetails_TXT_parking"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginHorizontal="5dp"
+                        android:paddingTop="2dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/additional_house_features_text_size"
+                        android:text="Parking"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/houseDetails_LAY_bills"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/houseDetails_IMG_bills"
+                        android:layout_width="@dimen/house_dialog_additional_ic_size"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_bill"/>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/houseDetails_TXT_bills"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginHorizontal="5dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/additional_house_features_text_size"
+                        android:text="Bills Included"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:text="Real estate agent information:"
+                    android:fontFamily="@font/poppins_bold"
+                    android:textSize="14sp"/>
+                
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:backgroundTint="@color/white"
+                    app:strokeColor="@color/corner_card_details"
+                    app:strokeWidth="2dp">
+                    
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/houseDetails_IMG_agent"
+                                android:layout_width="55dp"
+                                android:layout_height="55dp"
+                                android:layout_margin="10dp"
+                                app:shapeAppearanceOverlay="@style/circleImageView"
+                                android:elevation="12dp"
+                                android:layout_gravity="center"
+                                android:scaleType="centerCrop"/>
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="8dp"
+                                android:orientation="vertical">
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/houseDetails_LBL_agent_name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textStyle="bold"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:textSize="12sp"
+                                    android:text="Tal Mizrahi"/>
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/houseDetails_LBL_agent_agency"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold"
+                                    android:text="Shahar Real Estate"/>
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/houseDetails_LBL_agent_phone"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textStyle="bold"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:textSize="10sp"
+                                    android:text="052-554366"/>
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                        
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                    
+                </com.google.android.material.card.MaterialCardView>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/houseDetails_CARD_close"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:layout_alignParentBottom="true">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/houseDetails_BTN_close"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Close"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:cornerRadius="25dp"
+            android:fontFamily="@font/poppins_bold"
+            android:layout_marginHorizontal="16dp"
+            app:backgroundTint="@color/burnt_orange"
+            android:padding="8dp"
+            android:layout_gravity="center"/>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

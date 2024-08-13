@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     android:background="#ffffff"
-    tools:context=".activities.RegisterActivity">
+    tools:context=".Activities.RegisterActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="16dp"
-        android:paddingBottom="16dp">
+        >
 
         <RelativeLayout
             android:id="@+id/register_REL_main"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:padding="16dp">
 
 
             <com.google.android.material.textview.MaterialTextView
@@ -33,11 +34,10 @@
                 android:textStyle="bold"/>
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/homeMatch_LL_register"
+                android:id="@+id/register_LAY_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/register_LBL_create_account"
-
                 android:orientation="vertical">
 
                 <com.google.android.material.button.MaterialButtonToggleGroup
@@ -45,17 +45,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
-                    android:checkedButton="@id/register_BTN_broker"
+                    android:checkedButton="@id/register_BTN_agent"
                     app:selectionRequired="true"
                     app:singleSelection="true">
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/register_BTN_broker"
+                        android:id="@+id/register_BTN_agent"
                         style="@style/Widget.Material3.Button.OutlinedButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Broker"
+                        android:text="Agent"
                         android:textColor="@drawable/text_color_selector"
                         app:backgroundTint="@drawable/button_selector" />
 
@@ -84,7 +84,6 @@
                         android:layout_weight="1"
                         android:hint="First Name"
                         android:textColorHint="@color/grey_light"
-                        app:boxBackgroundColor="@color/container_color"
                         app:boxStrokeColor="@android:color/black"
                         app:boxStrokeWidth="2dp"
                         app:endIconMode="clear_text"
@@ -108,7 +107,6 @@
                         android:layout_weight="1"
                         android:hint="Last Name"
                         android:textColorHint="@color/grey_light"
-                        app:boxBackgroundColor="@color/container_color"
                         app:boxStrokeColor="@android:color/black"
                         app:boxStrokeWidth="2dp"
                         app:endIconMode="clear_text"
@@ -134,7 +132,6 @@
                     android:layout_marginTop="10dp"
                     android:hint="Agency Name"
                     android:textColorHint="@color/grey_light"
-                    app:boxBackgroundColor="@color/container_color"
                     app:boxStrokeColor="@android:color/black"
                     app:boxStrokeWidth="2dp"
                     app:endIconMode="clear_text"
@@ -158,7 +155,6 @@
                     android:layout_marginTop="10dp"
                     android:hint="Email"
                     android:textColorHint="@color/grey_light"
-                    app:boxBackgroundColor="@color/container_color"
                     app:boxStrokeColor="@android:color/black"
                     app:boxStrokeWidth="2dp"
                     app:endIconMode="clear_text"
@@ -171,7 +167,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/black"
-                        android:textColorHint="@color/grey_light" />
+                        android:textColorHint="@color/grey_light"
+                        android:inputType="textEmailAddress"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -182,7 +179,6 @@
                     android:layout_marginTop="10dp"
                     android:hint="Phone Number"
                     android:textColorHint="@color/grey_light"
-                    app:boxBackgroundColor="@color/container_color"
                     app:boxStrokeColor="@android:color/black"
                     app:boxStrokeWidth="2dp"
                     app:endIconMode="clear_text"
@@ -207,7 +203,6 @@
                     android:layout_marginTop="10dp"
                     android:hint="Password"
                     android:textColorHint="@color/grey_light"
-                    app:boxBackgroundColor="@color/container_color"
                     app:boxStrokeColor="@android:color/black"
                     app:boxStrokeWidth="2dp"
                     app:endIconMode="password_toggle"
@@ -239,7 +234,7 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/homeMatch_LL_register"
+                android:layout_below="@id/register_LAY_content"
                 android:layout_centerInParent="true"
                 android:orientation="horizontal">
 
@@ -310,4 +305,4 @@
 
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

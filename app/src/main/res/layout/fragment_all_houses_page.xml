@@ -6,7 +6,8 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.AllHousesPageFragment">
+    android:background="@color/white"
+    tools:context=".Fragments.AllHousesPageFragment">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/allHouses_LBL_all_houses"
@@ -19,12 +20,46 @@
         android:fontFamily="@font/poppins_bold"
         android:layout_centerHorizontal="true"/>
 
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/allHouses_GRP_for_sale_or_rent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_below="@+id/allHouses_LBL_all_houses"
+        android:checkedButton="@id/homeMatch_BTN_for_sale"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/allHouses_BTN_for_sale"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="For Sale"
+            app:strokeColor="@color/burnt_orange"
+            android:textColor="@drawable/all_houses_color_selector"
+            app:backgroundTint="@drawable/all_houses_toggle_button_selector" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/allHouses_BTN_for_rent"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="For Rent"
+            app:strokeColor="@color/burnt_orange"
+            android:textColor="@drawable/all_houses_color_selector"
+            app:backgroundTint="@drawable/all_houses_toggle_button_selector" />
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+
     <androidx.cardview.widget.CardView
         android:id="@+id/allHouses_CARD_options"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="12dp"
-        android:layout_below="@id/allHouses_LBL_all_houses"
+        android:layout_below="@id/allHouses_GRP_for_sale_or_rent"
         android:elevation="0dp"
         app:cardElevation="5dp"
         android:layout_marginHorizontal="1dp"
@@ -51,15 +86,17 @@
                     android:layout_height="@dimen/allHouses_button_size"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:backgroundTint="@color/light_orange"
+                    android:backgroundTint="@drawable/all_houses_button_background_selector"
+                    app:iconTint="@drawable/all_houses_icon_color_selector"
                     app:icon="@drawable/img_private_house"
-                    app:iconTint="@color/burnt_orange"
                     app:iconGravity="textEnd"
                     app:iconSize="@dimen/allHouses_icon_size"
                     android:layout_gravity="center"
+
                     />
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/allHouses_TXT_private_house"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Private\nHouses"
@@ -83,15 +120,16 @@
                     android:layout_height="@dimen/allHouses_button_size"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:backgroundTint="@color/light_orange"
+                    android:backgroundTint="@drawable/all_houses_button_background_selector"
+                    app:iconTint="@drawable/all_houses_icon_color_selector"
                     app:icon="@drawable/img_apartment"
-                    app:iconTint="@color/burnt_orange"
                     app:iconGravity="textEnd"
                     app:iconSize="@dimen/allHouses_icon_size"
                     android:layout_gravity="center"
                     />
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/allHouses_TXT_apartments"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Apartments"
@@ -115,15 +153,16 @@
                     android:layout_height="@dimen/allHouses_button_size"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:backgroundTint="@color/light_orange"
+                    android:backgroundTint="@drawable/all_houses_button_background_selector"
+                    app:iconTint="@drawable/all_houses_icon_color_selector"
                     app:icon="@drawable/img_penthouse"
-                    app:iconTint="@color/burnt_orange"
                     app:iconGravity="textEnd"
                     app:iconSize="@dimen/allHouses_icon_size"
                     android:layout_gravity="center"
                     />
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/allHouses_TXT_penthouse"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Penthouses"
@@ -147,18 +186,19 @@
                     android:layout_height="@dimen/allHouses_button_size"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:backgroundTint="@color/light_orange"
+                    android:backgroundTint="@drawable/all_houses_button_background_selector"
+                    app:iconTint="@drawable/all_houses_icon_color_selector"
                     app:icon="@drawable/img_duplex"
-                    app:iconTint="@color/burnt_orange"
                     app:iconGravity="textEnd"
                     app:iconSize="@dimen/allHouses_icon_size"
                     android:layout_gravity="center"
                     />
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/allHouses_TXT_duplex"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Duplex"
+                    android:text="Duplexes"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:fontFamily="@font/poppins_medium"
@@ -179,15 +219,16 @@
                     android:layout_height="@dimen/allHouses_button_size"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:backgroundTint="@color/light_orange"
+                    android:backgroundTint="@drawable/all_houses_button_background_selector"
+                    app:iconTint="@drawable/all_houses_icon_color_selector"
                     app:icon="@drawable/img_garden_apartment"
-                    app:iconTint="@color/burnt_orange"
                     app:iconGravity="textEnd"
                     app:iconSize="@dimen/allHouses_icon_size"
                     android:layout_gravity="center"
                     />
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/allHouses_TXT_garden_apartment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Garden\nApartments"

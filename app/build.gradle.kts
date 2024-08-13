@@ -56,6 +56,12 @@ dependencies {
     implementation(libs.glide)
     implementation ("com.github.denzcoskun:ImageSlideshow:0.1.2")
     implementation ("com.github.dhaval2404:imagepicker:2.1")
+    implementation ("androidx.activity:activity-ktx:1.2.3")
+    implementation ("androidx.fragment:fragment-ktx:1.3.3")
+    implementation("io.coil-kt:coil-compose:2.5.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
+
+
 
 
 }

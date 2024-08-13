@@ -2,10 +2,10 @@ package com.example.homematch;
 
 import android.app.Application;
 
-import com.example.homematch.utilities.FullScreenManager;
-import com.example.homematch.utilities.MyDbDataManager;
-import com.example.homematch.utilities.MyDbStorageManager;
-import com.example.homematch.utilities.MyDbUserManager;
+import com.example.homematch.Utilities.FullScreenManager;
+import com.example.homematch.Utilities.MyDbDataManager;
+import com.example.homematch.Utilities.MyDbStorageManager;
+import com.example.homematch.Utilities.MyDbUserManager;
 
 public class MyApp extends Application {
 

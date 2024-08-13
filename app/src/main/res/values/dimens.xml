@@ -5,5 +5,10 @@
     <dimen name="allHouses_button_size">45dp</dimen>
     <dimen name="allHouses_icon_size">20dp</dimen>
     <dimen name="allHouses_text_size">10sp</dimen>
-    <dimen name="add_image_size">55dp</dimen>"
+    <dimen name="add_image_size">65dp</dimen>"
+    <dimen name="house_dialog_ic">24dp</dimen>
+    <dimen name="house_dialog_txt_in_card">12sp</dimen>
+    <dimen name="house_dialog_mini_card_size">75dp</dimen>
+    <dimen name="house_dialog_additional_ic_size">18dp</dimen>
+    <dimen name="additional_house_features_text_size">12sp</dimen>
 </resources>
