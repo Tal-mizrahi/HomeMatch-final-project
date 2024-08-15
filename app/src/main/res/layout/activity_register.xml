@@ -19,7 +19,7 @@
             android:id="@+id/register_REL_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="16dp">
+            android:padding="24dp">
 
 
             <com.google.android.material.textview.MaterialTextView
@@ -29,9 +29,9 @@
                 android:layout_marginTop="16dp"
                 android:layout_centerHorizontal="true"
                 android:text="Create an account"
-                android:textSize="30sp"
-                android:textColor="@color/black"
-                android:textStyle="bold"/>
+                android:textSize="27sp"
+                android:fontFamily="@font/poppins_bold"
+                android:textColor="@color/black"/>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/register_LAY_content"
@@ -56,6 +56,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Agent"
+                        android:fontFamily="@font/poppins_medium"
                         android:textColor="@drawable/text_color_selector"
                         app:backgroundTint="@drawable/button_selector" />
 
@@ -66,6 +67,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Client"
+                        android:fontFamily="@font/poppins_medium"
                         android:textColor="@drawable/text_color_selector"
                         app:backgroundTint="@drawable/button_selector" />
                 </com.google.android.material.button.MaterialButtonToggleGroup>
@@ -79,7 +81,7 @@
                         android:id="@+id/register_LAY_first_name"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
                         android:layout_weight="1"
                         android:hint="First Name"
@@ -89,12 +91,16 @@
                         app:endIconMode="clear_text"
                         app:endIconTint="@color/grey_light"
                         app:helperText="Required"
+
                         app:hintTextColor="@color/grey_light">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/register_INP_first_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:inputType="textCapWords"
+                            android:fontFamily="@font/poppins_regular"
                             android:textColor="@android:color/black"
                             android:textColorHint="@color/grey_light" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -119,7 +125,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@android:color/black"
-                            android:textColorHint="@color/grey_light" />
+                            android:textColorHint="@color/grey_light"
+                            android:textSize="14sp"
+                            android:inputType="textCapWords"
+                            android:fontFamily="@font/poppins_regular"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -144,7 +153,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/black"
-                        android:textColorHint="@color/grey_light" />
+                        android:textColorHint="@color/grey_light"
+                        android:textSize="14sp"
+                        android:inputType="textCapWords"
+                        android:fontFamily="@font/poppins_regular"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -168,7 +180,9 @@
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/black"
                         android:textColorHint="@color/grey_light"
-                        android:inputType="textEmailAddress"/>
+                        android:inputType="textEmailAddress"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/poppins_regular"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -192,7 +206,9 @@
                         android:layout_height="wrap_content"
                         android:inputType="phone"
                         android:textColor="@android:color/black"
-                        android:textColorHint="@color/grey_light" />
+                        android:textColorHint="@color/grey_light"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/poppins_regular"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -216,7 +232,9 @@
                         android:layout_height="wrap_content"
                         android:inputType="textPassword"
                         android:textColor="@android:color/black"
-                        android:textColorHint="@color/grey_light" />
+                        android:textColorHint="@color/grey_light"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/poppins_regular"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
@@ -242,9 +260,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Already have an account?"
-                    android:textStyle="bold"
                     android:textColor="@color/dark_gray"
-                    android:textSize="15sp"/>
+                    android:fontFamily="@font/poppins_regular"
+                    android:textSize="13sp"/>
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/register_LBL_have_account"
@@ -252,8 +270,8 @@
                     android:layout_height="wrap_content"
                     android:text=" Log in"
                     android:textColor="@color/cyan_teal"
-                    android:textStyle="bold"
-                    android:textSize="15sp"/>
+                    android:fontFamily="@font/poppins_regular"
+                    android:textSize="13sp"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
         </RelativeLayout>

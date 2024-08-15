@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -16,12 +17,15 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.homematch.Interfaces.LogoutCallBack;
+import com.example.homematch.Interfaces.ManagePropertiesCallBack;
 import com.example.homematch.R;
 import com.example.homematch.Models.Agent;
 import com.example.homematch.Interfaces.ImgCallBack;
 import com.example.homematch.Utilities.MyDbDataManager;
 import com.example.homematch.Utilities.MyDbStorageManager;
 import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
@@ -32,8 +36,12 @@ public class AgentFragment extends Fragment {
     private MaterialTextView agent_MTV_UserName;
     private ExtendedFloatingActionButton agent_FAB_edit_profile;
     private ShapeableImageView agent_IMG_user;
+    private MaterialButton agent_BTN_manage_properties;
+    private LinearLayoutCompat agent_LAY_logout;
     private Agent agentUser;
     private ActivityResultLauncher<Intent> pickMedia;
+    private LogoutCallBack logoutCallBack;
+    private ManagePropertiesCallBack managePropertiesCallBack;
     public AgentFragment() {}
 
     public AgentFragment(Agent agentUser) {
@@ -49,15 +57,28 @@ public class AgentFragment extends Fragment {
         initAgentUI();
         agent_FAB_edit_profile.setOnClickListener(v -> editImage());
         setPickMedia();
+        agent_LAY_logout.setOnClickListener(v -> logout());
+        agent_BTN_manage_properties.setOnClickListener(v -> moveToManageProperties());
         return view;
     }
 
-    public void setAgentUser(Agent agentUser) {
-        if (agentUser != null) {
-            this.agentUser = agentUser;
-            Log.d("AgentFragment", "setAgentUser: " + agentUser.toString());
-        } else
-            Log.d("AgentFragment", "setAgentUser: agentUser is null");
+    private void moveToManageProperties() {
+        if(managePropertiesCallBack != null){
+            managePropertiesCallBack.onManageProperties();
+        }
+    }
+
+    public void setLogoutCallBack(LogoutCallBack logoutCallBack) {
+        this.logoutCallBack = logoutCallBack;
+    }
+    public void setManagePropertiesCallBack(ManagePropertiesCallBack managePropertiesCallBack) {
+        this.managePropertiesCallBack = managePropertiesCallBack;
+    }
+
+    private void logout() {
+        if(logoutCallBack != null){
+            logoutCallBack.onLogout();
+        }
     }
 
     public void setUserImgUI() {
@@ -93,7 +114,7 @@ public class AgentFragment extends Fragment {
                                 @Override
                                 public void onSuccess(String imageUrl) {
                                     agentUser.setImageUrl(imageUrl);
-                                    MyDbDataManager.getInstance().storeNewUser(agentUser, AGENT);
+                                    MyDbDataManager.getInstance().setUser(agentUser, AGENT);
                                     updateProfileImg(uri);
                                 }
 
@@ -133,5 +154,7 @@ public class AgentFragment extends Fragment {
         agent_MTV_UserName = view.findViewById(R.id.agent_MTV_UserName);
         agent_FAB_edit_profile = view.findViewById(R.id.agent_FAB_edit_profile);
         agent_IMG_user = view.findViewById(R.id.agent_IMG_user);
+        agent_BTN_manage_properties = view.findViewById(R.id.agent_BTN_manage_properties);
+        agent_LAY_logout = view.findViewById(R.id.agent_LAY_logout);
     }
 }

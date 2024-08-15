@@ -66,6 +66,10 @@ public class MyDbUserManager {
                 });
     }
 
+    public void logOutUser() {
+        mAuth.signOut();
+    }
+
 
 }
 

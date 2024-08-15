@@ -1,7 +1,10 @@
 package com.example.homematch.Activities;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -11,6 +14,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.homematch.Models.ShowPropertiesType;
 import com.example.homematch.R;
 import com.example.homematch.Fragments.AddingPropertyFragment;
 import com.example.homematch.Fragments.AllHousesPageFragment;
@@ -30,7 +34,6 @@ public class AgentMainActivity extends AppCompatActivity {
     private Agent agentUser;
     private boolean isOnCreate = true;
     private AgentFragment agentFragment;
-    private AllHousesPageFragment allHousesPageFragment;
     private AddingPropertyFragment addingPropertyFragment;
 
     @Override
@@ -38,34 +41,45 @@ public class AgentMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_agent_main);
-        EdgeToEdge.enable(this);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.homeMatch_BNV_agent), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(0, 0, 0, 0);
-            return insets;
-        });
         this.bottomNavigationView = findViewById(R.id.homeMatch_BNV_agent);
-        //agentFragment = new AgentFragment();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
+        View decorView = getWindow().getDecorView();
+        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+            @Override
+            public void onSystemUiVisibilityChange(int visibility) {
+                if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
+                    // Navigation bar is visible
+                    FullScreenManager.getInstance().fullScreen(getWindow());
+                }
+            }
+        });
+
+       // agentFragment = new AgentFragment();
         //allHousesPageFragment = new AllHousesPageFragment();
         getCurrentUser();
         addingPropertyFragment = new AddingPropertyFragment();
         //setListeners();
     }
 
+
+
     @Override
     protected void onResume() {
         super.onResume();
-        FullScreenManager.getInstance().fullScreen(getWindow());
+        //FullScreenManager.getInstance().fullScreen(getWindow());
 
     }
 
-    public void setListeners(){
+    public void setListeners() {
+        agentFragment = new AgentFragment(agentUser);
+        setAgentFragmentListeners();
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            if(item.getItemId() == R.id.homeMatch_ITM_profile){
-                replaceFragment(new AgentFragment(agentUser));
+            if (item.getItemId() == R.id.homeMatch_ITM_profile) {
+                replaceFragment(agentFragment);
             }
             if (item.getItemId() == R.id.homeMatch_ITM_all_houses) {
-                replaceFragment(new AllHousesPageFragment());
+                replaceFragment(new AllHousesPageFragment(ShowPropertiesType.ALL_HOUSES));
             }
             if (item.getItemId() == R.id.homeMatch_ITM_add_house) {
                 replaceFragment(new AddingPropertyFragment());
@@ -74,8 +88,10 @@ public class AgentMainActivity extends AppCompatActivity {
         });
 
         addingPropertyFragment.setHouseAddedCallBack(() -> {
-            replaceFragment(allHousesPageFragment);
+            replaceFragment(new AllHousesPageFragment(ShowPropertiesType.ALL_HOUSES));
         });
+
+
     }
 
     private void replaceFragment(Fragment fragment) {
@@ -83,6 +99,18 @@ public class AgentMainActivity extends AppCompatActivity {
                 .replace(R.id.homeMatch_LAY_agent, fragment)
                 .commit();
 
+    }
+
+    public void setAgentFragmentListeners(){
+        agentFragment.setLogoutCallBack(() -> {
+            Log.d("Logout", "Logout");
+            startActivity(new Intent(AgentMainActivity.this, LoginActivity.class));
+        });
+
+        agentFragment.setManagePropertiesCallBack(() -> {
+            Log.d("ManageProperties", "show manage properties ");
+            AgentMainActivity.this.replaceFragment(new AllHousesPageFragment(ShowPropertiesType.AGENT_PROPERTIES));
+        });
     }
 
     public void getCurrentUser(){
@@ -100,7 +128,9 @@ public class AgentMainActivity extends AppCompatActivity {
                     if(isOnCreate){
                         isOnCreate = false;
                         //agentFragment.setAgentUser(agentUser);
-                        replaceFragment(new AgentFragment(agentUser));
+                        agentFragment = new AgentFragment(agentUser);
+                        replaceFragment(agentFragment);
+                        setAgentFragmentListeners();
                     }
                     setListeners();
                     Log.d(AGENT, agentUser.toString());
@@ -115,5 +145,6 @@ public class AgentMainActivity extends AppCompatActivity {
 
         }
     }
+
 
 }

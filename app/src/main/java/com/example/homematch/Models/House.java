@@ -10,7 +10,7 @@ public abstract class House {
     private String description;
     private String houseType; // Apartment, Duplex, Penthouse, Garden, Private House
 
-    private String brokerId;
+    private String agentId;
     private String uuid;
 
     private int streetNumber;
@@ -32,6 +32,9 @@ public abstract class House {
 
     private ArrayList<String> imagesUrl;
 
+    private String openHouseDate;
+    private String openHouseTime;
+
 
     public House() {
     }
@@ -47,7 +50,7 @@ public abstract class House {
             , boolean hasElevator, boolean hasProtectedRoom, boolean hasGarage
             , boolean hasBalcony, boolean canSmoke, boolean petsAllowed
             , boolean hasParking, boolean isBillsIncluded, ArrayList<String> imagesUri
-            , String brokerId, String uuid) {
+            , String agentId, String uuid) {
         this.city = city;
         this.street = street;
         this.purchaseType = purchaseType;
@@ -66,10 +69,30 @@ public abstract class House {
         this.hasParking = hasParking;
         this.isBillsIncluded = isBillsIncluded;
         this.imagesUrl = imagesUri;
-        this.brokerId = brokerId;
+        this.agentId = agentId;
         this.uuid = uuid;
         this.houseType = houseType;
         this.balconyOrGardenSize = balconyOrGardenSize;
+        this.openHouseDate = null;
+        this.openHouseTime = null;
+    }
+
+    public String getOpenHouseDate() {
+        return openHouseDate;
+    }
+
+    public House setOpenHouseDate(String openHouseDate) {
+        this.openHouseDate = openHouseDate;
+        return this;
+    }
+
+    public String getOpenHouseTime() {
+        return openHouseTime;
+    }
+
+    public House setOpenHouseTime(String openHouseTime) {
+        this.openHouseTime = openHouseTime;
+        return this;
     }
 
     public String getCity() {
@@ -243,12 +266,12 @@ public abstract class House {
         return this;
     }
 
-    public String getBrokerId() {
-        return brokerId;
+    public String getAgentId() {
+        return agentId;
     }
 
-    public House setBrokerId(String brokerId) {
-        this.brokerId = brokerId;
+    public House setAgentId(String agentId) {
+        this.agentId = agentId;
         return this;
     }
 
@@ -273,8 +296,8 @@ public abstract class House {
                 ", purchaseType='" + purchaseType + '\'' +
                 ", description='" + description + '\'' +
                 ", houseType='" + houseType + '\'' +
-                ", brokerId='" + brokerId + '\'' +
-                ", uid='" + uuid + '\'' +
+                ", brokerId='" + agentId + '\'' +
+                ", uuid='" + uuid + '\'' +
                 ", streetNumber=" + streetNumber +
                 ", postalCode=" + postalCode +
                 ", numberOfRooms=" + numberOfRooms +
@@ -289,7 +312,8 @@ public abstract class House {
                 ", petsAllowed=" + petsAllowed +
                 ", hasParking=" + hasParking +
                 ", isBillsIncluded=" + isBillsIncluded +
-                ", imagesUri=" + imagesUrl +
-                '}';
+                ", imagesUrl=" + imagesUrl +
+                "\n, openHouseDate='" + openHouseDate + '\'' +
+                "\n, openHouseTime='" + openHouseTime + "} \n";
     }
 }

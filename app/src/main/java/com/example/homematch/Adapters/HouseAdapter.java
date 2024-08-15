@@ -7,12 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.example.homematch.Interfaces.ScheduleCallBack;
+import com.example.homematch.Models.ShowPropertiesType;
 import com.example.homematch.R;
 import com.example.homematch.Interfaces.HouseDetailsCallBack;
 import com.example.homematch.Models.House;
@@ -30,10 +33,13 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
     private ArrayList<House> allHousesList;
     private ArrayList<SlideModel> imageList;
     private HouseDetailsCallBack houseDetailsCallBack;
+    private ShowPropertiesType showPropertiesType;
+    private ScheduleCallBack scheduleCallBack;
 
-    public HouseAdapter(Context context, ArrayList<House> allHousesList) {
+    public HouseAdapter(Context context, ArrayList<House> allHousesList, ShowPropertiesType showPropertiesType) {
         this.context = context;
         this.allHousesList = allHousesList;
+        this.showPropertiesType = showPropertiesType;
         imageList = new ArrayList<>();
 
     }
@@ -54,15 +60,41 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
 //        holder.property_IMG_favorite =
         holder.property_LBL_status.setText(String.valueOf("For " + house.getPurchaseType()));
 //        holder.property_CARD_data =
-        holder.property_LBL_address.setText(String.valueOf(house.getStreet() + " " + house.getStreetNumber() + ", " + house.getCity()));
+        holder.property_LBL_address.setText(String.valueOf(house.getStreet() + " " + house.getStreetNumber() + ",\n" + house.getCity()));
         holder.property_LBL_size.setText(formatWithCommas(house.getAreaSize()) + " m²");
         holder.property_LBL_rooms.setText(formatWithCommas(house.getNumberOfRooms()) + " Rooms" );
         holder.property_LBL_price.setText("₪" + formatWithCommas(house.getPrice()));
+        if(house.getOpenHouseTime() != null && house.getOpenHouseDate() != null){
+            holder.property_CARD_open_day.setVisibility(View.VISIBLE);
+            holder.property_LBL_open_day_date.setText(house.getOpenHouseDate());
+            holder.property_LBL_open_day_time.setText(house.getOpenHouseTime());
+        }
+        if(!showPropertiesType.equals(ShowPropertiesType.AGENT_PROPERTIES)){
+            holder.agentProperty_LAY_SOH.setVisibility(View.GONE);
+        } else {
 
+            holder.agentProperty_BTN_open_house.setOnClickListener(v -> {
+                if(scheduleCallBack != null){
+                    scheduleCallBack.onScheduleOpenHouse(getItem(position), position);
+                }
+            });
+            holder.agentProperty_BTN_purchased.setOnClickListener(v -> {
+                housePurchased(house);
+            });
+            
+        }
+
+    }
+
+    private void housePurchased(House house) {
     }
 
     public void setHouseDetailsCallBack(HouseDetailsCallBack houseDetailsCallBack) {
         this.houseDetailsCallBack = houseDetailsCallBack;
+    }
+
+    public void setScheduleCallBack(ScheduleCallBack scheduleCallBack) {
+        this.scheduleCallBack = scheduleCallBack;
     }
 
 
@@ -94,14 +126,19 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
     public class HouseViewHolder extends RecyclerView.ViewHolder {
 
         private ImageSlider property_image_slider;
-        private ShapeableImageView property_IMG_favorite;
         private MaterialButton property_LBL_status;
         private CardView property_CARD_data;
         private MaterialTextView property_LBL_address;
         private MaterialTextView property_LBL_size;
         private MaterialTextView property_LBL_rooms;
         private MaterialTextView property_LBL_price;
-
+        private CardView property_CARD_open_day;
+        private MaterialTextView property_LBL_open_day_date;
+        private MaterialTextView property_LBL_open_day_time;
+        private LinearLayoutCompat agentProperty_LAY_SOH;
+        private MaterialButton agentProperty_BTN_open_house;
+        private MaterialButton agentProperty_BTN_purchased;
+        
 
 
         public HouseViewHolder(@NonNull View itemView) {
@@ -109,13 +146,18 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
 
             imageList = new ArrayList<>();
             property_image_slider = itemView.findViewById(R.id.property_image_slider);
-            property_IMG_favorite = itemView.findViewById(R.id.property_IMG_favorite);
             property_LBL_status = itemView.findViewById(R.id.property_LBL_status);
             property_CARD_data = itemView.findViewById(R.id.property_CARD_data);
             property_LBL_address = itemView.findViewById(R.id.property_LBL_address);
             property_LBL_size = itemView.findViewById(R.id.property_LBL_size);
             property_LBL_rooms = itemView.findViewById(R.id.property_LBL_rooms);
             property_LBL_price = itemView.findViewById(R.id.property_LBL_price);
+            property_CARD_open_day = itemView.findViewById(R.id.property_CARD_open_day);
+            property_LBL_open_day_date = itemView.findViewById(R.id.property_LBL_open_day_date);
+            property_LBL_open_day_time = itemView.findViewById(R.id.property_LBL_open_day_time);
+            agentProperty_LAY_SOH = itemView.findViewById(R.id.agentProperty_LAY_SOH);
+            agentProperty_BTN_open_house = itemView.findViewById(R.id.agentProperty_BTN_open_house);
+            agentProperty_BTN_purchased = itemView.findViewById(R.id.agentProperty_BTN_purchased);
 
             itemView.setOnClickListener(v -> {
                 if (houseDetailsCallBack != null) {

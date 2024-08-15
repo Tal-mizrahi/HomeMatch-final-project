@@ -8,13 +8,13 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="170dp"
+        android:layout_height="150dp"
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="5dp"
         android:elevation="10dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="10dp"
-        android:fitsSystemWindows="true"
+        android:translationZ="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -23,22 +23,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:iss_auto_cycle="true"
-            app:iss_period="1000"
             app:iss_delay="1000"
-            app:iss_text_align="CENTER"/>
+            app:iss_period="1000"
+            app:iss_text_align="CENTER" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp">
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/property_IMG_favorite"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentEnd="true"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/ic_empty_heart" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/property_LBL_status"
@@ -56,6 +48,8 @@
                 android:minHeight="0dp"
                 android:paddingVertical="4dp"
                 android:paddingHorizontal="8dp"
+                app:elevation="10dp"
+                android:translationZ="5dp"
                 android:clickable="false"
                 android:focusable="false"/>
         </RelativeLayout>
@@ -70,6 +64,7 @@
         android:elevation="8dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="8dp"
+        android:translationZ="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -77,10 +72,60 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="170dp"
+            android:layout_marginTop="150dp"
             android:layout_marginEnd="5dp">
 
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/agentProperty_LAY_SOH"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/property_LAY_data"
+                android:orientation="horizontal">
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/agentProperty_BTN_purchased"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:text="₪ Sold ₪"
+                    app:shapeAppearanceOverlay="@style/circleImageView"
+                    android:elevation="10dp"
+                    android:translationZ="7dp"
+                    android:backgroundTint="@color/orange"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/poppins_bold"
+                    app:backgroundTint="@color/burnt_orange"
+                    android:layout_gravity="center" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/agentProperty_BTN_open_house"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+                    android:layout_margin="8dp"
+                    android:text="Open House"
+                    app:shapeAppearanceOverlay="@style/circleImageView"
+                    android:elevation="10dp"
+                    android:translationZ="7dp"
+                    app:icon="@drawable/ic_calendar"
+                    app:iconTint="@color/white"
+                    android:backgroundTint="@color/orange"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/poppins_bold"
+                    app:backgroundTint="@color/burnt_orange"
+                    android:layout_gravity="center" />
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/property_LAY_data"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
@@ -98,7 +143,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:fontFamily="@font/poppins_medium"
                         tools:text="Bnei Ephraim 218,\nTel Aviv" />
 
@@ -121,7 +166,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:layout_marginEnd="6dp"
-                            android:textSize="15sp"
+                            android:textSize="12sp"
                             android:fontFamily="@font/poppins_regular"
                             tools:text="1,107 ft²" />
 
@@ -137,7 +182,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:textSize="15sp"
+                            android:textSize="12sp"
                             android:fontFamily="@font/poppins_regular"
                             tools:text="5 rooms" />
 
@@ -145,16 +190,103 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/property_LBL_price"
-                    android:layout_width="0dp"
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:gravity="end"
-                    android:fontFamily="@font/poppins_bold"
-                    tools:text="₪4,500,000" />
+                    android:orientation="vertical"
+                    >
+
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/property_LBL_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:gravity="end"
+                        android:fontFamily="@font/poppins_bold"
+                        tools:text="₪4,500,000" />
+
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/property_CARD_open_day"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:backgroundTint="@color/white"
+                        android:elevation="10dp"
+                        app:strokeColor="@color/burnt_orange"
+                        app:strokeWidth="2dp"
+                        android:visibility="gone"
+
+                        >
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/property_LAY_open_house"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="4dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:layout_marginBottom="5dp"
+                                android:fontFamily="@font/poppins_bold"
+                                android:text="Open Day:"/>
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:layout_width="@dimen/house_dialog_additional_ic_size"
+                                    android:layout_height="@dimen/house_dialog_additional_ic_size"
+                                    android:src="@drawable/ic_calendar2"/>
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/property_LBL_open_day_date"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:layout_marginStart="6dp"
+                                    android:text="27/08/2024"
+                                    android:fontFamily="@font/poppins_medium"/>
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:layout_width="@dimen/house_dialog_additional_ic_size"
+                                    android:layout_height="@dimen/house_dialog_additional_ic_size"
+                                    android:src="@drawable/ic_clock"/>
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/property_LBL_open_day_time"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:layout_marginStart="6dp"
+                                    android:text="16:00"
+                                    android:fontFamily="@font/poppins_medium"/>
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </RelativeLayout>

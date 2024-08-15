@@ -17,6 +17,6 @@
     <color name="red">#FF0000</color>
     <color name="ic_home_match_launcher_background">#FFFFFF</color>
     <color name="corner_card_details">#DEDDDD</color>
-
+    <color name="background">#FAFAFA</color>
 
 </resources>

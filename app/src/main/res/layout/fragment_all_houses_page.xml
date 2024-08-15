@@ -6,16 +6,16 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/background"
+    android:paddingTop="24dp"
     tools:context=".Fragments.AllHousesPageFragment">
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/allHouses_LBL_all_houses"
+        android:id="@+id/allHouses_LBL_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:text="@string/all_houses"
-        android:textSize="30sp"
+        android:textSize="27sp"
         android:textStyle="bold"
         android:fontFamily="@font/poppins_bold"
         android:layout_centerHorizontal="true"/>
@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:layout_below="@+id/allHouses_LBL_all_houses"
+        android:layout_below="@+id/allHouses_LBL_title"
         android:checkedButton="@id/homeMatch_BTN_for_sale"
         app:selectionRequired="true"
         app:singleSelection="true">
@@ -71,8 +71,7 @@
             android:orientation="horizontal"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
-            android:padding="10dp"
-            android:layout_below="@id/allHouses_LBL_all_houses">
+            android:padding="10dp">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"

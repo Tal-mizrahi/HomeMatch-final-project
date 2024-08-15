@@ -6,6 +6,7 @@ import com.example.homematch.Utilities.FullScreenManager;
 import com.example.homematch.Utilities.MyDbDataManager;
 import com.example.homematch.Utilities.MyDbStorageManager;
 import com.example.homematch.Utilities.MyDbUserManager;
+import com.example.homematch.Utilities.ShowDetailDialogManager;
 
 public class MyApp extends Application {
 
@@ -16,6 +17,7 @@ public class MyApp extends Application {
         MyDbDataManager.init(this);
         MyDbUserManager.init(this);
         MyDbStorageManager.init(this);
+        ShowDetailDialogManager.init(this);
 
     }
 }

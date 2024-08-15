@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main"
+    android:fitsSystemWindows="true"
+    android:background="@color/background"
     tools:context=".Fragments.AddingPropertyFragment">
 
 
@@ -13,7 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:layout_margin="16dp">
+        android:layout_marginTop="24dp"
+        android:layout_marginHorizontal="16dp">
 
         <RelativeLayout
             android:id="@+id/homeMatch_REL_main"
@@ -26,9 +29,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:text="Property Details"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="16dp"/>
+                android:textSize="27sp"
+                android:textStyle="bold"/>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/homeMatch_LL_property_details"
@@ -42,7 +44,8 @@
                     android:id="@+id/homeMatch_GRP_for_sale_or_rent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginVertical="10dp"
                     android:checkedButton="@id/homeMatch_BTN_for_sale"
                     app:selectionRequired="true"
                     app:singleSelection="true">
@@ -54,6 +57,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="For Sale"
+                        android:fontFamily="@font/poppins_medium"
                         android:textColor="@drawable/text_color_selector"
                         app:backgroundTint="@drawable/button_selector" />
 
@@ -64,6 +68,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="For Rent"
+                        android:fontFamily="@font/poppins_medium"
                         android:textColor="@drawable/text_color_selector"
                         app:backgroundTint="@drawable/button_selector" />
                 </com.google.android.material.button.MaterialButtonToggleGroup>
@@ -82,7 +87,10 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/homeMatch_INP_city"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:inputType="textCapWords"
+                        android:fontFamily="@font/poppins_regular"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Street -->
@@ -98,7 +106,10 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/homeMatch_INP_street"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:inputType="textCapWords"
+                        android:fontFamily="@font/poppins_regular"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -122,7 +133,9 @@
                             android:id="@+id/homeMatch_INP_street_number"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number"/>
+                            android:inputType="number"
+                            android:textSize="14sp"
+                            android:fontFamily="@font/poppins_regular"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!-- Postal Code -->
@@ -139,7 +152,9 @@
                             android:id="@+id/homeMatch_INP_postal_code"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number"/>
+                            android:inputType="number"
+                            android:textSize="14sp"
+                            android:fontFamily="@font/poppins_regular"/>
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -148,7 +163,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Property Type:"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/poppins_medium"
                     android:layout_marginTop="8dp"/>
 
                 <androidx.appcompat.widget.AppCompatSpinner
@@ -161,7 +177,8 @@
                     android:prompt="@string/select_apartment_type"
                     android:entries="@array/apartment_types"
                     android:outlineProvider="bounds"
-                    android:elevation="@dimen/cardview_default_elevation"/>
+                    android:elevation="@dimen/cardview_default_elevation"
+                    android:translationZ="2dp"/>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/homeMatch_LL_floor_apt"
@@ -184,7 +201,9 @@
                             android:id="@+id/homeMatch_INP_floor_number"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number"/>
+                            android:inputType="number"
+                            android:textSize="14sp"
+                            android:fontFamily="@font/poppins_regular"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!-- Apartment Number -->
@@ -202,7 +221,9 @@
                             android:id="@+id/homeMatch_INP_apt_number"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number"/>
+                            android:inputType="number"
+                            android:textSize="14sp"
+                            android:fontFamily="@font/poppins_regular"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -229,7 +250,9 @@
                             android:id="@+id/homeMatch_INP_area_size"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number" />
+                            android:inputType="number"
+                            android:textSize="14sp"
+                            android:fontFamily="@font/poppins_regular"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -248,7 +271,9 @@
                             android:id="@+id/homeMatch_INP_number_of_rooms"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number"/>
+                            android:inputType="number"
+                            android:textSize="14sp"
+                            android:fontFamily="@font/poppins_regular"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -263,12 +288,15 @@
                     android:hint="Balcony Size"
                     app:helperText="Required"
                     app:helperTextTextColor="@color/heart_color"
+                    app:suffixText="m²"
                     android:visibility="gone">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/homeMatch_INP_balcony_size"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number"/>
+                        android:inputType="number"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/poppins_regular"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -294,25 +322,33 @@
                                 android:id="@+id/homeMatch_CHKBOX_protected_room"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Protected Room" />
+                                android:text="Protected Room"
+                                android:textSize="13sp"
+                                android:fontFamily="@font/poppins_medium"/>
 
                             <com.google.android.material.checkbox.MaterialCheckBox
                                 android:id="@+id/homeMatch_CHKBOX_garage"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Garage" />
+                                android:text="Garage"
+                                android:textSize="13sp"
+                                android:fontFamily="@font/poppins_medium"/>
 
                             <com.google.android.material.checkbox.MaterialCheckBox
                                 android:id="@+id/homeMatch_CHKBOX_balcony"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Balcony" />
+                                android:text="Balcony"
+                                android:textSize="13sp"
+                                android:fontFamily="@font/poppins_medium"/>
 
                             <com.google.android.material.checkbox.MaterialCheckBox
                                 android:id="@+id/homeMatch_CHKBOX_can_smoke"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Can Smoke" />
+                                android:text="Can Smoke"
+                                android:textSize="13sp"
+                                android:fontFamily="@font/poppins_medium"/>
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -325,26 +361,34 @@
                                 android:id="@+id/homeMatch_CHKBOX_elevator"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Elevator" />
+                                android:text="Elevator"
+                                android:textSize="13sp"
+                                android:fontFamily="@font/poppins_medium"/>
 
 
                             <com.google.android.material.checkbox.MaterialCheckBox
                                 android:id="@+id/homeMatch_CHKBOX_pets_allowed"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Pets Allowed" />
+                                android:text="Pets Allowed"
+                                android:textSize="13sp"
+                                android:fontFamily="@font/poppins_medium"/>
 
                             <com.google.android.material.checkbox.MaterialCheckBox
                                 android:id="@+id/homeMatch_CHKBOX_parking"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Parking" />
+                                android:text="Parking"
+                                android:textSize="13sp"
+                                android:fontFamily="@font/poppins_medium"/>
 
                             <com.google.android.material.checkbox.MaterialCheckBox
                                 android:id="@+id/homeMatch_CHKBOX_bills"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Including Bills" />
+                                android:text="Including Bills"
+                                android:textSize="13sp"
+                                android:fontFamily="@font/poppins_medium"/>
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
                     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -361,7 +405,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Images Of Property: "
-                        android:textSize="16sp"
+                        android:textSize="15sp"
                         android:layout_gravity="center"
                         android:fontFamily="@font/poppins_medium"/>
 
@@ -370,7 +414,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="(0/5)"
-                        android:textSize="16sp"
+                        android:textSize="15sp"
                         android:layout_gravity="center"
                         android:fontFamily="@font/poppins_medium"/>
 
@@ -419,7 +463,9 @@
                         android:overScrollMode="always"
                         android:scrollbars="vertical"
                         android:scrollbarStyle="insideInset"
-                        android:scrollHorizontally="false"/>
+                        android:scrollHorizontally="false"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/poppins_regular"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -436,7 +482,9 @@
                         android:id="@+id/homeMatch_INP_price"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number"/>
+                        android:inputType="number"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/poppins_medium"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -454,6 +502,7 @@
                 app:cornerRadius="24dp"
                 app:backgroundTint="@color/burnt_orange"
                 android:padding="12dp"
+                android:fontFamily="@font/poppins_medium"
                 android:layout_gravity="center"/>
         </RelativeLayout>
         </ScrollView>

@@ -19,6 +19,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -45,11 +46,11 @@ public class MyDbDataManager {
     }
 
 
-    public void storeNewUser(User user, String type) {
+    public void setUser(User user, String type) {
         mDatabase.getReference().child("Users").child(type).child(user.getUid()).setValue(user);
     }
 
-    public void storeNewHouse(House house) {
+    public void setHouse(House house) {
         mDatabase.getReference("Houses").child(house.getPurchaseType()).child(house.getHouseType()).child(house.getUuid()).setValue(house);
     }
 
@@ -100,6 +101,37 @@ public class MyDbDataManager {
 
     public void getHouseList(String purchaseType, String houseType, HousesListCallBack housesListCallBack) {
         mDatabase.getReference("Houses").child(purchaseType).child(houseType).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<House> houses = new ArrayList<>();
+                for (DataSnapshot houseSnapshot : snapshot.getChildren()) {
+                    House house;
+                    if(houseType.equals("Private House")){
+                        house = houseSnapshot.getValue(PrivateHouse.class);
+                    }else {
+                        house = houseSnapshot.getValue(Apartment.class);
+                    }
+
+                    if(house != null)
+                        houses.add(house);
+                }
+
+                housesListCallBack.onSuccess(houses);
+            }
+            @Override
+            public void onCancelled (@NonNull DatabaseError error){
+                housesListCallBack.onFailure(error.toException());
+            }
+
+        });
+    }
+
+    public void loadAgentProperties( String purchaseType, String houseType,HousesListCallBack housesListCallBack) {
+        String agentUid = MyDbUserManager.getInstance().getUidOfCurrentUser();
+        Log.d("load", agentUid);
+        DatabaseReference databaseRef = mDatabase.getReference("Houses").child(purchaseType).child(houseType);
+        Query eventsQuery = databaseRef.orderByChild("brokerId").equalTo(agentUid);
+        eventsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ArrayList<House> houses = new ArrayList<>();

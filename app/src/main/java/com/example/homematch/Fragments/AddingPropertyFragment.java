@@ -164,14 +164,13 @@ public class AddingPropertyFragment extends Fragment {
                         setHouse(house, list);
                         Log.d("AddingApartmentFragment", "onSuccess: " + house.toString());
                         Log.d("AddingApartmentFragment", "ImagesUrl: " + list);
-                        MyDbDataManager.getInstance().storeNewHouse(house);
+                        MyDbDataManager.getInstance().setHouse(house);
+                        AddingPropertyFragment.this.requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         if(houseAddedCallBack != null)
                             houseAddedCallBack.onHouseAdded();
                     } else {
-                        Toast.makeText(getContext(), "Failed to upload images", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(AddingPropertyFragment.this.getContext(), LoginActivity.class)); // Redirect to login if not logged in
                         Log.d("AddingApartmentFragment", "onSuccess: " + house.toString());
-                        Log.d("AddingApartmentFragment", "ImagesUrl: " + list);
                         AddingPropertyFragment.this.requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
                     }
@@ -200,14 +199,14 @@ public class AddingPropertyFragment extends Fragment {
         house.setCity(homeMatch_INP_city.getText().toString());
 
 
-        String brokerUid = MyDbUserManager.getInstance().getUidOfCurrentUser();
-        if(brokerUid == null){
+        String agentId = MyDbUserManager.getInstance().getUidOfCurrentUser();
+        if(agentId == null){
             Toast.makeText(this.getContext(), "There is no user connected", Toast.LENGTH_SHORT).show();
             Log.d("AddingApartmentFragment", "setHouse: There is no user connected");
             startActivity(new Intent(this.getContext(), LoginActivity.class)); // Redirect to login if not logged in
             this.requireActivity().finish();
         } else {
-            house.setBrokerId(brokerUid);
+            house.setAgentId(agentId);
         }
 
         house.setHasProtectedRoom(homeMatch_CHKBOX_protected_room.isChecked());
@@ -232,6 +231,7 @@ public class AddingPropertyFragment extends Fragment {
         }
 
         house.setImagesUrl(imagesUrl);
+        house.setDescription(homeMatch_INP_description.getText().toString());
 
     }
 
@@ -242,12 +242,12 @@ public class AddingPropertyFragment extends Fragment {
         imageAdapter = new ImageAdapter(imagesUri, this.getContext());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-
         homeMatch_LST_images.setLayoutManager(linearLayoutManager);
         homeMatch_LST_images.setAdapter(imageAdapter);
 
         imageAdapter.setImgRemovedCallBack((remove) -> {
             updateUI();
+
         });
     }
 
@@ -262,23 +262,28 @@ public void setImgToSelect(){
 
     ActivityResultLauncher<PickVisualMediaRequest> pickMultipleMedia =
             registerForActivityResult(new ActivityResultContracts.PickMultipleVisualMedia(MAX_SELECTION - imgSelected), uris -> {
+                Log.d("PhotoPicker", "Number of items to select: " + (MAX_SELECTION - imgSelected));
                 if (!uris.isEmpty()) {
                     //imagesUri.clear();
-                    imagesUri.addAll(uris);
-                    setImgToSelect();
-                    Log.d("PhotoPicker", "Number of items selected: " + uris.size());
-                    imageAdapter.notifyDataSetChanged();
-                    MyDbStorageManager.getInstance().uploadHouseImage(imagesUri.get(0), "test", "test", new ImgCallBack() {
-                        @Override
-                        public void onSuccess(String imageUrl) {
-                            Toast.makeText(AddingPropertyFragment.this.getContext(), "Uploaded success " + imageUrl, Toast.LENGTH_SHORT).show();
-                        }
+                    if(uris.size() > MAX_SELECTION - imgSelected){
+                        Toast.makeText(getContext(), "You can select only " + (MAX_SELECTION - imgSelected) + " more images", Toast.LENGTH_SHORT).show();
+                    } else {
+                        imagesUri.addAll(uris);
+                        setImgToSelect();
+                        Log.d("PhotoPicker", "Number of items selected: " + uris.size());
+                        imageAdapter.notifyDataSetChanged();
+                        MyDbStorageManager.getInstance().uploadHouseImage(imagesUri.get(0), "test", "test", new ImgCallBack() {
+                            @Override
+                            public void onSuccess(String imageUrl) {
+                                Toast.makeText(AddingPropertyFragment.this.getContext(), "Uploaded success " + imageUrl, Toast.LENGTH_SHORT).show();
+                            }
 
-                        @Override
-                        public void onFailure(Exception exception) {
-                            Toast.makeText(AddingPropertyFragment.this.getContext(), "Uploaded failed " + exception.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                            @Override
+                            public void onFailure(Exception exception) {
+                                Toast.makeText(AddingPropertyFragment.this.getContext(), "Uploaded failed " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
                     updateUI();
                 } else {
                     Log.d("PhotoPicker", "No media selected");

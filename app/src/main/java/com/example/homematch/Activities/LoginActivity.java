@@ -53,6 +53,18 @@ public class LoginActivity extends AppCompatActivity {
             login();
         });
 
+        View decorView = getWindow().getDecorView();
+        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+            @Override
+            public void onSystemUiVisibilityChange(int visibility) {
+                if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
+                    // Navigation bar is visible
+                    FullScreenManager.getInstance().fullScreen(getWindow());
+                }
+            }
+        });
+
+
     }
 
 
@@ -102,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        FullScreenManager.getInstance().fullScreen(getWindow());
+       // FullScreenManager.getInstance().fullScreen(getWindow());
     }
 
     public void findViews(){

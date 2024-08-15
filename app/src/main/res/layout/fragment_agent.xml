@@ -6,141 +6,208 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.AgentFragment"
-    android:padding="16dp"
-    android:background="@color/white">
+    android:paddingTop="20dp"
+    android:background="@color/background">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/agent_LL_headline"
-        android:layout_width="match_parent"
+        android:id="@+id/agent_LAY_logout"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal">
+        android:layout_alignParentStart="true"
+        android:layout_marginHorizontal="16dp"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_logout"
+            android:layout_gravity="center"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Welcome "
-            android:textSize="27sp"
-            android:textStyle="bold"
-            android:fontFamily="@font/poppins_medium"
-            android:textColor="@color/black"/>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/agent_MTV_UserName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tal Mizrahi!"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="27sp"
+            android:text="Logout"
+            android:textSize="11dp"
             android:fontFamily="@font/poppins_medium"/>
-
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/agent_CL_profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/agent_LL_headline"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="end"
-        android:layout_marginTop="10dp">
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/DayCare_management_CV_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/agent_LAY_logout"
+        android:layout_marginTop="-3dp"
+        android:layout_marginBottom="-56dp"
+        android:backgroundTint="@color/background"
+        app:strokeColor="@color/orange"
+        app:strokeWidth="5dp"
+        app:cardElevation="10dp"
+        android:visibility="visible"
+        app:cardCornerRadius="56dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/agent_LL_headline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Welcome "
+                android:textColor="@color/orange"
+                android:textSize="27sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/agent_MTV_UserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Tal Mizrahi!"
+                android:textColor="@color/orange"
+                android:textSize="27sp"
+                android:textStyle="bold" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/agent_CL_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/agent_LL_headline"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="end"
+            android:layout_marginTop="10dp">
 
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/agent_IMG_user"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/add_profile_img"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:shapeAppearanceOverlay="@style/circleImageView" />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/agent_IMG_user"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/add_profile_img"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:shapeAppearanceOverlay="@style/circleImageView" />
 
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/agent_FAB_edit_profile"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:clickable="true"
-            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton.Icon"
-            app:layout_constraintBottom_toBottomOf="@id/agent_IMG_user"
-            app:layout_constraintEnd_toEndOf="@id/agent_IMG_user"
-            app:iconSize="18dp"
-            app:collapsedSize="35dp"
-            app:icon="@drawable/ic_camera" />
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/agent_FAB_edit_profile"
+                style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton.Icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:clickable="true"
+                app:collapsedSize="35dp"
+                app:icon="@drawable/ic_camera"
+                app:iconSize="18dp"
+                app:layout_constraintBottom_toBottomOf="@id/agent_IMG_user"
+                app:layout_constraintEnd_toEndOf="@id/agent_IMG_user" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/agent_CL_profile"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-        android:padding="10dp"
-        android:layout_gravity="center_horizontal">
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/agent_LAY_properties"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/agent_CL_profile"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/agent_CV_rents"
-            android:layout_width="155dp"
-            android:layout_height="175dp"
-            app:cardCornerRadius="15dp"
-            android:layout_marginStart="2dp"
-            app:cardElevation="4dp"
-            android:backgroundTint="@color/orange"
-            app:cardUseCompatPadding="true">
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/agent_CV_rents"
+                android:layout_width="155dp"
+                android:layout_height="145dp"
+                android:layout_marginStart="2dp"
+                android:backgroundTint="@color/white"
+                android:elevation="8dp"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="10dp"
+                app:strokeColor="@color/orange"
+                app:strokeWidth="2dp"
+                app:cardUseCompatPadding="true">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/agent_MTV_myRents"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="@font/poppins_medium"
-                    android:gravity="center"
-                    android:text="3 exclusive properties for rent"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/agent_MTV_myRents"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/poppins_medium"
+                        android:gravity="center"
+                        android:text="3 Properties for Rent"
+                        android:textAlignment="center"
+                        android:textColor="@color/orange"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/agent_CV_sale"
-            android:layout_width="155dp"
-            android:layout_height="175dp"
-            app:cardCornerRadius="15dp"
-            android:layout_marginStart="2dp"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/burnt_orange"
-            app:cardUseCompatPadding="true">
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/agent_CV_sale"
+                android:layout_width="155dp"
+                android:layout_height="145dp"
+                android:layout_marginStart="2dp"
+                android:elevation="8dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="10dp"
+                app:strokeColor="@color/orange"
+                app:strokeWidth="2dp"
+                app:cardUseCompatPadding="true">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/agent_MTV_mySale"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="@font/poppins_medium"
-                    android:gravity="center_horizontal"
-                    android:text="3 exclusive properties for sale"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/agent_MTV_mySale"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:fontFamily="@font/poppins_medium"
+                            android:gravity="center_horizontal"
+                            android:text="3 Properties for Sale"
+                            android:textAlignment="center"
+                            android:textColor="@color/orange"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/agent_BTN_manage_properties"
+                style="@style/Widget.MaterialComponents.FloatingActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/agent_LAY_properties"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Manage Your Properties"
+                android:textColor="@color/white"
+                android:translationZ="4dp"
+                app:backgroundTint="@color/orange"
+                app:elevation="10dp"
+                app:icon="@drawable/ic_manage"
+                app:iconTint="@color/white" />
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
 </RelativeLayout>

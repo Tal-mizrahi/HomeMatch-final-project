@@ -125,7 +125,7 @@ public class RegisterActivity extends AppCompatActivity {
                             userType = "Client";
                             theUser = new Client(firstName, lastName, email, phoneNum, password, uid, imageUrl);
                         }
-                        MyDbDataManager.getInstance().storeNewUser(theUser, userType);
+                        MyDbDataManager.getInstance().setUser(theUser, userType);
                         startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
 
                     }
