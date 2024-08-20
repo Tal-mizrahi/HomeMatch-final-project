@@ -52,6 +52,14 @@ public class Agent extends User {
         this.numOfRent++;
     }
 
+    public void propertySold(){
+        this.numOfSale--;
+    }
+
+    public void propertyRented(){
+        this.numOfRent--;
+    }
+
     @Override
     public String toString() {
         return "Agent{" +

@@ -9,6 +9,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,29 +19,34 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.homematch.Adapters.WeeklyOpenHousesAdapter;
 import com.example.homematch.Interfaces.LogoutCallBack;
-import com.example.homematch.Interfaces.ManagePropertiesCallBack;
 import com.example.homematch.Models.Client;
+import com.example.homematch.Models.House;
 import com.example.homematch.R;
 import com.example.homematch.Utilities.MyDbDataManager;
 import com.example.homematch.Utilities.MyDbStorageManager;
 import com.github.dhaval2404.imagepicker.ImagePicker;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
+
+import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ClientFragment extends Fragment {
 
     private static final String CLIENT = "Client";
     private MaterialTextView client_MTV_UserName;
     private ExtendedFloatingActionButton client_FAB_edit_profile;
-    private ShapeableImageView client_IMG_user;
+    private CircleImageView client_IMG_user;
     private LinearLayoutCompat client_LAY_logout;
     private ActivityResultLauncher<Intent> pickMedia;
+    private RecyclerView client_LST_open_houses;
     private LogoutCallBack logoutCallBack;
     private Client client;
-
+    private WeeklyOpenHousesAdapter weeklyOpenHousesAdapter;
+    private ArrayList<House> weeklyOpenHouses = new ArrayList<>();;
     public ClientFragment() {
         // Required empty public constructor
     }
@@ -59,7 +66,17 @@ public class ClientFragment extends Fragment {
         setPickMedia();
         Log.d("ClientFragment", "replaced");
         client_LAY_logout.setOnClickListener(v -> logout());
+        initAdapter();
         return view;
+    }
+
+    private void initAdapter() {
+        weeklyOpenHousesAdapter = new WeeklyOpenHousesAdapter(weeklyOpenHouses, getContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+
+        client_LST_open_houses.setLayoutManager(linearLayoutManager);
+        client_LST_open_houses.setAdapter(weeklyOpenHousesAdapter);
     }
 
     public void setLogoutCallBack(LogoutCallBack logoutCallBack) {
@@ -140,6 +157,22 @@ public class ClientFragment extends Fragment {
         String fullName = client.getFirstName() + "!";
         client_MTV_UserName.setText(fullName);
         setUserImgUI();
+
+        MyDbDataManager.getInstance().getWeeklyOpenHousesList(client.getUid(), new MyDbDataManager.HousesListCallBack(){
+
+            @Override
+            public void onSuccess(ArrayList<House> allHouses) {
+                weeklyOpenHouses.clear();
+                weeklyOpenHouses.addAll(allHouses);
+                weeklyOpenHousesAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onFailure(Exception exception) {
+                Toast.makeText(ClientFragment.this.getContext(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
@@ -152,6 +185,7 @@ public class ClientFragment extends Fragment {
         client_FAB_edit_profile = view.findViewById(R.id.client_FAB_edit_profile);
         client_IMG_user = view.findViewById(R.id.client_IMG_user);
         client_LAY_logout = view.findViewById(R.id.client_LAY_logout);
+        client_LST_open_houses = view.findViewById(R.id.client_LST_open_houses);
 
     }
 }

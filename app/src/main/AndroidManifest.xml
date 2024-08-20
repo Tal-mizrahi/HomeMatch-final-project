@@ -28,7 +28,7 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".Activities.AgentMainActivity"
+            android:name=".Activities.AgentActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait">
@@ -52,10 +52,7 @@
             android:screenOrientation="portrait">
 
         </activity>
-        <activity
-            android:name=".Activities.MainActivity"
-            android:exported="true"
-            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

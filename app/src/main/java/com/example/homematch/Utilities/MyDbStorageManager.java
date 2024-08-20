@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
+import com.example.homematch.Models.House;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -37,10 +38,26 @@ public class MyDbStorageManager {
 
     }
 
-    public void uploadHouseImage(Uri uri, String houseUuid, String imgId, ImgCallBack imgcallBack) {
-        StorageReference imageRef = storage.getReference("Houses").child(houseUuid).child(imgId + ".jpg");
-        uploadTask(imageRef, imageRef.putFile(uri), imgcallBack);
+    public void deleteFile(House house){
+        StorageReference rootRef = storage.getReference().child("Houses").child(house.getUuid());
+
+        for(int i = 0 ; i < house.getImagesUrl().size() ; i++){
+            String imgId = "img" + i;
+            StorageReference imageRef = rootRef.child(imgId + ".jpg");
+            imageRef.delete();
+        }
+        rootRef.delete().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                // Folder and images deleted successfully
+                Log.d("Delete","House folder and images deleted successfully");
+            } else {
+                // Handle the error
+                Log.d("Delete","Error deleting house folder and images: " + task.getException().getMessage());
+            }
+        });
     }
+
+
 
     public void uploadHouseImages(ArrayList<Uri> imagesUri, String houseUuid, ImgListCallBack imagesCallBack) {
         String imgId;

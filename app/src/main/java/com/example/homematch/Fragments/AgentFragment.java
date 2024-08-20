@@ -17,24 +17,29 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.homematch.Activities.AgentActivity;
 import com.example.homematch.Interfaces.LogoutCallBack;
 import com.example.homematch.Interfaces.ManagePropertiesCallBack;
+import com.example.homematch.Models.User;
 import com.example.homematch.R;
 import com.example.homematch.Models.Agent;
 import com.example.homematch.Utilities.MyDbDataManager;
 import com.example.homematch.Utilities.MyDbStorageManager;
+import com.example.homematch.Utilities.MyDbUserManager;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class AgentFragment extends Fragment {
 
     private static final String AGENT = "Agent";
     private MaterialTextView agent_MTV_UserName;
     private ExtendedFloatingActionButton agent_FAB_edit_profile;
-    private ShapeableImageView agent_IMG_user;
+    private CircleImageView agent_IMG_user;
     private MaterialButton agent_BTN_manage_properties;
     private LinearLayoutCompat agent_LAY_logout;
     private MaterialTextView agent_MTV_mySale;
@@ -43,19 +48,23 @@ public class AgentFragment extends Fragment {
     private ActivityResultLauncher<Intent> pickMedia;
     private LogoutCallBack logoutCallBack;
     private ManagePropertiesCallBack managePropertiesCallBack;
+
+
+
     public AgentFragment() {}
 
-    public AgentFragment(Agent agentUser) {
-        this.agentUser = agentUser;
-        Log.d("AgentFragment", "AgentFragment: " + agentUser.toString());
-    }
+
+//    public AgentFragment(Agent agentUser){
+//        this.agentUser = agentUser;
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_agent, container, false);
         findViews(view);
-        initAgentUI();
+        getCurrentUser();
+        //initAgentUI();
         agent_FAB_edit_profile.setOnClickListener(v -> editImage());
         setPickMedia();
         Log.d("AgentFragment", "replaced");
@@ -63,6 +72,7 @@ public class AgentFragment extends Fragment {
         agent_BTN_manage_properties.setOnClickListener(v -> moveToManageProperties());
         return view;
     }
+
 
     private void moveToManageProperties() {
         if(managePropertiesCallBack != null){
@@ -156,6 +166,31 @@ public class AgentFragment extends Fragment {
         setUserImgUI();
     }
 
+    public void getCurrentUser(){
+        String uid = MyDbUserManager.getInstance().getUidOfCurrentUser();
+        if(uid == null){
+            Toast.makeText(this.getContext(), "There is no user connected", Toast.LENGTH_SHORT).show();
+
+        } else {
+            MyDbDataManager.getInstance().getUser(AGENT, uid, new MyDbDataManager.UserCallBack() {
+
+                @Override
+                public void onSuccess(User currentUser) {
+
+                    agentUser = (Agent) currentUser;
+                    Log.d("Agent", "updated");
+                    initAgentUI();
+                    Log.d(AGENT, agentUser.toString());
+                }
+                @Override
+                public void onFailure() {
+                    Toast.makeText(AgentFragment.this.getContext(), "Agent not found", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
+    }
+
     public void findViews(View view) {
         agent_MTV_UserName = view.findViewById(R.id.agent_MTV_UserName);
         agent_FAB_edit_profile = view.findViewById(R.id.agent_FAB_edit_profile);
@@ -165,4 +200,5 @@ public class AgentFragment extends Fragment {
         agent_MTV_mySale = view.findViewById(R.id.agent_MTV_mySale);
         agent_MTV_myRents = view.findViewById(R.id.agent_MTV_myRents);
     }
+
 }

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="6dp"
+    android:stretchColumns="*">
+
+    <!-- Row -->
+    <TableRow>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/client_MTV_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="27/08/2024"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textSize="11sp"
+            android:fontFamily="@font/poppins_bold"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/client_MTV_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="16:00"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textSize="11sp"
+            android:fontFamily="@font/poppins_bold"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/client_MTV_city"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Hod Hsharon"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textSize="11sp"
+            android:fontFamily="@font/poppins_bold"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/client_MTV_street"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Golda Meir 2"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textSize="11sp"
+            android:fontFamily="@font/poppins_bold"/>
+    </TableRow>
+
+</TableLayout>

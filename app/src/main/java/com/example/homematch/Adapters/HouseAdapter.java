@@ -9,11 +9,13 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.example.homematch.Interfaces.CancelOpenHouseCallBack;
 import com.example.homematch.Interfaces.HouseDeleteCallBack;
 import com.example.homematch.Interfaces.ScheduleCallBack;
 import com.example.homematch.Models.ShowPropertiesType;
@@ -38,6 +40,7 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
     private ScheduleCallBack scheduleCallBack;
     private OpenHouseSignUpCallBack openHouseSignUpCallBack;
     private HouseDeleteCallBack houseDeleteCallBack;
+    private CancelOpenHouseCallBack cancelOpenHouseCallBack;
 
     public HouseAdapter(Context context, ArrayList<House> allHousesList, ShowPropertiesType showPropertiesType) {
         this.context = context;
@@ -68,19 +71,40 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
         holder.property_LBL_rooms.setText(formatWithCommas(house.getNumberOfRooms()) + " Rooms" );
         holder.property_LBL_price.setText("₪" + formatWithCommas(house.getPrice()));
 
+        if(house.getPurchaseType().equals("Sale")){
+            holder.agentProperty_BTN_purchased.setIconResource(R.drawable.ic_sold);
+        } else {
+            holder.agentProperty_BTN_purchased.setIconResource(R.drawable.ic_rent);
+        }
+
+
         if(house.getOpenHouseTime() != null && house.getOpenHouseDate() != null){
-            holder.property_CARD_open_day.setVisibility(View.VISIBLE);
+            holder.property_LAY_open_day.setVisibility(View.VISIBLE);
             holder.property_LBL_open_day_date.setText(house.getOpenHouseDate());
             holder.property_LBL_open_day_time.setText(house.getOpenHouseTime());
             if(showPropertiesType.equals(ShowPropertiesType.ALL_HOUSES_CLIENT)) {
                 holder.property_BTN_sign_up_to_house.setVisibility(View.VISIBLE);
                 holder.property_BTN_sign_up_to_house.setOnClickListener(v -> {
                     if (openHouseSignUpCallBack != null) {
-                        openHouseSignUpCallBack.onSignUpOpenHouse(house, position);
+                        openHouseSignUpCallBack.onSignUpToOpenHouse(house, position);
+
                     }
                 });
             }
+
+            if (showPropertiesType == ShowPropertiesType.AGENT_PROPERTIES){
+                holder.agentProperty_BTN_cancel_OH.setVisibility(View.VISIBLE);
+                holder.agentProperty_BTN_cancel_OH.setOnClickListener(v -> {
+                    if (cancelOpenHouseCallBack != null) {
+                        cancelOpenHouseCallBack.onCancelOpenHouse(house, position);
+                        holder.property_LAY_open_day.setVisibility(View.GONE);
+
+                    }
+                });
+
+            }
         }
+
         if(!showPropertiesType.equals(ShowPropertiesType.AGENT_PROPERTIES)){
             holder.agentProperty_LAY_SOH.setVisibility(View.GONE);
         } else {
@@ -91,18 +115,15 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
                 }
             });
             holder.agentProperty_BTN_purchased.setOnClickListener(v -> {
-                housePurchased(house);
+                if(houseDeleteCallBack != null) {
+                    houseDeleteCallBack.onHouseDeleted(house, position);
+                }
             });
             
         }
 
     }
 
-    private void housePurchased(House house) {
-        if(houseDeleteCallBack != null){
-            houseDeleteCallBack.onHouseDeleted(house);
-        }
-    }
 
     public void setHouseDetailsCallBack(HouseDetailsCallBack houseDetailsCallBack) {
         this.houseDetailsCallBack = houseDetailsCallBack;
@@ -118,6 +139,10 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
 
     public void setHouseDeleteCallBack(HouseDeleteCallBack houseDeleteCallBack) {
         this.houseDeleteCallBack = houseDeleteCallBack;
+    }
+
+    public void setCancelOpenHouseCallBack(CancelOpenHouseCallBack cancelOpenHouseCallBack) {
+        this.cancelOpenHouseCallBack = cancelOpenHouseCallBack;
     }
 
 
@@ -155,13 +180,14 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
         private MaterialTextView property_LBL_size;
         private MaterialTextView property_LBL_rooms;
         private MaterialTextView property_LBL_price;
-        private CardView property_CARD_open_day;
+        private ConstraintLayout property_LAY_open_day;
         private MaterialTextView property_LBL_open_day_date;
         private MaterialTextView property_LBL_open_day_time;
         private LinearLayoutCompat agentProperty_LAY_SOH;
         private MaterialButton agentProperty_BTN_open_house;
         private MaterialButton agentProperty_BTN_purchased;
         private MaterialButton property_BTN_sign_up_to_house;
+        private MaterialButton agentProperty_BTN_cancel_OH;
 
 
 
@@ -176,13 +202,14 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
             property_LBL_size = itemView.findViewById(R.id.property_LBL_size);
             property_LBL_rooms = itemView.findViewById(R.id.property_LBL_rooms);
             property_LBL_price = itemView.findViewById(R.id.property_LBL_price);
-            property_CARD_open_day = itemView.findViewById(R.id.property_CARD_open_day);
+            property_LAY_open_day = itemView.findViewById(R.id.property_LAY_open_day);
             property_LBL_open_day_date = itemView.findViewById(R.id.property_LBL_open_day_date);
             property_LBL_open_day_time = itemView.findViewById(R.id.property_LBL_open_day_time);
             agentProperty_LAY_SOH = itemView.findViewById(R.id.agentProperty_LAY_SOH);
             agentProperty_BTN_open_house = itemView.findViewById(R.id.agentProperty_BTN_open_house);
             agentProperty_BTN_purchased = itemView.findViewById(R.id.agentProperty_BTN_purchased);
             property_BTN_sign_up_to_house = itemView.findViewById(R.id.property_BTN_sign_up_to_house);
+            agentProperty_BTN_cancel_OH = itemView.findViewById(R.id.agentProperty_BTN_cancel_OH);
 
             itemView.setOnClickListener(v -> {
                 if (houseDetailsCallBack != null) {

@@ -29,7 +29,6 @@ public class ScheduleOpenHouseDialogManager {
         dialog = new Dialog(context);
         dialog.setContentView(R.layout.open_house_dialog);
         findViews();
-        //dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
     }
 
@@ -87,6 +86,7 @@ public class ScheduleOpenHouseDialogManager {
         return isValid;
     }
 
+
 //    private void showDatePicker(Context context) {
 //        Calendar calendar = Calendar.getInstance();
 //        int year = calendar.get(Calendar.YEAR);
@@ -94,10 +94,10 @@ public class ScheduleOpenHouseDialogManager {
 //        int day = calendar.get(Calendar.DAY_OF_MONTH);
 //
 //        android.app.DatePickerDialog datePickerDialog = new android.app.DatePickerDialog(context,
-//            (view, selectedYear, selectedMonth, selectedDay) -> {
-//                String selectedDate = selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear;
-//                dateInput.setText(selectedDate);
-//            }, year, month, day);
+//                (view, selectedYear, selectedMonth, selectedDay) -> {
+//                    String selectedDate = String.format("%02d/%02d/%d", selectedDay, selectedMonth + 1, selectedYear);
+//                    dateInput.setText(selectedDate);
+//                }, year, month, day);
 //        datePickerDialog.show();
 //    }
 
@@ -112,24 +112,11 @@ public class ScheduleOpenHouseDialogManager {
                     String selectedDate = String.format("%02d/%02d/%d", selectedDay, selectedMonth + 1, selectedYear);
                     dateInput.setText(selectedDate);
                 }, year, month, day);
+
+        // Block past dates
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
         datePickerDialog.show();
     }
-
-
-
-//    private void showTimePicker(Context context) {
-//        Calendar calendar = Calendar.getInstance();
-//        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-//        int minute = calendar.get(Calendar.MINUTE);
-//
-//        android.app.TimePickerDialog timePickerDialog = new android.app.TimePickerDialog(context,
-//            (view, selectedHour, selectedMinute) -> {
-//                String selectedTime = selectedHour + ":" + String.format("%02d", selectedMinute);
-//                timeInput.setText(selectedTime);
-//            }, hour, minute, true);
-//        timePickerDialog.show();
-//    }
-
 
     private void showTimePicker(Context context) {
         Calendar calendar = Calendar.getInstance();
@@ -143,6 +130,8 @@ public class ScheduleOpenHouseDialogManager {
                 }, hour, minute, true);
         timePickerDialog.show();
     }
+
+
 
     public void setScheduleCallBack(ScheduleCallBack scheduleCallBack) {
         this.scheduleCallBack = scheduleCallBack;

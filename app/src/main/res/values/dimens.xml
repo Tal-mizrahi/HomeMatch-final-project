@@ -11,4 +11,5 @@
     <dimen name="house_dialog_mini_card_size">75dp</dimen>
     <dimen name="house_dialog_additional_ic_size">18dp</dimen>
     <dimen name="additional_house_features_text_size">12sp</dimen>
+    <dimen name="title_size">32dp</dimen>
 </resources>

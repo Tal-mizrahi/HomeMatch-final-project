@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.AgentMainActivity">
+    tools:context=".Activities.AgentActivity">
 
   <FrameLayout
       android:id="@+id/homeMatch_LAY_agent"

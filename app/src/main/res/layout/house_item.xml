@@ -235,84 +235,102 @@
                         android:fontFamily="@font/poppins_bold"
                         tools:text="₪4,500,000" />
 
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/property_CARD_open_day"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/property_LAY_open_day"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
-                        android:backgroundTint="@color/white"
-                        android:elevation="10dp"
-                        app:strokeColor="@color/burnt_orange"
-                        app:strokeWidth="2dp"
-                        android:visibility="gone"
+                        android:visibility="gone">
 
-                        >
-
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:id="@+id/property_LAY_open_house"
-                            android:layout_width="match_parent"
+                        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                            android:id="@+id/agentProperty_BTN_cancel_OH"
+                            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton.Icon"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="4dp">
+                            android:clickable="true"
+                            app:collapsedSize="24dp"
+                            app:icon="@drawable/ic_cancel"
+                            app:iconSize="16dp"
+                            app:backgroundTint="@color/heart_color"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:ignore="MissingConstraints"
+                            android:visibility="gone" />
 
-                            <com.google.android.material.textview.MaterialTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="0dp"
-                                android:layout_weight="1"
-                                android:layout_marginBottom="5dp"
-                                android:fontFamily="@font/poppins_bold"
-                                android:text="Open Day:"/>
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/white"
+                            android:elevation="10dp"
+                            app:strokeColor="@color/burnt_orange"
+                            app:strokeWidth="2dp"
+                            app:cardUseCompatPadding="true"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
 
                             <androidx.appcompat.widget.LinearLayoutCompat
-                                android:layout_width="wrap_content"
-                                android:layout_height="0dp"
-                                android:layout_weight="1"
-                                android:orientation="horizontal">
-
-                                <androidx.appcompat.widget.AppCompatImageView
-                                    android:layout_width="@dimen/house_dialog_additional_ic_size"
-                                    android:layout_height="@dimen/house_dialog_additional_ic_size"
-                                    android:src="@drawable/ic_calendar2"/>
+                                android:id="@+id/property_LAY_open_house"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="4dp">
 
                                 <com.google.android.material.textview.MaterialTextView
-                                    android:id="@+id/property_LBL_open_day_date"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="0dp"
                                     android:layout_weight="1"
-                                    android:layout_marginStart="6dp"
-                                    android:text="27/08/2024"
-                                    android:fontFamily="@font/poppins_medium"/>
+                                    android:layout_marginBottom="5dp"
+                                    android:fontFamily="@font/poppins_bold"
+                                    android:text="Open Day:"/>
+
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1"
+                                    android:orientation="horizontal">
+
+                                    <androidx.appcompat.widget.AppCompatImageView
+                                        android:layout_width="@dimen/house_dialog_additional_ic_size"
+                                        android:layout_height="@dimen/house_dialog_additional_ic_size"
+                                        android:src="@drawable/ic_calendar2"/>
+
+                                    <com.google.android.material.textview.MaterialTextView
+                                        android:id="@+id/property_LBL_open_day_date"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:layout_marginStart="6dp"
+                                        android:text="27/08/2024"
+                                        android:fontFamily="@font/poppins_medium"/>
+
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1"
+                                    android:orientation="horizontal">
+
+                                    <androidx.appcompat.widget.AppCompatImageView
+                                        android:layout_width="@dimen/house_dialog_additional_ic_size"
+                                        android:layout_height="@dimen/house_dialog_additional_ic_size"
+                                        android:src="@drawable/ic_clock"/>
+
+                                    <com.google.android.material.textview.MaterialTextView
+                                        android:id="@+id/property_LBL_open_day_time"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:layout_marginStart="6dp"
+                                        android:text="16:00"
+                                        android:fontFamily="@font/poppins_medium"/>
+
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
 
                             </androidx.appcompat.widget.LinearLayoutCompat>
 
-                            <androidx.appcompat.widget.LinearLayoutCompat
-                                android:layout_width="wrap_content"
-                                android:layout_height="0dp"
-                                android:layout_weight="1"
-                                android:orientation="horizontal">
-
-                                <androidx.appcompat.widget.AppCompatImageView
-                                    android:layout_width="@dimen/house_dialog_additional_ic_size"
-                                    android:layout_height="@dimen/house_dialog_additional_ic_size"
-                                    android:src="@drawable/ic_clock"/>
-
-                                <com.google.android.material.textview.MaterialTextView
-                                    android:id="@+id/property_LBL_open_day_time"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:layout_marginStart="6dp"
-                                    android:text="16:00"
-                                    android:fontFamily="@font/poppins_medium"/>
-
-                            </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-                        </androidx.appcompat.widget.LinearLayoutCompat>
-
-                    </com.google.android.material.card.MaterialCardView>
-
+                        </com.google.android.material.card.MaterialCardView>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
 

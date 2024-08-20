@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         @Override
                         public void onAgentType() {
-                            startActivity(new Intent(LoginActivity.this, AgentMainActivity.class));
+                            startActivity(new Intent(LoginActivity.this, AgentActivity.class));
                         }
 
                         @Override

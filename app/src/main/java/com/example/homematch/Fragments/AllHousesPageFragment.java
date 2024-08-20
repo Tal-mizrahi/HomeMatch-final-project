@@ -60,9 +60,13 @@ public class AllHousesPageFragment extends Fragment {
         if(showPropertiesType == ShowPropertiesType.AGENT_PROPERTIES){
             allHouses_LBL_title.setText("Manage Your Properties");
             allHouses_LBL_title.setGravity(Gravity.CENTER_HORIZONTAL);
+        } else if (showPropertiesType == ShowPropertiesType.OPEN_HOUSES_CLIENT) {
+            allHouses_LBL_title.setText("My Open Houses");
+            allHouses_LBL_title.setGravity(Gravity.CENTER_HORIZONTAL);
+
         }
-        //Initial values
-        currentHouseType = buttons[4];
+            //Initial values
+        currentHouseType = buttons[0];
         currentPurchaseType = FOR_SALE;
         currentHouseType.getButton().setBackgroundColor(Color.parseColor("#F56C42"));;
         currentHouseType.getButton().setIconTint(ColorStateList.valueOf(Color.parseColor("#FFE6D5")));;

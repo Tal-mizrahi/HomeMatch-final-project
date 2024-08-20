@@ -30,7 +30,7 @@ public abstract class House {
     private boolean canSmoke;
     private boolean petsAllowed;
     private boolean hasParking;
-    private boolean isBillsIncluded;
+    private boolean billsIncluded;
 
     private ArrayList<String> imagesUrl;
 
@@ -68,7 +68,7 @@ public abstract class House {
         this.canSmoke = canSmoke;
         this.petsAllowed = petsAllowed;
         this.hasParking = hasParking;
-        this.isBillsIncluded = isBillsIncluded;
+        this.billsIncluded = isBillsIncluded;
         this.imagesUrl = imagesUri;
         this.agentId = agentId;
         this.uuid = uuid;
@@ -257,11 +257,11 @@ public abstract class House {
     }
 
     public boolean isBillsIncluded() {
-        return isBillsIncluded;
+        return billsIncluded;
     }
 
     public House setBillsIncluded(boolean billsIncluded) {
-        isBillsIncluded = billsIncluded;
+        this.billsIncluded = billsIncluded;
         return this;
     }
 
@@ -305,6 +305,11 @@ public abstract class House {
         return this;
     }
 
+    public House setUuid(String uuid) {
+        this.uuid = uuid;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "House{" +
@@ -327,7 +332,7 @@ public abstract class House {
                 ", canSmoke=" + canSmoke +
                 ", petsAllowed=" + petsAllowed +
                 ", hasParking=" + hasParking +
-                ", isBillsIncluded=" + isBillsIncluded +
+                ", isBillsIncluded=" + billsIncluded +
                 ", imagesUrl=" + imagesUrl +
                 ", openHouseDate='" + openHouseDate + '\'' +
                 ", openHouseTime='" + openHouseTime + '\'' +

@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="10dp"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -55,7 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/title_size"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
@@ -88,17 +89,16 @@
                 android:layout_gravity="end"
                 android:layout_marginTop="10dp">
 
-
-                <com.google.android.material.imageview.ShapeableImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/client_IMG_user"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/add_profile_img"
+                    android:layout_gravity="center"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:shapeAppearanceOverlay="@style/circleImageView" />
+                    android:src="@drawable/add_profile_img" />
+
 
                 <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
                     android:id="@+id/client_FAB_edit_profile"
@@ -115,81 +115,74 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/client_LAY_properties"
-                android:layout_width="wrap_content"
+
+            <TableLayout
+                android:id="@+id/weekly_open_houses_TBL_list"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/client_CL_profile"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:padding="16dp"
+                android:stretchColumns="*">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:fontFamily="@font/poppins_bold"
+                    android:textSize="18sp"
+                    android:text="Weekly Open Houses:"/>
+
+                <!-- Header Row -->
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/light_orange">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Date"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:fontFamily="@font/poppins_bold"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Time"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:fontFamily="@font/poppins_bold"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="City"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:fontFamily="@font/poppins_bold"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Street"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:fontFamily="@font/poppins_bold"/>
+                </TableRow>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/client_LST_open_houses"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:listitem="@layout/weekly_open_houses_table_row_item"/>
+            </TableLayout>
 
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/client_CV_sale"
-                    android:layout_width="155dp"
-                    android:layout_height="145dp"
-                    android:layout_marginStart="2dp"
-                    android:elevation="8dp"
-                    app:cardBackgroundColor="@color/white"
-                    app:cardCornerRadius="15dp"
-                    app:cardElevation="10dp"
-                    app:strokeColor="@color/orange"
-                    app:strokeWidth="2dp"
-                    app:cardUseCompatPadding="true">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/client_MTV_mySale"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:fontFamily="@font/poppins_medium"
-                            android:gravity="center_horizontal"
-                            android:text="3 Properties for Sale"
-                            android:textAlignment="center"
-                            android:textColor="@color/orange"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/client_CV_rents"
-                    android:layout_width="155dp"
-                    android:layout_height="145dp"
-                    android:layout_marginStart="2dp"
-                    android:backgroundTint="@color/white"
-                    android:elevation="8dp"
-                    app:cardCornerRadius="15dp"
-                    app:cardElevation="10dp"
-                    app:strokeColor="@color/orange"
-                    app:strokeWidth="2dp"
-                    app:cardUseCompatPadding="true">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/client_MTV_myRents"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:fontFamily="@font/poppins_medium"
-                            android:gravity="center"
-                            android:text="3 Properties for Rent"
-                            android:textAlignment="center"
-                            android:textColor="@color/orange"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
 
 
 

@@ -14,14 +14,16 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.homematch.Adapters.HouseAdapter;
-import com.example.homematch.Interfaces.OpenHouseSignUpCallBack;
+import com.example.homematch.Interfaces.CancelOpenHouseCallBack;
 import com.example.homematch.Models.ShowPropertiesType;
 import com.example.homematch.R;
+import com.example.homematch.Utilities.MyDbStorageManager;
 import com.example.homematch.Utilities.MyDbUserManager;
 import com.example.homematch.Utilities.ScheduleOpenHouseDialogManager;
 import com.example.homematch.Utilities.ShowDetailDialogManager;
 import com.example.homematch.Models.House;
 import com.example.homematch.Utilities.MyDbDataManager;
+import com.google.android.material.textview.MaterialTextView;
 
 import java.util.ArrayList;
 
@@ -33,6 +35,7 @@ public class HousesListFragment extends Fragment {
     private ShowPropertiesType showPropertiesType;
     private ScheduleOpenHouseDialogManager scheduleOpenHouse;
     private ShowDetailDialogManager showDetailDialogManager;
+    private MaterialTextView allHouses_LBL_no_houses;
 
 
     public HousesListFragment() {
@@ -52,6 +55,7 @@ public class HousesListFragment extends Fragment {
         Log.d("HousesList", "onCreateView: " + showPropertiesType.name());
        // houseAdapter = new HouseAdapter(getContext(), allHousesList, showPropertiesType);
         allHouses_LST_houses = view.findViewById(R.id.allHouses_LST_houses);
+        allHouses_LBL_no_houses = view.findViewById(R.id.allHouses_LBL_no_houses);
         initAdapter();
 
         scheduleOpenHouse.setScheduleCallBack((house, position) -> {
@@ -86,18 +90,29 @@ public class HousesListFragment extends Fragment {
             houseAdapter.notifyItemChanged(position);
         });
 
-        houseAdapter.setHouseDeleteCallBack((house) -> {
-            MyDbDataManager.getInstance().housePurchase(house.getPurchaseType(), house.getHouseType(), house.getUuid());
+        houseAdapter.setHouseDeleteCallBack((house, position) -> {
+            MyDbDataManager.getInstance().housePurchase(house.getPurchaseType(), house.getHouseType(), house.getUuid(), () -> {
+                allHousesList.remove(position);
+                houseAdapter.notifyItemRemoved(position);
+                MyDbDataManager.getInstance().setUserPropertiesAmount(house.getPurchaseType(), false, HousesListFragment.this.getContext());
+                //MyDbStorageManager.getInstance().deleteFile(house);
+            });
         });
 
         if(showPropertiesType.equals(ShowPropertiesType.AGENT_PROPERTIES)){
             houseAdapter.setScheduleCallBack((house, position) -> {
                 Log.d("Schedule open house", "1 " + allHousesList.get(position).toString());
                 scheduleOpenHouse.showDialog(house, position, this.getContext());
+            });
 
+            houseAdapter.setCancelOpenHouseCallBack((house, position) -> {
+                house.resetOpenHouseData();
+                MyDbDataManager.getInstance().setHouse(house);
+                houseAdapter.notifyItemChanged(position);
 
             });
         }
+
 
 
 
@@ -122,6 +137,11 @@ public class HousesListFragment extends Fragment {
                 allHousesList.clear();
                 allHousesList.addAll(allHouses);
                 houseAdapter.notifyDataSetChanged();
+                if(allHousesList.isEmpty()){
+                    allHouses_LBL_no_houses.setVisibility(View.VISIBLE);
+                } else {
+                    allHouses_LBL_no_houses.setVisibility(View.GONE);
+                }
 
             }
 
@@ -140,6 +160,11 @@ public class HousesListFragment extends Fragment {
                 allHousesList.clear();
                 allHousesList.addAll(allHouses);
                 houseAdapter.notifyDataSetChanged();
+                if(allHousesList.isEmpty()){
+                    allHouses_LBL_no_houses.setVisibility(View.VISIBLE);
+                } else {
+                    allHouses_LBL_no_houses.setVisibility(View.GONE);
+                }
 
             }
 
@@ -158,6 +183,11 @@ public class HousesListFragment extends Fragment {
                 allHousesList.clear();
                 allHousesList.addAll(allHouses);
                 houseAdapter.notifyDataSetChanged();
+                if(allHousesList.isEmpty()){
+                    allHouses_LBL_no_houses.setVisibility(View.VISIBLE);
+                } else {
+                    allHouses_LBL_no_houses.setVisibility(View.GONE);
+                }
 
             }
 

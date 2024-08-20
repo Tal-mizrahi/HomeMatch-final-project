@@ -20,15 +20,15 @@
             android:id="@+id/register_REL_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="24dp">
+            android:paddingHorizontal="16dp">
 
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/register_LBL_create_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/title_size"
                 android:text="Create an account"
                 android:textSize="27sp"
                 android:fontFamily="@font/poppins_bold"

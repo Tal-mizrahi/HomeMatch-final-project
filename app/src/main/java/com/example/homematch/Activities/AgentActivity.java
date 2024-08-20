@@ -21,12 +21,12 @@ import com.example.homematch.Utilities.MyDbDataManager;
 import com.example.homematch.Utilities.MyDbUserManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class AgentMainActivity extends AppCompatActivity {
+public class AgentActivity extends AppCompatActivity {
 
     private static final String AGENT = "Agent";
     private BottomNavigationView bottomNavigationView;
-    private Agent agentUser;
-    private boolean isOnCreate = true;
+    //private Agent agentUser;
+    //private boolean isOnCreate = true;
     private AgentFragment agentFragment;
     private AddingPropertyFragment addingPropertyFragment;
 
@@ -34,7 +34,7 @@ public class AgentMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_agent_main);
+        setContentView(R.layout.activity_agent);
         this.bottomNavigationView = findViewById(R.id.homeMatch_BNV_agent);
         //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
@@ -45,14 +45,18 @@ public class AgentMainActivity extends AppCompatActivity {
                 if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
                     // Navigation bar is visible
                     FullScreenManager.getInstance().fullScreen(getWindow());
+                    AgentActivity.this.bottomNavigationView.setVisibility(View.GONE);
+                } else {
+                    // Navigation bar is hidden
+                    AgentActivity.this.bottomNavigationView.setVisibility(View.VISIBLE);
                 }
             }
         });
-
-       // agentFragment = new AgentFragment();
-        //allHousesPageFragment = new AllHousesPageFragment();
-        getCurrentUser();
-        //setListeners();
+        addingPropertyFragment = new AddingPropertyFragment();
+        agentFragment = new AgentFragment();
+        setListeners();
+        replaceFragment(agentFragment);
+        //getCurrentUser();
     }
 
 
@@ -60,24 +64,26 @@ public class AgentMainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //FullScreenManager.getInstance().fullScreen(getWindow());
 
     }
 
     public void setListeners() {
-        agentFragment = new AgentFragment(agentUser);
-        addingPropertyFragment = new AddingPropertyFragment();
-        Log.d("agent", "AgentMainActivity: " + agentUser.toString());
-        addingPropertyFragment.setAgentUser(agentUser);
+        //Log.d("agent", "AgentMainActivity: " + agentUser.toString());
+        //addingPropertyFragment.setAgentUser(agentUser);
+
         setAgentFragmentListeners();
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.homeMatch_ITM_profile) {
+                agentFragment = new AgentFragment();
+                setAgentFragmentListeners();
                 replaceFragment(agentFragment);
             }
             if (item.getItemId() == R.id.homeMatch_ITM_all_houses) {
                 replaceFragment(new AllHousesPageFragment(ShowPropertiesType.ALL_HOUSES_AGENT));
             }
+            //addingPropertyFragment = new AddingPropertyFragment();
             if (item.getItemId() == R.id.homeMatch_ITM_add_house) {
+                //addingPropertyFragment.resetUI();
                 replaceFragment(addingPropertyFragment);
             }
             return true;
@@ -86,8 +92,9 @@ public class AgentMainActivity extends AppCompatActivity {
         addingPropertyFragment.setHouseAddedCallBack(() -> {
 
             replaceFragment(new AllHousesPageFragment(ShowPropertiesType.ALL_HOUSES_AGENT));
+            bottomNavigationView.setSelectedItemId(R.id.homeMatch_ITM_all_houses);
         });
-
+        setAgentFragmentListeners();
 
     }
 
@@ -101,48 +108,48 @@ public class AgentMainActivity extends AppCompatActivity {
     public void setAgentFragmentListeners(){
         agentFragment.setLogoutCallBack(() -> {
             Log.d("Logout", "Logout");
-            startActivity(new Intent(AgentMainActivity.this, LoginActivity.class));
+            startActivity(new Intent(AgentActivity.this, LoginActivity.class));
         });
 
         agentFragment.setManagePropertiesCallBack(() -> {
             Log.d("ManageProperties", "show manage properties ");
-            AgentMainActivity.this.replaceFragment(new AllHousesPageFragment(ShowPropertiesType.AGENT_PROPERTIES));
+            AgentActivity.this.replaceFragment(new AllHousesPageFragment(ShowPropertiesType.AGENT_PROPERTIES));
         });
     }
 
-    public void getCurrentUser(){
-        String uid = MyDbUserManager.getInstance().getUidOfCurrentUser();
-        if(uid == null){
-            Toast.makeText(this, "There is no user connected", Toast.LENGTH_SHORT).show();
-
-        } else {
-            MyDbDataManager.getInstance().getUser(AGENT, uid, new MyDbDataManager.UserCallBack() {
-
-                @Override
-                public void onSuccess(User currentUser) {
-
-                    agentUser = (Agent) currentUser;
-                    if(isOnCreate){
-                        isOnCreate = false;
-                        //agentFragment.setAgentUser(agentUser);
-                        agentFragment = new AgentFragment(agentUser);
-                        setAgentFragmentListeners();
-                        replaceFragment(agentFragment);
-                    }
-                    Log.d("Agent", "updated");
-                    setListeners();
-                    Log.d(AGENT, agentUser.toString());
-
-                }
-
-                @Override
-                public void onFailure() {
-                    Toast.makeText(AgentMainActivity.this, "Agent not found", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-        }
-    }
+//    public void getCurrentUser(){
+//        String uid = MyDbUserManager.getInstance().getUidOfCurrentUser();
+//        if(uid == null){
+//            Toast.makeText(this, "There is no user connected", Toast.LENGTH_SHORT).show();
+//
+//        } else {
+//            MyDbDataManager.getInstance().getUser(AGENT, uid, new MyDbDataManager.UserCallBack() {
+//
+//                @Override
+//                public void onSuccess(User currentUser) {
+//
+//                    agentUser = (Agent) currentUser;
+//                    if(isOnCreate){
+//                        isOnCreate = false;
+//                        //agentFragment.setAgentUser(agentUser);
+//                        agentFragment = new AgentFragment(agentUser);
+//                        setAgentFragmentListeners();
+//                        replaceFragment(agentFragment);
+//                    }
+//                    Log.d("Agent", "updated");
+//                    setListeners();
+//                    Log.d(AGENT, agentUser.toString());
+//
+//                }
+//
+//                @Override
+//                public void onFailure() {
+//                    Toast.makeText(AgentActivity.this, "Agent not found", Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//
+//        }
+//    }
 
 
 }

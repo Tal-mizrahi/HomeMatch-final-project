@@ -27,11 +27,13 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ShowDetailDialogManager {
 
     private MaterialButton houseDetails_LBL_status;
     private ImageSlider houseDetails_image_slider;
-    private ShapeableImageView houseDetails_IMG_agent;
+    private CircleImageView houseDetails_IMG_agent;
     private MaterialTextView houseDetails_LBL_agent_name;
     //private MaterialTextView houseDetails_LBL_balcony;
     private MaterialTextView houseDetails_LBL_agent_agency;
