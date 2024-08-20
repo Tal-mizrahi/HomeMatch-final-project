@@ -14,13 +14,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.example.homematch.Interfaces.HouseDeleteCallBack;
 import com.example.homematch.Interfaces.ScheduleCallBack;
 import com.example.homematch.Models.ShowPropertiesType;
 import com.example.homematch.R;
 import com.example.homematch.Interfaces.HouseDetailsCallBack;
 import com.example.homematch.Models.House;
+import com.example.homematch.Interfaces.OpenHouseSignUpCallBack;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.text.NumberFormat;
@@ -35,6 +36,8 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
     private HouseDetailsCallBack houseDetailsCallBack;
     private ShowPropertiesType showPropertiesType;
     private ScheduleCallBack scheduleCallBack;
+    private OpenHouseSignUpCallBack openHouseSignUpCallBack;
+    private HouseDeleteCallBack houseDeleteCallBack;
 
     public HouseAdapter(Context context, ArrayList<House> allHousesList, ShowPropertiesType showPropertiesType) {
         this.context = context;
@@ -64,10 +67,19 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
         holder.property_LBL_size.setText(formatWithCommas(house.getAreaSize()) + " m²");
         holder.property_LBL_rooms.setText(formatWithCommas(house.getNumberOfRooms()) + " Rooms" );
         holder.property_LBL_price.setText("₪" + formatWithCommas(house.getPrice()));
+
         if(house.getOpenHouseTime() != null && house.getOpenHouseDate() != null){
             holder.property_CARD_open_day.setVisibility(View.VISIBLE);
             holder.property_LBL_open_day_date.setText(house.getOpenHouseDate());
             holder.property_LBL_open_day_time.setText(house.getOpenHouseTime());
+            if(showPropertiesType.equals(ShowPropertiesType.ALL_HOUSES_CLIENT)) {
+                holder.property_BTN_sign_up_to_house.setVisibility(View.VISIBLE);
+                holder.property_BTN_sign_up_to_house.setOnClickListener(v -> {
+                    if (openHouseSignUpCallBack != null) {
+                        openHouseSignUpCallBack.onSignUpOpenHouse(house, position);
+                    }
+                });
+            }
         }
         if(!showPropertiesType.equals(ShowPropertiesType.AGENT_PROPERTIES)){
             holder.agentProperty_LAY_SOH.setVisibility(View.GONE);
@@ -87,6 +99,9 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
     }
 
     private void housePurchased(House house) {
+        if(houseDeleteCallBack != null){
+            houseDeleteCallBack.onHouseDeleted(house);
+        }
     }
 
     public void setHouseDetailsCallBack(HouseDetailsCallBack houseDetailsCallBack) {
@@ -95,6 +110,14 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
 
     public void setScheduleCallBack(ScheduleCallBack scheduleCallBack) {
         this.scheduleCallBack = scheduleCallBack;
+    }
+
+    public void setOpenHouseSignUpCallBack(OpenHouseSignUpCallBack openHouseSignUpCallBack) {
+        this.openHouseSignUpCallBack = openHouseSignUpCallBack;
+    }
+
+    public void setHouseDeleteCallBack(HouseDeleteCallBack houseDeleteCallBack) {
+        this.houseDeleteCallBack = houseDeleteCallBack;
     }
 
 
@@ -138,7 +161,8 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
         private LinearLayoutCompat agentProperty_LAY_SOH;
         private MaterialButton agentProperty_BTN_open_house;
         private MaterialButton agentProperty_BTN_purchased;
-        
+        private MaterialButton property_BTN_sign_up_to_house;
+
 
 
         public HouseViewHolder(@NonNull View itemView) {
@@ -158,6 +182,7 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
             agentProperty_LAY_SOH = itemView.findViewById(R.id.agentProperty_LAY_SOH);
             agentProperty_BTN_open_house = itemView.findViewById(R.id.agentProperty_BTN_open_house);
             agentProperty_BTN_purchased = itemView.findViewById(R.id.agentProperty_BTN_purchased);
+            property_BTN_sign_up_to_house = itemView.findViewById(R.id.property_BTN_sign_up_to_house);
 
             itemView.setOnClickListener(v -> {
                 if (houseDetailsCallBack != null) {

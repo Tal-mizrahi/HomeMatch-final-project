@@ -124,6 +124,39 @@
             android:layout_gravity="center_horizontal"
             android:orientation="horizontal">
 
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/agent_CV_sale"
+                android:layout_width="155dp"
+                android:layout_height="145dp"
+                android:layout_marginStart="2dp"
+                android:elevation="8dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="10dp"
+                app:strokeColor="@color/orange"
+                app:strokeWidth="2dp"
+                app:cardUseCompatPadding="true">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/agent_MTV_mySale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/poppins_medium"
+                        android:gravity="center_horizontal"
+                        android:text="3 Properties for Sale"
+                        android:textAlignment="center"
+                        android:textColor="@color/orange"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/agent_CV_rents"
                 android:layout_width="155dp"
@@ -155,38 +188,6 @@
                         android:textStyle="bold" />
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/agent_CV_sale"
-                android:layout_width="155dp"
-                android:layout_height="145dp"
-                android:layout_marginStart="2dp"
-                android:elevation="8dp"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="15dp"
-                app:cardElevation="10dp"
-                app:strokeColor="@color/orange"
-                app:strokeWidth="2dp"
-                app:cardUseCompatPadding="true">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/agent_MTV_mySale"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:fontFamily="@font/poppins_medium"
-                            android:gravity="center_horizontal"
-                            android:text="3 Properties for Sale"
-                            android:textAlignment="center"
-                            android:textColor="@color/orange"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
-                </com.google.android.material.card.MaterialCardView>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

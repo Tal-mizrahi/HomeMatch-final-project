@@ -9,20 +9,24 @@
     tools:context=".Activities.ClientActivity">
 
     <FrameLayout
-        android:id="@+id/homeMatch_LAY_agent"
+        android:id="@+id/homeMatch_LAY_client"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black" />
+        android:layout_above="@id/homeMatch_BNV_client"
+        android:background="@color/container_color" />
 
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/homeMatch_BNV_agent"
+        android:id="@+id/homeMatch_BNV_client"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:paddingBottom="0dp"
         app:menu="@menu/client_bottom_nav_menu"
+        app:itemRippleColor="@color/light_orange2"
+        app:itemActiveIndicatorStyle="@color/light_orange2"
+        app:itemBackground="@drawable/nav_bar_background_selector"
         app:itemTextAppearanceInactive="@style/BottomNavigationTextStyle"
         app:itemTextAppearanceActive="@style/BottomNavigationTextStyle.Selected"
         app:itemIconTint="@drawable/bottom_nav_color_selector"

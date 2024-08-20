@@ -4,8 +4,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
-import com.example.homematch.Interfaces.ImgListCallBack;
-import com.example.homematch.Interfaces.ImgCallBack;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -35,37 +33,13 @@ public class MyDbStorageManager {
 
     public void uploadImage(Uri uri, String userUid, ImgCallBack imgcallBack) {
         StorageReference imageRef = storage.getReference().child("Users").child(userUid + ".jpg");
-
-//        UploadTask uploadTask = imageRef.putFile(uri);
-
         uploadTask(imageRef, imageRef.putFile(uri), imgcallBack);
-        // Register observers to listen for when the download is done or if it fails
-//        uploadTask.addOnFailureListener((exception) -> {
-//            imgcallBack.onFailure(exception);
-//        }).addOnSuccessListener((taskSnapshot) -> {
-//                imageRef.getDownloadUrl().addOnCompleteListener((task) -> {
-//                        String imageUrl = task.getResult().toString();
-//                        imgcallBack.onSuccess(imageUrl);
-//                        //MyDbManager.updateUserImage(imageUrl, res -> updateUI());
-//                });
-//        });
+
     }
 
     public void uploadHouseImage(Uri uri, String houseUuid, String imgId, ImgCallBack imgcallBack) {
         StorageReference imageRef = storage.getReference("Houses").child(houseUuid).child(imgId + ".jpg");
-
-//        UploadTask uploadTask = imageRef.putFile(uri);
         uploadTask(imageRef, imageRef.putFile(uri), imgcallBack);
-        // Register observers to listen for when the download is done or if it fails
-//        uploadTask.addOnFailureListener((exception) -> {
-//            imgcallBack.onFailure(exception);
-//        }).addOnSuccessListener((taskSnapshot) -> {
-//            imageRef.getDownloadUrl().addOnCompleteListener((task) -> {
-//                String imageUrl = task.getResult().toString();
-//                imgcallBack.onSuccess(imageUrl);
-//                //MyDbManager.updateUserImage(imageUrl, res -> updateUI());
-//            });
-//        });
     }
 
     public void uploadHouseImages(ArrayList<Uri> imagesUri, String houseUuid, ImgListCallBack imagesCallBack) {
@@ -108,4 +82,15 @@ public class MyDbStorageManager {
         });
     }
 
+    public interface ImgListCallBack {
+        void onSuccess(ArrayList<String> list);
+        void onFailure(Exception exception);
+
+    }
+
+    public interface ImgCallBack {
+        void onSuccess(String imageUrl);
+        void onFailure(Exception exception);
+
+    }
 }

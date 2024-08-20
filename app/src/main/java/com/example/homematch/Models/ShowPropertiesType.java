@@ -1,9 +1,9 @@
 package com.example.homematch.Models;
 
 public enum ShowPropertiesType {
-    ALL_HOUSES,
+    ALL_HOUSES_AGENT,
     AGENT_PROPERTIES,
-    FAVORITE_PROPERTIES,
-    OPEN_HOUSES;
+    ALL_HOUSES_CLIENT,
+    OPEN_HOUSES_CLIENT,;
 
 }

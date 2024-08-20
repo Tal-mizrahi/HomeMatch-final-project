@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:background="#ffffff"
+    android:fitsSystemWindows="true"
     tools:context=".Activities.RegisterActivity">
 
     <RelativeLayout

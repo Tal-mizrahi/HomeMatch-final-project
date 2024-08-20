@@ -261,6 +261,7 @@
 
 
                                 <androidx.appcompat.widget.AppCompatImageView
+                                    android:id="@+id/houseDetails_IMG_balcony_size"
                                     android:layout_width="@dimen/house_dialog_ic"
                                     android:layout_height="@dimen/house_dialog_ic"
                                     android:layout_gravity="start"
@@ -315,7 +316,7 @@
 
                                 android:src="@drawable/ic_protected"/>
                             <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/houseDetails_TXT_protected"
+                                android:id="@+id/houseDetails_LBL_protected"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -342,7 +343,7 @@
                                 android:layout_weight="1"
                                 android:src="@drawable/ic_garage"/>
                             <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/houseDetails_TXT_garage"
+                                android:id="@+id/houseDetails_LBL_garage"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -356,6 +357,7 @@
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                         <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/houseDetails_LAY_balcony"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_weight="1"
@@ -369,7 +371,7 @@
                                 android:layout_weight="1"
                                 android:src="@drawable/ic_balcony"/>
                             <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/houseDetails_TXT_balcony"
+                                android:id="@+id/houseDetails_LBL_balcony"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -380,14 +382,45 @@
                                 android:textSize="@dimen/additional_house_features_text_size"
                                 android:text="Balcony"/>
 
+
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/houseDetails_LAY_garden"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:visibility="gone"
+                            android:layout_marginTop="6dp"
+                            android:orientation="horizontal">
+
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/houseDetails_IMG_garden"
+                            android:layout_width="@dimen/house_dialog_additional_ic_size"
+                            android:layout_height="@dimen/house_dialog_additional_ic_size"
+                            android:layout_weight="1"
+                            android:padding="0dp"
+                            android:src="@drawable/ic_garden"/>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/houseDetails_LBL_garden"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginHorizontal="5dp"
+                            android:paddingTop="2dp"
+                            android:fontFamily="@font/poppins_medium"
+                            android:layout_gravity="center"
+                            android:textSize="@dimen/additional_house_features_text_size"
+                            android:text="Garden"/>
+                        </androidx.appcompat.widget.LinearLayoutCompat>
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/houseDetails_LAY_smoke"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_weight="1"
+                            android:visibility="gone"
                             android:layout_marginTop="6dp"
                             android:orientation="horizontal">
 
@@ -398,7 +431,7 @@
                                 android:layout_weight="1"
                                 android:src="@drawable/ic_smoke"/>
                             <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/houseDetails_TXT_smoke"
+                                android:id="@+id/houseDetails_LBL_smoke"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -433,7 +466,7 @@
                         android:layout_weight="1"
                         android:src="@drawable/ic_elevator"/>
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/houseDetails_TXT_elevator"
+                        android:id="@+id/houseDetails_LBL_elevator"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -451,6 +484,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:visibility="gone"
                     android:layout_marginTop="6dp"
                     android:orientation="horizontal">
 
@@ -461,7 +495,7 @@
                         android:layout_weight="1"
                         android:src="@drawable/ic_paw"/>
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/houseDetails_TXT_pets"
+                        android:id="@+id/houseDetails_LBL_pets"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -488,7 +522,7 @@
                         android:layout_weight="1"
                         android:src="@drawable/ic_parking"/>
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/houseDetails_TXT_parking"
+                        android:id="@+id/houseDetails_LBL_parking"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -506,6 +540,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:visibility="gone"
                     android:layout_marginTop="6dp"
                     android:orientation="horizontal">
 
@@ -516,7 +551,7 @@
                         android:layout_weight="1"
                         android:src="@drawable/ic_bill"/>
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/houseDetails_TXT_bills"
+                        android:id="@+id/houseDetails_LBL_bills"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.example.homematch.Interfaces.LoginCallBack;
-import com.example.homematch.Interfaces.CreationCallBack;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -41,15 +39,15 @@ public class MyDbUserManager {
     }
 
 
-    public void createNewUser(String email, String password, Activity activity, CreationCallBack userCreationCallBack) {
+    public void createNewUser(String email, String password, Activity activity, UserCreationCallBack userCreationCallBack) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(activity, task -> {
                         if (task.isSuccessful()) {
                             Toast.makeText(activity, "User Created Successfully\n" , Toast.LENGTH_SHORT).show();
-                            userCreationCallBack.onCreated(task.getResult().getUser().getUid());
+                            userCreationCallBack.onUserCreated(task.getResult().getUser().getUid());
 
                         } else {
-                            userCreationCallBack.onCreationFailed(task.getException());
+                            userCreationCallBack.onUserCreationFailed(task.getException());
                         }
 
         });
@@ -71,6 +69,18 @@ public class MyDbUserManager {
     }
 
 
+    public interface LoginCallBack {
+
+        void onLoginSuccess(String uid);
+        void onLoginFailure(Exception exception);
+
+    }
+
+    public interface UserCreationCallBack {
+        void onUserCreated(String uid);
+        void onUserCreationFailed(Exception exception);
+
+    }
 }
 
 

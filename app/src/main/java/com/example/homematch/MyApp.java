@@ -17,7 +17,7 @@ public class MyApp extends Application {
         MyDbDataManager.init(this);
         MyDbUserManager.init(this);
         MyDbStorageManager.init(this);
-        ShowDetailDialogManager.init(this);
+        // ShowDetailDialogManager.init(this);
 
     }
 }

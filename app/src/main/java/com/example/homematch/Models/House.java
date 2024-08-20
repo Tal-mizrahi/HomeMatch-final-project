@@ -1,6 +1,9 @@
 package com.example.homematch.Models;
 
+import android.util.Log;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class House {
 
@@ -14,7 +17,6 @@ public abstract class House {
     private String uuid;
 
     private int streetNumber;
-    private int postalCode;
     private int numberOfRooms;
 
     private int areaSize;
@@ -32,9 +34,9 @@ public abstract class House {
 
     private ArrayList<String> imagesUrl;
 
-    private String openHouseDate;
-    private String openHouseTime;
-
+    private String openHouseDate = null;
+    private String openHouseTime = null;
+    private HashMap<String, String> openHouseSignUps = new HashMap<>(); // Map of client uid that sign up to open house
 
     public House() {
     }
@@ -45,7 +47,7 @@ public abstract class House {
     }
 
     public House(String city, String street, String purchaseType
-            , String description, String houseType, int streetNumber, int postalCode
+            , String description, String houseType, int streetNumber
             , int numberOfRooms, int areaSize, int price, Integer balconyOrGardenSize
             , boolean hasElevator, boolean hasProtectedRoom, boolean hasGarage
             , boolean hasBalcony, boolean canSmoke, boolean petsAllowed
@@ -56,7 +58,6 @@ public abstract class House {
         this.purchaseType = purchaseType;
         this.description = description;
         this.streetNumber = streetNumber;
-        this.postalCode = postalCode;
         this.numberOfRooms = numberOfRooms;
         this.areaSize = areaSize;
         this.price = price;
@@ -73,8 +74,23 @@ public abstract class House {
         this.uuid = uuid;
         this.houseType = houseType;
         this.balconyOrGardenSize = balconyOrGardenSize;
+    }
+
+    public void addClientToOpenHouse(String clientUid){
+        if(openHouseSignUps == null)
+            openHouseSignUps = new HashMap<>();
+        openHouseSignUps.put(clientUid, clientUid);
+        Log.d("open house", "added client " + clientUid);
+    }
+
+    public void removeClientFromOpenHouse(String clientUid){
+        openHouseSignUps.remove(clientUid);
+    }
+
+    public void resetOpenHouseData(){
         this.openHouseDate = null;
         this.openHouseTime = null;
+        this.openHouseSignUps = new HashMap<>();
     }
 
     public String getOpenHouseDate() {
@@ -149,14 +165,6 @@ public abstract class House {
         return this;
     }
 
-    public int getPostalCode() {
-        return postalCode;
-    }
-
-    public House setPostalCode(int postalCode) {
-        this.postalCode = postalCode;
-        return this;
-    }
 
     public int getNumberOfRooms() {
         return numberOfRooms;
@@ -275,6 +283,15 @@ public abstract class House {
         return this;
     }
 
+    public HashMap<String, String> getOpenHouseSignUps() {
+        return openHouseSignUps;
+    }
+
+    public House setOpenHouseSignUps(HashMap<String, String> openHouseSignUps) {
+        this.openHouseSignUps = openHouseSignUps;
+        return this;
+    }
+
     public String getUuid() {
         return uuid;
     }
@@ -296,10 +313,9 @@ public abstract class House {
                 ", purchaseType='" + purchaseType + '\'' +
                 ", description='" + description + '\'' +
                 ", houseType='" + houseType + '\'' +
-                ", brokerId='" + agentId + '\'' +
+                ", agentId='" + agentId + '\'' +
                 ", uuid='" + uuid + '\'' +
                 ", streetNumber=" + streetNumber +
-                ", postalCode=" + postalCode +
                 ", numberOfRooms=" + numberOfRooms +
                 ", areaSize=" + areaSize +
                 ", price=" + price +
@@ -313,7 +329,9 @@ public abstract class House {
                 ", hasParking=" + hasParking +
                 ", isBillsIncluded=" + isBillsIncluded +
                 ", imagesUrl=" + imagesUrl +
-                "\n, openHouseDate='" + openHouseDate + '\'' +
-                "\n, openHouseTime='" + openHouseTime + "} \n";
+                ", openHouseDate='" + openHouseDate + '\'' +
+                ", openHouseTime='" + openHouseTime + '\'' +
+                ", openHouseSignUps=" + openHouseSignUps +
+                '}';
     }
 }

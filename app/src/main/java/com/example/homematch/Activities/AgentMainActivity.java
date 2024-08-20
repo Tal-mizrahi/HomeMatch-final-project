@@ -4,14 +4,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.homematch.Models.ShowPropertiesType;
@@ -19,7 +14,6 @@ import com.example.homematch.R;
 import com.example.homematch.Fragments.AddingPropertyFragment;
 import com.example.homematch.Fragments.AllHousesPageFragment;
 import com.example.homematch.Fragments.AgentFragment;
-import com.example.homematch.Interfaces.UserCallBack;
 import com.example.homematch.Models.Agent;
 import com.example.homematch.Models.User;
 import com.example.homematch.Utilities.FullScreenManager;
@@ -29,8 +23,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class AgentMainActivity extends AppCompatActivity {
 
-    private BottomNavigationView bottomNavigationView;
     private static final String AGENT = "Agent";
+    private BottomNavigationView bottomNavigationView;
     private Agent agentUser;
     private boolean isOnCreate = true;
     private AgentFragment agentFragment;
@@ -42,7 +36,7 @@ public class AgentMainActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_agent_main);
         this.bottomNavigationView = findViewById(R.id.homeMatch_BNV_agent);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         View decorView = getWindow().getDecorView();
         decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
@@ -58,7 +52,6 @@ public class AgentMainActivity extends AppCompatActivity {
        // agentFragment = new AgentFragment();
         //allHousesPageFragment = new AllHousesPageFragment();
         getCurrentUser();
-        addingPropertyFragment = new AddingPropertyFragment();
         //setListeners();
     }
 
@@ -73,22 +66,26 @@ public class AgentMainActivity extends AppCompatActivity {
 
     public void setListeners() {
         agentFragment = new AgentFragment(agentUser);
+        addingPropertyFragment = new AddingPropertyFragment();
+        Log.d("agent", "AgentMainActivity: " + agentUser.toString());
+        addingPropertyFragment.setAgentUser(agentUser);
         setAgentFragmentListeners();
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.homeMatch_ITM_profile) {
                 replaceFragment(agentFragment);
             }
             if (item.getItemId() == R.id.homeMatch_ITM_all_houses) {
-                replaceFragment(new AllHousesPageFragment(ShowPropertiesType.ALL_HOUSES));
+                replaceFragment(new AllHousesPageFragment(ShowPropertiesType.ALL_HOUSES_AGENT));
             }
             if (item.getItemId() == R.id.homeMatch_ITM_add_house) {
-                replaceFragment(new AddingPropertyFragment());
+                replaceFragment(addingPropertyFragment);
             }
             return true;
         });
 
         addingPropertyFragment.setHouseAddedCallBack(() -> {
-            replaceFragment(new AllHousesPageFragment(ShowPropertiesType.ALL_HOUSES));
+
+            replaceFragment(new AllHousesPageFragment(ShowPropertiesType.ALL_HOUSES_AGENT));
         });
 
 
@@ -119,7 +116,7 @@ public class AgentMainActivity extends AppCompatActivity {
             Toast.makeText(this, "There is no user connected", Toast.LENGTH_SHORT).show();
 
         } else {
-            MyDbDataManager.getInstance().getUser(AGENT, uid, new UserCallBack() {
+            MyDbDataManager.getInstance().getUser(AGENT, uid, new MyDbDataManager.UserCallBack() {
 
                 @Override
                 public void onSuccess(User currentUser) {
@@ -129,9 +126,10 @@ public class AgentMainActivity extends AppCompatActivity {
                         isOnCreate = false;
                         //agentFragment.setAgentUser(agentUser);
                         agentFragment = new AgentFragment(agentUser);
-                        replaceFragment(agentFragment);
                         setAgentFragmentListeners();
+                        replaceFragment(agentFragment);
                     }
+                    Log.d("Agent", "updated");
                     setListeners();
                     Log.d(AGENT, agentUser.toString());
 

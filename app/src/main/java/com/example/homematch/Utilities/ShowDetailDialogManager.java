@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
-import com.example.homematch.Interfaces.UserCallBack;
+import com.example.homematch.Models.Feature;
 import com.example.homematch.R;
 import com.example.homematch.Models.Agent;
 import com.example.homematch.Models.House;
@@ -29,42 +29,56 @@ import java.util.Locale;
 
 public class ShowDetailDialogManager {
 
-    private static Context context;
-    private static volatile ShowDetailDialogManager instance;
+    private MaterialButton houseDetails_LBL_status;
+    private ImageSlider houseDetails_image_slider;
+    private ShapeableImageView houseDetails_IMG_agent;
+    private MaterialTextView houseDetails_LBL_agent_name;
+    //private MaterialTextView houseDetails_LBL_balcony;
+    private MaterialTextView houseDetails_LBL_agent_agency;
+    private MaterialTextView houseDetails_LBL_agent_phone;
+    private MaterialButton houseDetails_BTN_close;
+    private MaterialTextView houseDetails_LBL_size;
+    private MaterialTextView houseDetails_LBL_rooms;
+    private MaterialTextView houseDetails_LBL_balcony_size;
+    private MaterialCardView houseDetails_CARD_balcony_size;
+    private AppCompatImageView houseDetails_IMG_balcony_size;
+    //private AppCompatImageView houseDetails_IMG_balcony;
+    private LinearLayoutCompat houseDetails_LAY_smoke;
+    private LinearLayoutCompat houseDetails_LAY_pets;
+    private LinearLayoutCompat houseDetails_LAY_bills;
+    private LinearLayoutCompat houseDetails_LAY_balcony;
+    private LinearLayoutCompat houseDetails_LAY_garden;
 
-    private ShowDetailDialogManager(Context context) {
-        this.context = context;
+    private MaterialButton houseDetails_LBL_property_type;
+    private MaterialTextView houseDetails_LBL_price;
+    private MaterialTextView houseDetails_LBL_address;
+    private MaterialTextView houseDetails_LBL_description;
+
+    private House house;
+
+    private Dialog dialog;
+
+    private Feature[] features;
+
+    public ShowDetailDialogManager(Context context) {
+        dialog = new Dialog(context);
+        dialog.setContentView(R.layout.house_details_dialog);
+        findViews();
     }
 
-
-    public static void init(Context context) {
-        if (instance == null) {
-            instance = new ShowDetailDialogManager(context);
-        }
-    }
-
-    public static ShowDetailDialogManager getInstance() {
-        return instance;
-    }
 
     public void showHouseDetailsDialog(Context context, House house) {
-        Dialog dialog = new Dialog(context);
-        dialog.setContentView(R.layout.house_details_dialog);
-
-        setupImageSlider(dialog, house);
-        setupGeneralHouseInfo(dialog, house);
-        setupHouseFeatures(dialog, house);
-        setupAdditionalFeatures(dialog, house);
-        getAgentInfo(house, dialog, context);
-
-        MaterialButton houseDetails_BTN_close = dialog.findViewById(R.id.houseDetails_BTN_close);
+        this.house = house;
+        setFeaturesArray();
+        setupImageSlider();
+        setupGeneralHouseInfo();
+        setupHouseFeatures();
+        getAgentInfo(context);
         houseDetails_BTN_close.setOnClickListener(v -> dialog.dismiss());
-
         dialog.show();
     }
 
-    private void setupImageSlider(Dialog dialog, House house) {
-        ImageSlider houseDetails_image_slider = dialog.findViewById(R.id.houseDetails_image_slider);
+    private void setupImageSlider() {
         ArrayList<SlideModel> imageList = new ArrayList<>();
         for (String imageUrl : house.getImagesUrl()) {
             imageList.add(new SlideModel(imageUrl, ScaleTypes.CENTER_CROP));
@@ -73,21 +87,13 @@ public class ShowDetailDialogManager {
     }
 
     @SuppressLint("SetTextI18n")
-    private void setupGeneralHouseInfo(Dialog dialog, House house) {
-        MaterialButton houseDetails_LBL_status = dialog.findViewById(R.id.houseDetails_LBL_status);
+    private void setupGeneralHouseInfo() {
         houseDetails_LBL_status.setText("For " + house.getPurchaseType());
-
-        MaterialButton houseDetails_LBL_property_type = dialog.findViewById(R.id.houseDetails_LBL_property_type);
         houseDetails_LBL_property_type.setText(house.getHouseType());
-
-        MaterialTextView houseDetails_LBL_price = dialog.findViewById(R.id.houseDetails_LBL_price);
         houseDetails_LBL_price.setText("₪" + formatWithCommas(house.getPrice()));
-
-        MaterialTextView houseDetails_LBL_address = dialog.findViewById(R.id.houseDetails_LBL_address);
         houseDetails_LBL_address.setText(house.getStreet() + " " + house.getStreetNumber() + ", " + house.getCity());
-
-        MaterialTextView houseDetails_LBL_description = dialog.findViewById(R.id.houseDetails_LBL_description);
         if (house.getDescription() != null) {
+            houseDetails_LBL_description.setVisibility(View.VISIBLE);
             houseDetails_LBL_description.setText(house.getDescription());
         } else {
             houseDetails_LBL_description.setVisibility(View.GONE);
@@ -95,61 +101,45 @@ public class ShowDetailDialogManager {
     }
 
     @SuppressLint("SetTextI18n")
-    private void setupHouseFeatures(Dialog dialog, House house) {
-        MaterialTextView houseDetails_LBL_size = dialog.findViewById(R.id.houseDetails_LBL_area_size);
+    private void setupHouseFeatures() {
         houseDetails_LBL_size.setText(formatWithCommas(house.getAreaSize()) + " m²");
-
-        MaterialTextView houseDetails_LBL_rooms = dialog.findViewById(R.id.houseDetails_LBL_rooms);
         houseDetails_LBL_rooms.setText(formatWithCommas(house.getNumberOfRooms()) + " Rooms");
-
-        setupFeature(dialog, house.isHasProtectedRoom(), R.id.houseDetails_TXT_protected, R.id.houseDetails_IMG_protected);
-        setupFeature(dialog, house.isHasGarage(), R.id.houseDetails_TXT_garage, R.id.houseDetails_IMG_garage);
-
-        MaterialTextView houseDetails_LBL_balcony_size = dialog.findViewById(R.id.houseDetails_LBL_balcony_size);
-        MaterialCardView houseDetails_CARD_balcony_size = dialog.findViewById(R.id.houseDetails_CARD_balcony_size);
         if (house.isHasBalcony()) {
+            houseDetails_CARD_balcony_size.setVisibility(View.VISIBLE);
             houseDetails_LBL_balcony_size.setText(formatWithCommas(house.getBalconyOrGardenSize()) + " m²");
+            if (house.getHouseType().equals("Garden Apartment")) {
+                houseDetails_IMG_balcony_size.setImageResource(R.drawable.ic_garden);
+            }
         } else {
             houseDetails_CARD_balcony_size.setVisibility(View.GONE);
         }
-
-        setupFeature(dialog, house.isHasElevator(), R.id.houseDetails_TXT_elevator, R.id.houseDetails_IMG_elevator);
-        setupFeature(dialog, house.isHasParking(), R.id.houseDetails_TXT_parking, R.id.houseDetails_IMG_parking);
+        setupFeature();
     }
 
-    private void setupAdditionalFeatures(Dialog dialog, House house) {
-        LinearLayoutCompat houseDetails_LAY_smoke = dialog.findViewById(R.id.houseDetails_LAY_smoke);
-        LinearLayoutCompat houseDetails_LAY_pets = dialog.findViewById(R.id.houseDetails_LAY_pets);
-        LinearLayoutCompat houseDetails_LAY_bills = dialog.findViewById(R.id.houseDetails_LAY_bills);
 
-        if (house.getPurchaseType().equals("Sale")) {
-            houseDetails_LAY_smoke.setVisibility(View.GONE);
-            houseDetails_LAY_pets.setVisibility(View.GONE);
-            houseDetails_LAY_bills.setVisibility(View.GONE);
-        } else { // The house is for Rent
-            setupFeature(dialog, house.isCanSmoke(), R.id.houseDetails_TXT_smoke, R.id.houseDetails_IMG_smoke);
-            setupFeature(dialog, house.isPetsAllowed(), R.id.houseDetails_TXT_pets, R.id.houseDetails_IMG_pets);
-            setupFeature(dialog, house.isBillsIncluded(), R.id.houseDetails_TXT_bills, R.id.houseDetails_IMG_bills);
+    private void setupFeature() {
+
+        if(house.getHouseType().equals("Garden Apartment")){
+            houseDetails_LAY_balcony.setVisibility(View.GONE);
+            houseDetails_LAY_garden.setVisibility(View.VISIBLE);
+        }else{
+            houseDetails_LAY_balcony.setVisibility(View.VISIBLE);
+            houseDetails_LAY_garden.setVisibility(View.GONE);
+        }
+
+        for (Feature feature : features ){
+            if (feature.isRent()) {
+                feature.getFeatureLayout().setVisibility(View.VISIBLE);
+            }
+            if (!feature.isEnabled()) {
+                feature.getFeatureText().setTextColor(Color.parseColor("#999898"));
+                feature.getFeatureImage().setColorFilter(ContextCompat.getColor(dialog.getContext(), R.color.grey_light));
+            }
         }
     }
 
-    private void setupFeature(Dialog dialog, boolean isEnabled, int textId, int imageId) {
-        MaterialTextView featureText = dialog.findViewById(textId);
-        AppCompatImageView featureImage = dialog.findViewById(imageId);
-
-        if (!isEnabled) {
-            featureText.setTextColor(Color.parseColor("#999898"));
-            featureImage.setColorFilter(ContextCompat.getColor(dialog.getContext(), R.color.grey_light));
-        }
-    }
-
-    public void getAgentInfo(House house, Dialog dialog, Context context) {
-        ShapeableImageView houseDetails_IMG_agent = dialog.findViewById(R.id.houseDetails_IMG_agent);
-        MaterialTextView houseDetails_LBL_agent_name = dialog.findViewById(R.id.houseDetails_LBL_agent_name);
-        MaterialTextView houseDetails_LBL_agent_agency = dialog.findViewById(R.id.houseDetails_LBL_agent_agency);
-        MaterialTextView houseDetails_LBL_agent_phone = dialog.findViewById(R.id.houseDetails_LBL_agent_phone);
-
-        MyDbDataManager.getInstance().getUser("Agent", house.getAgentId(), new UserCallBack() {
+    public void getAgentInfo(Context context) {
+        MyDbDataManager.getInstance().getUser("Agent", house.getAgentId(), new MyDbDataManager.UserCallBack() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onSuccess(User currentUser) {
@@ -178,5 +168,50 @@ public class ShowDetailDialogManager {
     private String formatWithCommas(int number) {
         NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
         return numberFormat.format(number);
+    }
+
+    private void findViews() {
+        houseDetails_image_slider = dialog.findViewById(R.id.houseDetails_image_slider);
+        houseDetails_IMG_agent = dialog.findViewById(R.id.houseDetails_IMG_agent);
+        houseDetails_LBL_agent_name = dialog.findViewById(R.id.houseDetails_LBL_agent_name);
+        houseDetails_LBL_agent_agency = dialog.findViewById(R.id.houseDetails_LBL_agent_agency);
+        houseDetails_LBL_agent_phone = dialog.findViewById(R.id.houseDetails_LBL_agent_phone);
+        houseDetails_BTN_close = dialog.findViewById(R.id.houseDetails_BTN_close);
+        houseDetails_LBL_size = dialog.findViewById(R.id.houseDetails_LBL_area_size);
+        houseDetails_LBL_rooms = dialog.findViewById(R.id.houseDetails_LBL_rooms);
+        houseDetails_LBL_balcony_size = dialog.findViewById(R.id.houseDetails_LBL_balcony_size);
+        houseDetails_CARD_balcony_size = dialog.findViewById(R.id.houseDetails_CARD_balcony_size);
+        houseDetails_LAY_smoke = dialog.findViewById(R.id.houseDetails_LAY_smoke);
+        houseDetails_LAY_pets = dialog.findViewById(R.id.houseDetails_LAY_pets);
+        houseDetails_LAY_bills = dialog.findViewById(R.id.houseDetails_LAY_bills);
+        houseDetails_LBL_status = dialog.findViewById(R.id.houseDetails_LBL_status);
+        houseDetails_LBL_property_type = dialog.findViewById(R.id.houseDetails_LBL_property_type);
+        houseDetails_LBL_price = dialog.findViewById(R.id.houseDetails_LBL_price);
+        houseDetails_LBL_address = dialog.findViewById(R.id.houseDetails_LBL_address);
+        houseDetails_LBL_description = dialog.findViewById(R.id.houseDetails_LBL_description);
+        houseDetails_IMG_balcony_size = dialog.findViewById(R.id.houseDetails_IMG_balcony_size);
+        houseDetails_LAY_balcony = dialog.findViewById(R.id.houseDetails_LAY_balcony);
+        houseDetails_LAY_garden = dialog.findViewById(R.id.houseDetails_LAY_garden);
+
+    }
+
+    public void setFeaturesArray(){
+       AppCompatImageView balconyOrGardenImg = house.getHouseType().equals("Garden Apartment") ? dialog.findViewById(R.id.houseDetails_IMG_garden) : dialog.findViewById(R.id.houseDetails_IMG_balcony);
+       MaterialTextView balconyOrGardenLBL = house.getHouseType().equals("Garden Apartment") ? dialog.findViewById(R.id.houseDetails_LBL_garden) : dialog.findViewById(R.id.houseDetails_LBL_balcony);
+       boolean isRent = house.getPurchaseType().equals("Rent");
+        features = new Feature[] {
+                new Feature(house.isHasProtectedRoom(), dialog.findViewById(R.id.houseDetails_LBL_protected), dialog.findViewById(R.id.houseDetails_IMG_protected), false),
+                new Feature(house.isHasGarage(), dialog.findViewById( R.id.houseDetails_LBL_garage), dialog.findViewById(R.id.houseDetails_IMG_garage), false),
+                new Feature(house.isHasElevator(), dialog.findViewById(R.id.houseDetails_LBL_elevator), dialog.findViewById(R.id.houseDetails_IMG_elevator), false),
+                new Feature(house.isHasParking(), dialog.findViewById(R.id.houseDetails_LBL_parking), dialog.findViewById(R.id.houseDetails_IMG_parking), false),
+                new Feature(house.isHasBalcony(), balconyOrGardenLBL, balconyOrGardenImg, false),
+                new Feature(house.isCanSmoke(), dialog.findViewById(R.id.houseDetails_LBL_smoke), dialog.findViewById(R.id.houseDetails_IMG_smoke), isRent)
+                        .setFeatureLayout(houseDetails_LAY_smoke), // setting additional feature that for Rental house and set the layout
+                new Feature(house.isPetsAllowed(), dialog.findViewById(R.id.houseDetails_LBL_pets), dialog.findViewById(R.id.houseDetails_IMG_pets), isRent)
+                        .setFeatureLayout(houseDetails_LAY_pets), // setting additional feature that for Rental house and set the layout
+                new Feature(house.isBillsIncluded(), dialog.findViewById(R.id.houseDetails_LBL_bills), dialog.findViewById(R.id.houseDetails_IMG_bills), isRent)
+                        .setFeatureLayout(houseDetails_LAY_bills) // setting additional feature that for Rental house and set the layout
+
+        };
     }
 }

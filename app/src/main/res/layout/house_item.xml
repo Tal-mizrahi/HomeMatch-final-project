@@ -76,49 +76,76 @@
             android:layout_marginEnd="5dp">
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/agentProperty_LAY_SOH"
-                android:layout_width="match_parent"
+                android:id="@+id/agentProperty_LAY_buttons"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/property_LAY_data"
                 android:orientation="horizontal">
 
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/agentProperty_BTN_purchased"
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/agentProperty_LAY_SOH"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:text="₪ Sold ₪"
-                    app:shapeAppearanceOverlay="@style/circleImageView"
-                    android:elevation="10dp"
-                    android:translationZ="7dp"
-                    android:backgroundTint="@color/orange"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp"
-                    android:fontFamily="@font/poppins_bold"
-                    app:backgroundTint="@color/burnt_orange"
-                    android:layout_gravity="center" />
+                    android:layout_below="@id/property_LAY_data"
+                    android:orientation="horizontal">
+
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/agentProperty_BTN_purchased"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        style="@style/Widget.Material3.Button.IconButton"
+                        app:shapeAppearanceOverlay="@style/circleImageView"
+                        android:elevation="10dp"
+                        android:translationZ="7dp"
+                        app:icon="@drawable/ic_sold"
+                        app:iconTint="@color/orange"
+                        app:iconSize="28dp"
+                        app:backgroundTint="@color/light_orange"
+                        android:layout_gravity="center" />
+
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/agentProperty_BTN_open_house"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+                        android:layout_margin="8dp"
+                        android:text="Open House"
+                        app:shapeAppearanceOverlay="@style/circleImageView"
+                        android:elevation="10dp"
+                        android:translationZ="7dp"
+                        app:icon="@drawable/ic_calendar"
+                        app:iconTint="@color/white"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
+                        app:backgroundTint="@color/burnt_orange"
+                        android:layout_gravity="center" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/agentProperty_BTN_open_house"
+                    android:id="@+id/property_BTN_sign_up_to_house"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+                    android:visibility="gone"
                     android:layout_margin="8dp"
-                    android:text="Open House"
+                    android:text="Sign Up"
                     app:shapeAppearanceOverlay="@style/circleImageView"
                     android:elevation="10dp"
                     android:translationZ="7dp"
-                    app:icon="@drawable/ic_calendar"
+                    app:icon="@drawable/ic_sign_up_to_house"
                     app:iconTint="@color/white"
-                    android:backgroundTint="@color/orange"
                     android:textColor="@android:color/white"
                     android:textSize="12sp"
                     android:textStyle="bold"
                     android:fontFamily="@font/poppins_bold"
                     app:backgroundTint="@color/burnt_orange"
                     android:layout_gravity="center" />
-
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

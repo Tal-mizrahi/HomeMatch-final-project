@@ -18,14 +18,14 @@ public class Apartment extends House{
     }
 
     public Apartment(String city, String street, String purchaseType
-            , String description, String houseType, int streetNumber, int postalCode
+            , String description, String houseType, int streetNumber
             , int numberOfRooms, int areaSize, int price
             , Integer balconyOrGardenSize, boolean hasElevator, boolean hasProtectedRoom
             , boolean hasGarage, boolean hasBalcony, boolean canSmoke
             , boolean petsAllowed, boolean hasParking, boolean isBillsIncluded
             , ArrayList<String> imagesUri, int floorNumber, int apartmentNumber, String brokerId, String uid) {
 
-        super(city, street, purchaseType, description, houseType, streetNumber, postalCode
+        super(city, street, purchaseType, description, houseType, streetNumber
                 , numberOfRooms, areaSize, price, balconyOrGardenSize, hasElevator, hasProtectedRoom
                 , hasGarage, hasBalcony, canSmoke, petsAllowed, hasParking, isBillsIncluded
                 , imagesUri, brokerId, uid);

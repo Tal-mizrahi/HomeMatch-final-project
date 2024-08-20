@@ -14,10 +14,10 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.homematch.Adapters.HouseAdapter;
-import com.example.homematch.Interfaces.ScheduleCallBack;
+import com.example.homematch.Interfaces.OpenHouseSignUpCallBack;
 import com.example.homematch.Models.ShowPropertiesType;
 import com.example.homematch.R;
-import com.example.homematch.Interfaces.HousesListCallBack;
+import com.example.homematch.Utilities.MyDbUserManager;
 import com.example.homematch.Utilities.ScheduleOpenHouseDialogManager;
 import com.example.homematch.Utilities.ShowDetailDialogManager;
 import com.example.homematch.Models.House;
@@ -32,6 +32,7 @@ public class HousesListFragment extends Fragment {
     private RecyclerView allHouses_LST_houses;
     private ShowPropertiesType showPropertiesType;
     private ScheduleOpenHouseDialogManager scheduleOpenHouse;
+    private ShowDetailDialogManager showDetailDialogManager;
 
 
     public HousesListFragment() {
@@ -46,21 +47,20 @@ public class HousesListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_houses_list, container, false);
         scheduleOpenHouse = new ScheduleOpenHouseDialogManager(this.getContext());
+        showDetailDialogManager = new ShowDetailDialogManager(this.getContext());
         allHousesList = new ArrayList<>();
         Log.d("HousesList", "onCreateView: " + showPropertiesType.name());
        // houseAdapter = new HouseAdapter(getContext(), allHousesList, showPropertiesType);
         allHouses_LST_houses = view.findViewById(R.id.allHouses_LST_houses);
         initAdapter();
 
-        scheduleOpenHouse.setScheduleCallBack(new ScheduleCallBack() {
-            @Override
-            public void onScheduleOpenHouse(House house, int position) {
-                houseAdapter.notifyItemChanged(position);
-                Log.d("Schedule open house", "2 " + allHousesList.get(position).toString());
-                MyDbDataManager.getInstance().setHouse( allHousesList.get(position));
-                Log.d("Schedule open house", "3 " + allHousesList.get(position).toString());
-            }
+        scheduleOpenHouse.setScheduleCallBack((house, position) -> {
+            houseAdapter.notifyItemChanged(position);
+            Log.d("Schedule open house", "2 " + allHousesList.get(position).toString());
+            MyDbDataManager.getInstance().setHouse( allHousesList.get(position));
+            Log.d("Schedule open house", "3 " + allHousesList.get(position).toString());
         });
+
 
         return view;
     }
@@ -74,7 +74,20 @@ public class HousesListFragment extends Fragment {
         allHouses_LST_houses.setAdapter(houseAdapter);
 
         houseAdapter.setHouseDetailsCallBack(house ->{
-                ShowDetailDialogManager.getInstance().showHouseDetailsDialog(HousesListFragment.this.getContext(), house);
+                showDetailDialogManager.showHouseDetailsDialog(HousesListFragment.this.getContext(), house);
+        });
+
+        houseAdapter.setOpenHouseSignUpCallBack((house, position) -> {
+            Log.d("house", house.toString());
+            String clientId = MyDbUserManager.getInstance().getUidOfCurrentUser();
+            house.addClientToOpenHouse(clientId);
+            MyDbDataManager.getInstance().setHouse(house);
+
+            houseAdapter.notifyItemChanged(position);
+        });
+
+        houseAdapter.setHouseDeleteCallBack((house) -> {
+            MyDbDataManager.getInstance().housePurchase(house.getPurchaseType(), house.getHouseType(), house.getUuid());
         });
 
         if(showPropertiesType.equals(ShowPropertiesType.AGENT_PROPERTIES)){
@@ -92,15 +105,17 @@ public class HousesListFragment extends Fragment {
 
     public void setHousesListUI(String currentPurchaseType, String currentHouseType) {
         Log.d("HousesListFragment", "setAllHousesUI: " + currentPurchaseType + " " + currentHouseType);
-        if(showPropertiesType.equals(ShowPropertiesType.ALL_HOUSES)){
+        if(showPropertiesType.equals(ShowPropertiesType.ALL_HOUSES_AGENT) || showPropertiesType.equals(ShowPropertiesType.ALL_HOUSES_CLIENT)){
             setAllHousesUI(currentPurchaseType, currentHouseType);
         } else if(showPropertiesType.equals(ShowPropertiesType.AGENT_PROPERTIES)) {
             setAgentPropertiesUI(currentPurchaseType, currentHouseType);
+        } else if(showPropertiesType.equals(ShowPropertiesType.OPEN_HOUSES_CLIENT)){
+            setClientOpenHousesUI(currentPurchaseType, currentHouseType);
         }
     }
 
     public void setAllHousesUI(String currentPurchaseType, String currentHouseType) {
-        MyDbDataManager.getInstance().getHouseList(currentPurchaseType, currentHouseType, new HousesListCallBack() {
+        MyDbDataManager.getInstance().getHouseList(currentPurchaseType, currentHouseType, new MyDbDataManager.HousesListCallBack() {
 
             @Override
             public void onSuccess(ArrayList<House> allHouses) {
@@ -118,7 +133,7 @@ public class HousesListFragment extends Fragment {
     }
 
     public void setAgentPropertiesUI(String currentPurchaseType, String currentHouseType) {
-        MyDbDataManager.getInstance().loadAgentProperties(currentPurchaseType, currentHouseType, new HousesListCallBack() {
+        MyDbDataManager.getInstance().loadAgentProperties(currentPurchaseType, currentHouseType, new MyDbDataManager.HousesListCallBack() {
 
             @Override
             public void onSuccess(ArrayList<House> allHouses) {
@@ -135,7 +150,22 @@ public class HousesListFragment extends Fragment {
         });
     }
 
-    private void showHouseDetailsDialog(House house) {
-        ShowDetailDialogManager.getInstance().showHouseDetailsDialog(this.getContext(), house);
+    public void setClientOpenHousesUI(String currentPurchaseType, String currentHouseType) {
+        MyDbDataManager.getInstance().loadClientOpenHouses(currentPurchaseType, currentHouseType, new MyDbDataManager.HousesListCallBack() {
+
+            @Override
+            public void onSuccess(ArrayList<House> allHouses) {
+                allHousesList.clear();
+                allHousesList.addAll(allHouses);
+                houseAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onFailure(Exception exception) {
+                Toast.makeText(HousesListFragment.this.getContext(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
 }

@@ -14,8 +14,6 @@ import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.cardview.widget.CardView;
 
 import com.example.homematch.R;
-import com.example.homematch.Interfaces.LoginCallBack;
-import com.example.homematch.Interfaces.UserTypeCallBack;
 import com.example.homematch.Utilities.FullScreenManager;
 import com.example.homematch.Utilities.MyDbDataManager;
 import com.example.homematch.Utilities.MyDbUserManager;
@@ -79,10 +77,10 @@ public class LoginActivity extends AppCompatActivity {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                     WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-            MyDbUserManager.getInstance().loginUser(login_INP_email.getText().toString(), login_INP_password.getText().toString(), this, new LoginCallBack() {
+            MyDbUserManager.getInstance().loginUser(login_INP_email.getText().toString(), login_INP_password.getText().toString(), this, new MyDbUserManager.LoginCallBack() {
                 @Override
                 public void onLoginSuccess(String uid) {
-                    MyDbDataManager.getInstance().checkUserType(uid, new UserTypeCallBack() {
+                    MyDbDataManager.getInstance().checkUserType(uid, new MyDbDataManager.UserTypeCallBack() {
 
                         @Override
                         public void onAgentType() {

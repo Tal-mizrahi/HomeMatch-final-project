@@ -19,8 +19,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.homematch.Interfaces.LogoutCallBack;
 import com.example.homematch.Interfaces.ManagePropertiesCallBack;
+import com.example.homematch.Models.Client;
 import com.example.homematch.R;
-import com.example.homematch.Models.Agent;
 import com.example.homematch.Utilities.MyDbDataManager;
 import com.example.homematch.Utilities.MyDbStorageManager;
 import com.github.dhaval2404.imagepicker.ImagePicker;
@@ -29,52 +29,41 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 
-public class AgentFragment extends Fragment {
+public class ClientFragment extends Fragment {
 
-    private static final String AGENT = "Agent";
-    private MaterialTextView agent_MTV_UserName;
-    private ExtendedFloatingActionButton agent_FAB_edit_profile;
-    private ShapeableImageView agent_IMG_user;
-    private MaterialButton agent_BTN_manage_properties;
-    private LinearLayoutCompat agent_LAY_logout;
-    private MaterialTextView agent_MTV_mySale;
-    private MaterialTextView agent_MTV_myRents;
-    private Agent agentUser;
+    private static final String CLIENT = "Client";
+    private MaterialTextView client_MTV_UserName;
+    private ExtendedFloatingActionButton client_FAB_edit_profile;
+    private ShapeableImageView client_IMG_user;
+    private LinearLayoutCompat client_LAY_logout;
     private ActivityResultLauncher<Intent> pickMedia;
     private LogoutCallBack logoutCallBack;
-    private ManagePropertiesCallBack managePropertiesCallBack;
-    public AgentFragment() {}
+    private Client client;
 
-    public AgentFragment(Agent agentUser) {
-        this.agentUser = agentUser;
-        Log.d("AgentFragment", "AgentFragment: " + agentUser.toString());
+    public ClientFragment() {
+        // Required empty public constructor
+    }
+
+    public ClientFragment(Client client) {
+        this.client = client;
+        Log.d("ClientFragment", "client constructor: " + client.toString());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_agent, container, false);
+        View view = inflater.inflate(R.layout.fragment_client, container, false);
         findViews(view);
-        initAgentUI();
-        agent_FAB_edit_profile.setOnClickListener(v -> editImage());
+        initClientUI();
+        client_FAB_edit_profile.setOnClickListener(v -> editImage());
         setPickMedia();
-        Log.d("AgentFragment", "replaced");
-        agent_LAY_logout.setOnClickListener(v -> logout());
-        agent_BTN_manage_properties.setOnClickListener(v -> moveToManageProperties());
+        Log.d("ClientFragment", "replaced");
+        client_LAY_logout.setOnClickListener(v -> logout());
         return view;
-    }
-
-    private void moveToManageProperties() {
-        if(managePropertiesCallBack != null){
-            managePropertiesCallBack.onManageProperties();
-        }
     }
 
     public void setLogoutCallBack(LogoutCallBack logoutCallBack) {
         this.logoutCallBack = logoutCallBack;
-    }
-    public void setManagePropertiesCallBack(ManagePropertiesCallBack managePropertiesCallBack) {
-        this.managePropertiesCallBack = managePropertiesCallBack;
     }
 
     private void logout() {
@@ -84,23 +73,24 @@ public class AgentFragment extends Fragment {
     }
 
     public void setUserImgUI() {
-        String imageUrl = agentUser.getImageUrl();
+        String imageUrl = client.getImageUrl();
         if (imageUrl != null) {
-            Glide.with(AgentFragment.this)
+            Glide.with(ClientFragment.this)
                     .load(imageUrl)
                     .placeholder(R.drawable.img_white)
                     .centerCrop()
-                    .into(agent_IMG_user);
+                    .into(client_IMG_user);
         }
     }
 
     public void updateProfileImg(Uri uri) {
-        Glide.with(AgentFragment.this)
+        Glide.with(ClientFragment.this)
                 .load(uri)
                 .placeholder(R.drawable.img_white)
                 .centerCrop()
-                .into(agent_IMG_user);
+                .into(client_IMG_user);
     }
+
 
     public void setPickMedia() {
         this.pickMedia =
@@ -111,18 +101,18 @@ public class AgentFragment extends Fragment {
                     if (resultCode == Activity.RESULT_OK) {
                         Uri uri = data.getData();
                         if (uri != null) {
-                            MyDbStorageManager.getInstance().uploadImage(uri, agentUser.getUid(), new MyDbStorageManager.ImgCallBack() {
+                            MyDbStorageManager.getInstance().uploadImage(uri, client.getUid(), new MyDbStorageManager.ImgCallBack() {
 
                                 @Override
                                 public void onSuccess(String imageUrl) {
-                                    agentUser.setImageUrl(imageUrl);
-                                    MyDbDataManager.getInstance().setUser(agentUser, AGENT);
+                                    client.setImageUrl(imageUrl);
+                                    MyDbDataManager.getInstance().setUser(client, CLIENT);
                                     updateProfileImg(uri);
                                 }
 
                                 @Override
                                 public void onFailure(Exception exception) {
-                                    Toast.makeText(AgentFragment.this.getContext(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ClientFragment.this.getContext(), exception.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             });
                             Log.d("PhotoPicker", "Selected URI: " + uri);
@@ -146,23 +136,22 @@ public class AgentFragment extends Fragment {
                 });
     }
 
-    public void initAgentUI() {
-        String fullName = agentUser.getFirstName() + "!";
-        agent_MTV_UserName.setText(fullName);
-        String myRents = agentUser.getNumOfRent() + " Properties for Rent";
-        String mySale = agentUser.getNumOfSale() + " Properties for Sale";
-        agent_MTV_myRents.setText(myRents);
-        agent_MTV_mySale.setText(mySale);
+    public void initClientUI() {
+        String fullName = client.getFirstName() + "!";
+        client_MTV_UserName.setText(fullName);
         setUserImgUI();
     }
 
+
+
+
+
+
     public void findViews(View view) {
-        agent_MTV_UserName = view.findViewById(R.id.agent_MTV_UserName);
-        agent_FAB_edit_profile = view.findViewById(R.id.agent_FAB_edit_profile);
-        agent_IMG_user = view.findViewById(R.id.agent_IMG_user);
-        agent_BTN_manage_properties = view.findViewById(R.id.agent_BTN_manage_properties);
-        agent_LAY_logout = view.findViewById(R.id.agent_LAY_logout);
-        agent_MTV_mySale = view.findViewById(R.id.agent_MTV_mySale);
-        agent_MTV_myRents = view.findViewById(R.id.agent_MTV_myRents);
+        client_MTV_UserName = view.findViewById(R.id.client_MTV_UserName);
+        client_FAB_edit_profile = view.findViewById(R.id.client_FAB_edit_profile);
+        client_IMG_user = view.findViewById(R.id.client_IMG_user);
+        client_LAY_logout = view.findViewById(R.id.client_LAY_logout);
+
     }
 }

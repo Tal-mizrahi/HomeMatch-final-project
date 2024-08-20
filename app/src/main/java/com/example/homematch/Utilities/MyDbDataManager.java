@@ -5,10 +5,6 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.homematch.Interfaces.HousesListCallBack;
-import com.example.homematch.Interfaces.LoadImgCallBack;
-import com.example.homematch.Interfaces.UserCallBack;
-import com.example.homematch.Interfaces.UserTypeCallBack;
 import com.example.homematch.Models.Apartment;
 import com.example.homematch.Models.Agent;
 import com.example.homematch.Models.Client;
@@ -22,16 +18,21 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class MyDbDataManager {
     private static Context context;
+    private static final String HOUSES = "Houses";
     private static volatile MyDbDataManager instance;
     private FirebaseDatabase mDatabase;
 
     private MyDbDataManager(Context context) {
         this.context = context;
         this.mDatabase = FirebaseDatabase.getInstance();
+
     }
 
 
@@ -46,13 +47,15 @@ public class MyDbDataManager {
     }
 
 
+
     public void setUser(User user, String type) {
         mDatabase.getReference().child("Users").child(type).child(user.getUid()).setValue(user);
     }
 
     public void setHouse(House house) {
-        mDatabase.getReference("Houses").child(house.getPurchaseType()).child(house.getHouseType()).child(house.getUuid()).setValue(house);
+        mDatabase.getReference(HOUSES).child(house.getPurchaseType()).child(house.getHouseType()).child(house.getUuid()).setValue(house);
     }
+
 
     public void checkUserType(String uid, UserTypeCallBack userTypeCallBack) {
         mDatabase.getReference().child("Users").child("Client").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -98,12 +101,65 @@ public class MyDbDataManager {
 
         });
     }
-
     public void getHouseList(String purchaseType, String houseType, HousesListCallBack housesListCallBack) {
-        mDatabase.getReference("Houses").child(purchaseType).child(houseType).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.getReference(HOUSES).child(purchaseType).child(houseType).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ArrayList<House> houses = new ArrayList<>();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                String currentDate = dateFormat.format(new Date());
+                String currentTime = timeFormat.format(new Date());
+
+                for (DataSnapshot houseSnapshot : snapshot.getChildren()) {
+                    House house;
+                    if (houseType.equals("Private House")) {
+                        house = houseSnapshot.getValue(PrivateHouse.class);
+                    } else {
+                        house = houseSnapshot.getValue(Apartment.class);
+                    }
+
+                    if (house != null) {
+                        //Log.d("compare", "Date/Time passed for house: " + house.getOpenHouseDate() + " " + house.getOpenHouseTime() + " " + house.getOpenHouseDate().equals(currentDate));
+                       // Log.d("compare2", "Date/Time passed for house: " +currentDate + " " + currentTime + " " + house.getOpenHouseTime().compareTo(currentTime));
+
+                        if (house.getOpenHouseDate() != null) {
+                            if (house.getOpenHouseDate().compareTo(currentDate) < 0 ||
+                                    (house.getOpenHouseDate().equals(currentDate) && house.getOpenHouseTime() != null && house.getOpenHouseTime().compareTo(currentTime) < 0)) {
+
+                                Log.d("compare", "Date/Time passed for house: " + house.getOpenHouseDate() + " " + house.getOpenHouseTime());
+
+                                // Reset the open house attributes if the date/time has passed
+                                house.resetOpenHouseData();
+
+                                // Update the changes in the database
+                                houseSnapshot.getRef().setValue(house);
+                            }
+                        }
+                        houses.add(house);
+                    }
+                }
+
+                housesListCallBack.onSuccess(houses);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                housesListCallBack.onFailure(error.toException());
+            }
+        });
+    }
+
+
+    public void getWeeklyOpenHousesList(String purchaseType, String houseType, HousesListCallBack housesListCallBack) {
+        mDatabase.getReference(HOUSES).child(purchaseType).child(houseType).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<House> houses = new ArrayList<>();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                String currentDate = dateFormat.format(new Date());
+                String currentTime = timeFormat.format(new Date());
                 for (DataSnapshot houseSnapshot : snapshot.getChildren()) {
                     House house;
                     if(houseType.equals("Private House")){
@@ -112,8 +168,25 @@ public class MyDbDataManager {
                         house = houseSnapshot.getValue(Apartment.class);
                     }
 
-                    if(house != null)
+                    if (house != null) {
+                        //Log.d("compare", "Date/Time passed for house: " + house.getOpenHouseDate() + " " + house.getOpenHouseTime() + " " + house.getOpenHouseDate().equals(currentDate));
+                        // Log.d("compare2", "Date/Time passed for house: " +currentDate + " " + currentTime + " " + house.getOpenHouseTime().compareTo(currentTime));
+
+                        if (house.getOpenHouseDate() != null) {
+                            if (house.getOpenHouseDate().compareTo(currentDate) < 0 ||
+                                    (house.getOpenHouseDate().equals(currentDate) && house.getOpenHouseTime() != null && house.getOpenHouseTime().compareTo(currentTime) < 0)) {
+
+                                Log.d("compare", "Date/Time passed for house: " + house.getOpenHouseDate() + " " + house.getOpenHouseTime());
+
+                                // Reset the open house attributes if the date/time has passed
+                                house.resetOpenHouseData();
+
+                                // Update the changes in the database
+                                houseSnapshot.getRef().setValue(house);
+                            }
+                        }
                         houses.add(house);
+                    }
                 }
 
                 housesListCallBack.onSuccess(houses);
@@ -125,12 +198,81 @@ public class MyDbDataManager {
 
         });
     }
+    public void loadClientOpenHouses(String purchaseType, String houseType, HousesListCallBack housesListCallBack) {
+        String clientUid = MyDbUserManager.getInstance().getUidOfCurrentUser();
+        Log.d("load", clientUid);
+        DatabaseReference databaseRef = mDatabase.getReference(HOUSES).child(purchaseType).child(houseType);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        String currentDate = dateFormat.format(new Date());
+        String currentTime = timeFormat.format(new Date());
+
+        databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<House> houses = new ArrayList<>();
+                for (DataSnapshot houseSnapshot : snapshot.getChildren()) {
+                    House house;
+                    if (houseType.equals("Private House")) {
+                        house = houseSnapshot.getValue(PrivateHouse.class);
+                    } else {
+                        house = houseSnapshot.getValue(Apartment.class);
+                    }
+
+                    if (house != null) {
+                        if (house.getOpenHouseDate() != null) {
+                            if (house.getOpenHouseDate().compareTo(currentDate) < 0 ||
+                                    (house.getOpenHouseDate().equals(currentDate) && house.getOpenHouseTime() != null && house.getOpenHouseTime().compareTo(currentTime) < 0)) {
+
+                                Log.d("compare", "Date/Time passed for house: " + house.getOpenHouseDate() + " " + house.getOpenHouseTime());
+
+                                // Reset the open house attributes if the date/time has passed
+                                house.resetOpenHouseData();
+
+                                // Update the changes in the database
+                                houseSnapshot.getRef().setValue(house);
+                            }
+                        }
+
+                        // Add houses to the list if they contain the client's UID in the open house sign-ups
+                        if (house.getOpenHouseSignUps() != null && house.getOpenHouseSignUps().containsKey(clientUid)) {
+                            houses.add(house);
+                        }
+                    }
+                }
+
+                // Sort the list by open house date and time
+                houses.sort((house1, house2) -> {
+                    int dateComparison = house1.getOpenHouseDate().compareTo(house2.getOpenHouseDate());
+                    if (dateComparison != 0) {
+                        return dateComparison;
+                    }
+                    return house1.getOpenHouseTime().compareTo(house2.getOpenHouseTime());
+                });
+
+                housesListCallBack.onSuccess(houses);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                housesListCallBack.onFailure(error.toException());
+            }
+        });
+    }
+
+
 
     public void loadAgentProperties( String purchaseType, String houseType,HousesListCallBack housesListCallBack) {
+
+
         String agentUid = MyDbUserManager.getInstance().getUidOfCurrentUser();
         Log.d("load", agentUid);
         DatabaseReference databaseRef = mDatabase.getReference("Houses").child(purchaseType).child(houseType);
-        Query eventsQuery = databaseRef.orderByChild("brokerId").equalTo(agentUid);
+        Query eventsQuery = databaseRef.orderByChild("agentId").equalTo(agentUid);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        String currentDate = dateFormat.format(new Date());
+        String currentTime = timeFormat.format(new Date());
         eventsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -143,8 +285,25 @@ public class MyDbDataManager {
                         house = houseSnapshot.getValue(Apartment.class);
                     }
 
-                    if(house != null)
+                    if (house != null) {
+                        //Log.d("compare", "Date/Time passed for house: " + house.getOpenHouseDate() + " " + house.getOpenHouseTime() + " " + house.getOpenHouseDate().equals(currentDate));
+                        // Log.d("compare2", "Date/Time passed for house: " +currentDate + " " + currentTime + " " + house.getOpenHouseTime().compareTo(currentTime));
+
+                        if (house.getOpenHouseDate() != null) {
+                            if (house.getOpenHouseDate().compareTo(currentDate) < 0 ||
+                                    (house.getOpenHouseDate().equals(currentDate) && house.getOpenHouseTime() != null && house.getOpenHouseTime().compareTo(currentTime) < 0)) {
+
+                                Log.d("compare", "Date/Time passed for house: " + house.getOpenHouseDate() + " " + house.getOpenHouseTime());
+
+                                // Reset the open house attributes if the date/time has passed
+                                house.resetOpenHouseData();
+
+                                // Update the changes in the database
+                                houseSnapshot.getRef().setValue(house);
+                            }
+                        }
                         houses.add(house);
+                    }
                 }
 
                 housesListCallBack.onSuccess(houses);
@@ -157,35 +316,31 @@ public class MyDbDataManager {
         });
     }
 
-    public void getUserImage(String userId,String userType, LoadImgCallBack loadImgCallBack) {
-        DatabaseReference usersRef = mDatabase.getReference("Users");
+    public void housePurchase(String purchaseType, String houseType,String houseId) {
 
-        usersRef.child(userType).child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
-
-                if (user != null) {
-                    loadImgCallBack.OnLoadImg(user.getImageUrl());
-                } else {
-                    loadImgCallBack.OnLoadImg(null);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        Log.d("Delete", "delete house: " + houseId);
+        mDatabase.getReference(HOUSES).child(purchaseType).child(houseType).child(houseId).removeValue();
     }
 
-    public void updateUserImage(String uid, String userType, String imageUrl) {
-        //String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        mDatabase.getReference("Users").child(userType).child(uid).child("imageUrl").setValue(imageUrl);
+    public interface UserTypeCallBack {
 
-//                .addOnSuccessListener(unused -> {
-//                    callBack.res(null);
-//                });
+        void onAgentType();
+        void onClientType();
+    }
+
+    public interface HousesListCallBack {
+        void onSuccess(ArrayList<House> allHouses);
+        void onFailure(Exception exception);
+    }
+
+    public interface LoadImgCallBack {
+
+        void OnLoadImg(String imageUrl);
+    }
+
+    public interface UserCallBack {
+        void onSuccess(User currentUser);
+        void onFailure();
     }
 
 }

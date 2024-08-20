@@ -27,18 +27,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.homematch.Adapters.ImageAdapter;
+import com.example.homematch.Models.Agent;
 import com.example.homematch.R;
 import com.example.homematch.Activities.LoginActivity;
 import com.example.homematch.Interfaces.HouseAddedCallBack;
-import com.example.homematch.Interfaces.ImgCallBack;
-import com.example.homematch.Interfaces.ImgListCallBack;
 import com.example.homematch.Models.Apartment;
 import com.example.homematch.Models.House;
 import com.example.homematch.Models.PrivateHouse;
 import com.example.homematch.Utilities.FullScreenManager;
 import com.example.homematch.Utilities.MyDbDataManager;
 import com.example.homematch.Utilities.MyDbStorageManager;
-import com.example.homematch.Utilities.MyDbUserManager;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.textfield.TextInputEditText;
@@ -54,7 +52,6 @@ public class AddingPropertyFragment extends Fragment {
     private TextInputLayout homeMatch_LAY_city;
     private TextInputLayout homeMatch_LAY_street;
     private TextInputLayout homeMatch_LAY_street_number;
-    private TextInputLayout homeMatch_LAY_postal_code;
     private TextInputLayout homeMatch_LAY_floor_number;
     private TextInputLayout homeMatch_LAY_apt_number;
     private TextInputLayout homeMatch_LAY_price;
@@ -66,7 +63,6 @@ public class AddingPropertyFragment extends Fragment {
     private TextInputEditText homeMatch_INP_city;
     private TextInputEditText homeMatch_INP_street;
     private TextInputEditText homeMatch_INP_street_number;
-    private TextInputEditText homeMatch_INP_postal_code;
     private TextInputEditText homeMatch_INP_floor_number;
     private TextInputEditText homeMatch_INP_number_of_rooms;
     private TextInputEditText homeMatch_INP_apt_number;
@@ -104,6 +100,8 @@ public class AddingPropertyFragment extends Fragment {
     private HouseAddedCallBack houseAddedCallBack;
     private static final int MAX_SELECTION = 5;
     private int imgSelected = 0;
+
+    Agent agentUser;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -126,6 +124,11 @@ public class AddingPropertyFragment extends Fragment {
 
     public void setHouseAddedCallBack(HouseAddedCallBack houseAddedCallBack) {
         this.houseAddedCallBack = houseAddedCallBack;
+    }
+
+    public void setAgentUser(Agent agentUser){
+        this.agentUser = agentUser;
+        Log.d("agent", "AddingApartmentFragment: " + agentUser.toString());
     }
 
     public void addingApartment() {
@@ -157,7 +160,7 @@ public class AddingPropertyFragment extends Fragment {
 
             }
 
-            MyDbStorageManager.getInstance().uploadHouseImages(imagesUri, uuid, new ImgListCallBack() {
+            MyDbStorageManager.getInstance().uploadHouseImages(imagesUri, uuid, new MyDbStorageManager.ImgListCallBack() {
                 @Override
                 public void onSuccess(ArrayList<String> list) {
                     if (list.size() == imagesUri.size()) {
@@ -165,6 +168,7 @@ public class AddingPropertyFragment extends Fragment {
                         Log.d("AddingApartmentFragment", "onSuccess: " + house.toString());
                         Log.d("AddingApartmentFragment", "ImagesUrl: " + list);
                         MyDbDataManager.getInstance().setHouse(house);
+                        updateUserNumOfProperties(house.getPurchaseType());
                         AddingPropertyFragment.this.requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         if(houseAddedCallBack != null)
                             houseAddedCallBack.onHouseAdded();
@@ -184,6 +188,14 @@ public class AddingPropertyFragment extends Fragment {
         }
     }
 
+    public void updateUserNumOfProperties(String purchaseType){
+        if(purchaseType.equals("Sale"))
+            agentUser.addSaleProperty();
+        else //Rent
+            agentUser.addRentProperty();
+        MyDbDataManager.getInstance().setUser(agentUser, "Agent");
+    }
+
     public void setHouse(House house, ArrayList<String> imagesUrl) {
         String purchaseType = isForSale ? "Sale" : "Rent";
 
@@ -193,37 +205,37 @@ public class AddingPropertyFragment extends Fragment {
 
         house.setNumberOfRooms(Integer.parseInt(homeMatch_INP_number_of_rooms.getText().toString()));
         house.setStreetNumber(Integer.parseInt(homeMatch_INP_street_number.getText().toString()));
-        house.setPostalCode(Integer.parseInt(homeMatch_INP_postal_code.getText().toString()));
 
         house.setStreet(homeMatch_INP_street.getText().toString());
         house.setCity(homeMatch_INP_city.getText().toString());
 
 
-        String agentId = MyDbUserManager.getInstance().getUidOfCurrentUser();
-        if(agentId == null){
-            Toast.makeText(this.getContext(), "There is no user connected", Toast.LENGTH_SHORT).show();
-            Log.d("AddingApartmentFragment", "setHouse: There is no user connected");
-            startActivity(new Intent(this.getContext(), LoginActivity.class)); // Redirect to login if not logged in
-            this.requireActivity().finish();
-        } else {
-            house.setAgentId(agentId);
-        }
+//        String agentId = MyDbUserManager.getInstance().getUidOfCurrentUser();
+//        if(agentId == null){
+//            Toast.makeText(this.getContext(), "There is no user connected", Toast.LENGTH_SHORT).show();
+//            Log.d("AddingApartmentFragment", "setHouse: There is no user connected");
+//            startActivity(new Intent(this.getContext(), LoginActivity.class)); // Redirect to login if not logged in
+//            this.requireActivity().finish();
+//        } else {
+//            house.setAgentId(agentId);
+//        }
+
+        house.setAgentId(agentUser.getUid());
+
 
         house.setHasProtectedRoom(homeMatch_CHKBOX_protected_room.isChecked());
         house.setHasElevator(homeMatch_CHKBOX_elevator.isChecked());
         house.setHasGarage(homeMatch_CHKBOX_garage.isChecked());
         house.setHasParking(homeMatch_CHKBOX_parking.isChecked());
-//        if(homeMatch_CHKBOX_balcony.isChecked() || houseType.equals("Garden Apartment"))
-//        {
-//            house.setHasBalcony(true);
-//            house.setBalconyOrGardenSize(Double.parseDouble(homeMatch_INP_balcony_size.getText().toString()));
-//
-//        } else {
-//            house.setHasBalcony(false);
-//            house.setBalconyOrGardenSize(null);
-//        }
-        house.setHasBalcony(homeMatch_CHKBOX_balcony.isChecked());
-        house.setBalconyOrGardenSize(Integer.parseInt(homeMatch_INP_balcony_size.getText().toString()));
+        if(homeMatch_CHKBOX_balcony.isChecked() || house.getHouseType().equals("Garden Apartment"))
+        {
+            house.setHasBalcony(true);
+            house.setBalconyOrGardenSize(Integer.parseInt(homeMatch_INP_balcony_size.getText().toString()));
+
+        } else {
+            house.setHasBalcony(false);
+            house.setBalconyOrGardenSize(null);
+        }
         if (purchaseType.equals("Rent")){
             house.setBillsIncluded(homeMatch_CHKBOX_bills.isChecked());
             house.setPetsAllowed(homeMatch_CHKBOX_pets_allowed.isChecked());
@@ -272,17 +284,7 @@ public void setImgToSelect(){
                         setImgToSelect();
                         Log.d("PhotoPicker", "Number of items selected: " + uris.size());
                         imageAdapter.notifyDataSetChanged();
-                        MyDbStorageManager.getInstance().uploadHouseImage(imagesUri.get(0), "test", "test", new ImgCallBack() {
-                            @Override
-                            public void onSuccess(String imageUrl) {
-                                Toast.makeText(AddingPropertyFragment.this.getContext(), "Uploaded success " + imageUrl, Toast.LENGTH_SHORT).show();
-                            }
 
-                            @Override
-                            public void onFailure(Exception exception) {
-                                Toast.makeText(AddingPropertyFragment.this.getContext(), "Uploaded failed " + exception.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
                     }
                     updateUI();
                 } else {
@@ -323,17 +325,24 @@ private void updateUI() {
                     case "Private House":
                         homeMatch_LAY_balcony_size.setHint("Balcony Size");
                         homeMatch_LL_floor_apt.setVisibility(View.GONE);
+                        homeMatch_CHKBOX_balcony.setVisibility(View.VISIBLE);
+                        homeMatch_LAY_balcony_size.setVisibility(View.GONE);
                         break;
                     case "Apartment":
                     case "Penthouse":
                     case "Duplex":
                         homeMatch_LAY_balcony_size.setHint("Balcony Size");
                         homeMatch_LL_floor_apt.setVisibility(View.VISIBLE);
+                        homeMatch_CHKBOX_balcony.setVisibility(View.VISIBLE);
+                        homeMatch_LAY_balcony_size.setVisibility(View.GONE);
+
                         break;
                     case "Garden Apartment":
                         homeMatch_LAY_balcony_size.setHint("Garden Size");
                         homeMatch_LL_floor_apt.setVisibility(View.VISIBLE);
                         homeMatch_CHKBOX_balcony.setVisibility(View.GONE);
+                        homeMatch_CHKBOX_balcony.setChecked(false);
+                        homeMatch_LAY_balcony_size.setVisibility(View.VISIBLE);
                         break;
                 }
             }
@@ -390,7 +399,6 @@ private void updateUI() {
         homeMatch_LAY_city.setError(null);
         homeMatch_LAY_street.setError(null);
         homeMatch_LAY_street_number.setError(null);
-        homeMatch_LAY_postal_code.setError(null);
         homeMatch_LAY_floor_number.setError(null);
         homeMatch_LAY_apt_number.setError(null);
         homeMatch_LAY_price.setError(null);
@@ -433,12 +441,6 @@ private void updateUI() {
             homeMatch_LAY_street_number.setError(null);
         }
 
-        if (TextUtils.isEmpty(homeMatch_INP_postal_code.getText())) {
-            homeMatch_LAY_postal_code.setError("Postal code is required");
-            isValid = false;
-        } else {
-            homeMatch_LAY_postal_code.setError(null);
-        }
 
         if (TextUtils.isEmpty(homeMatch_INP_floor_number.getText())) {
             homeMatch_LAY_floor_number.setError("Floor number is required");
@@ -488,8 +490,6 @@ private void updateUI() {
         homeMatch_INP_street = view.findViewById(R.id.homeMatch_INP_street);
         homeMatch_LAY_street_number = view.findViewById(R.id.homeMatch_LAY_street_number);
         homeMatch_INP_street_number = view.findViewById(R.id.homeMatch_INP_street_number);
-        homeMatch_LAY_postal_code = view.findViewById(R.id.homeMatch_LAY_postal_code);
-        homeMatch_INP_postal_code = view.findViewById(R.id.homeMatch_INP_postal_code);
         homeMatch_SPN_apartment_type = view.findViewById(R.id.homeMatch_SPN_apartment_type);
         homeMatch_LAY_floor_number = view.findViewById(R.id.homeMatch_LAY_floor_number);
         homeMatch_INP_floor_number = view.findViewById(R.id.homeMatch_INP_floor_number);

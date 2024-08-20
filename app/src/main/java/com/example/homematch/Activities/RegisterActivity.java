@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.example.homematch.R;
-import com.example.homematch.Interfaces.CreationCallBack;
 import com.example.homematch.Models.Agent;
 import com.example.homematch.Models.Client;
 import com.example.homematch.Models.User;
@@ -66,6 +65,17 @@ public class RegisterActivity extends AppCompatActivity {
         // Set default checked button
         toggleGroup.check(R.id.register_BTN_agent);
         setListeners();
+
+        View decorView = getWindow().getDecorView();
+        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+            @Override
+            public void onSystemUiVisibilityChange(int visibility) {
+                if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
+                    // Navigation bar is visible
+                    FullScreenManager.getInstance().fullScreen(getWindow());
+                }
+            }
+        });
     }
 
     @Override
@@ -111,9 +121,9 @@ public class RegisterActivity extends AppCompatActivity {
                 String phoneNum = Objects.requireNonNull(register_INP_phone.getText()).toString();
                 String password = Objects.requireNonNull(register_INP_password.getText()).toString();
                 Log.d("Register", "Register"+email+password);
-                MyDbUserManager.getInstance().createNewUser(email, password, this, new CreationCallBack() {
+                MyDbUserManager.getInstance().createNewUser(email, password, this, new MyDbUserManager.UserCreationCallBack() {
                     @Override
-                    public void onCreated(String uid) {
+                    public void onUserCreated(String uid) {
                         String userType;
                         User theUser;
                         String imageUrl = null; // the user will init the image url in the homepage
@@ -131,7 +141,7 @@ public class RegisterActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onCreationFailed(Exception exception) {
+                    public void onUserCreationFailed(Exception exception) {
                         Toast.makeText(RegisterActivity.this,  exception.getMessage(), Toast.LENGTH_SHORT).show();
                         register_REL_main.setAlpha(1);
                         register_REL_main.setEnabled(true);

@@ -27,7 +27,7 @@
         app:menu="@menu/agent_bottom_nav_menu"
         app:itemRippleColor="@color/light_orange2"
         app:itemActiveIndicatorStyle="@color/light_orange2"
-        app:itemBackground="@drawable/nav_bar_backgroud_selector"
+        app:itemBackground="@drawable/nav_bar_background_selector"
         app:itemIconTint="@drawable/bottom_nav_color_selector"
         app:itemTextColor="@drawable/bottom_nav_color_selector"
         android:background="@color/white"/>

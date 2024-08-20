@@ -62,8 +62,11 @@ public class AllHousesPageFragment extends Fragment {
             allHouses_LBL_title.setGravity(Gravity.CENTER_HORIZONTAL);
         }
         //Initial values
-        currentHouseType = buttons[0];
+        currentHouseType = buttons[4];
         currentPurchaseType = FOR_SALE;
+        currentHouseType.getButton().setBackgroundColor(Color.parseColor("#F56C42"));;
+        currentHouseType.getButton().setIconTint(ColorStateList.valueOf(Color.parseColor("#FFE6D5")));;
+        toggleGroup.check(R.id.allHouses_BTN_for_sale);
         Log.d("AllHousesPageFragment", "onCreateView: " + showPropertiesType.name());
         listFragment = new HousesListFragment(showPropertiesType);
         listFragment.setHousesListUI(currentPurchaseType, currentHouseType.getHouseType());
