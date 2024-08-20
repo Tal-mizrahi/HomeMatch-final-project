@@ -70,13 +70,18 @@ We welcome contributions to HomeMatch! To contribute:
 
 6. Create a pull request.
 
-Login page: 
-![Screenshot_20240820-235859_HomeMatch](https://github.com/user-attachments/assets/f1f9e5cf-b76a-472c-9696-6290859cf119)
+## Agent Profile:
+<img src="https://github.com/user-attachments/assets/3028a0b2-7539-4e7c-9f90-8917e6fc26f3" alt="Screenshot_20240820-235933_HomeMatch" width="300">
 
- ##Agent Profile: ![Screenshot_20240820-235933_HomeMatch](https://github.com/user-attachments/assets/3028a0b2-7539-4e7c-9f90-8917e6fc26f3)
- ##All Houses: ![Screenshot_20240821-000100_HomeMatch](https://github.com/user-attachments/assets/a7cccf0c-906f-492d-80ad-8272f3b728ea)
- ##Client Profile: ![Screenshot_20240821-000315_HomeMatch](https://github.com/user-attachments/assets/bfd02076-9f7d-4d04-a8b8-c860fadded64)
- ##House details: ![hohsedetails](https://github.com/user-attachments/assets/839b0d01-fe7b-43a3-94a7-9d540223fceb)
+## All Houses:
+<img src="https://github.com/user-attachments/assets/a7cccf0c-906f-492d-80ad-8272f3b728ea" alt="Screenshot_20240821-000100_HomeMatch" width="300">
+
+## Client Profile:
+<img src="https://github.com/user-attachments/assets/bfd02076-9f7d-4d04-a8b8-c860fadded64" alt="Screenshot_20240821-000315_HomeMatch" width="300">
+
+## House details:
+<img src="https://github.com/user-attachments/assets/839b0d01-fe7b-43a3-94a7-9d540223fceb" alt="hohsedetails" width="300">
+
 
 
  
@@ -88,5 +93,5 @@ Login page:
 
 
 
-ךם
+
 
