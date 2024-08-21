@@ -87,7 +87,7 @@ public class AddingPropertyFragment extends Fragment {
     private CheckBox homeMatch_CHKBOX_protected_room;
 
     private MaterialButton homeMatch_BTN_finish;
-
+    private ActivityResultLauncher<PickVisualMediaRequest> pickMultipleMedia;
 
     private  RecyclerView homeMatch_LST_images;
 
@@ -116,8 +116,8 @@ public class AddingPropertyFragment extends Fragment {
         setFormUI();
         initAdapter();
         setCheckBoxUI();
+        setPickMedia();
         homeMatch_BTN_add_image.setOnClickListener(v -> uploadImages());
-        //getCurrentUser();
         homeMatch_BTN_finish.setOnClickListener(v -> addingApartment());
         return view;
     }
@@ -125,11 +125,6 @@ public class AddingPropertyFragment extends Fragment {
     public void setHouseAddedCallBack(HouseAddedCallBack houseAddedCallBack) {
         this.houseAddedCallBack = houseAddedCallBack;
     }
-
-//    public void setAgentUser(Agent agentUser){
-//        this.agentUser = agentUser;
-//        Log.d("agent", "AddingApartmentFragment: " + agentUser.toString());
-//    }
 
     public void addingApartment() {
         if(validateInput()) {
@@ -175,6 +170,7 @@ public class AddingPropertyFragment extends Fragment {
                     Log.d("AddingApartmentFragment", "ImagesUrl: " + list);
                     MyDbDataManager.getInstance().setHouse(house);
                     updateUserNumOfProperties(house.getPurchaseType());
+                    imagesUri = new ArrayList<>();
                     AddingPropertyFragment.this.requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     if(houseAddedCallBack != null)
                         houseAddedCallBack.onHouseAdded();
@@ -272,13 +268,13 @@ public void setImgToSelect(){
 }
 
 
-
-    ActivityResultLauncher<PickVisualMediaRequest> pickMultipleMedia =
+public void setPickMedia() {
+    pickMultipleMedia =
             registerForActivityResult(new ActivityResultContracts.PickMultipleVisualMedia(MAX_SELECTION - imgSelected), uris -> {
                 Log.d("PhotoPicker", "Number of items to select: " + (MAX_SELECTION - imgSelected));
                 if (!uris.isEmpty()) {
                     //imagesUri.clear();
-                    if(uris.size() > MAX_SELECTION - imgSelected){
+                    if (uris.size() > MAX_SELECTION - imgSelected) {
                         Toast.makeText(getContext(), "You can select only " + (MAX_SELECTION - imgSelected) + " more images", Toast.LENGTH_SHORT).show();
                     } else {
                         imagesUri.addAll(uris);
@@ -294,7 +290,7 @@ public void setImgToSelect(){
                 }
             });
 
-
+}
     public void uploadImages() {
         pickMultipleMedia.launch(new PickVisualMediaRequest.Builder()
                 .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)

@@ -94,13 +94,15 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
             if(showPropertiesType.equals(ShowPropertiesType.ALL_HOUSES_CLIENT)) {
                 holder.property_BTN_sign_up_to_house.setVisibility(View.VISIBLE);
 
+            }else {
+                holder.property_BTN_sign_up_to_house.setVisibility(View.GONE);
             }
 
 
-            if(showPropertiesType.equals(ShowPropertiesType.OPEN_HOUSES_CLIENT) ||
-                    showPropertiesType.equals(ShowPropertiesType.ALL_HOUSES_CLIENT)) {
+            if(showPropertiesType.equals(ShowPropertiesType.OPEN_HOUSES_CLIENT)
+                    || showPropertiesType.equals(ShowPropertiesType.ALL_HOUSES_CLIENT)){
                 if(house.getOpenHouseSignUps().containsKey(MyDbUserManager.getInstance().getUidOfCurrentUser())) {
-                    holder.property_BTN_sign_up_to_house.setVisibility(View.VISIBLE);
+                    //holder.property_BTN_sign_up_to_house.setVisibility(View.VISIBLE);
                     holder.property_BTN_sign_up_to_house.setText("Unregister");
                     holder.property_BTN_sign_up_to_house.setIconResource(R.drawable.ic_cancel);
                     isSignUp = false;
@@ -129,7 +131,11 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
                 });
 
             }
-        } else {
+        } else if (showPropertiesType.equals(ShowPropertiesType.OPEN_HOUSES_CLIENT)
+                || showPropertiesType.equals(ShowPropertiesType.ALL_HOUSES_CLIENT)) {
+            holder.property_BTN_sign_up_to_house.setVisibility(View.GONE);
+            holder.property_LAY_open_day.setVisibility(View.GONE);
+        } else{
             holder.property_LAY_open_day.setVisibility(View.GONE);
         }
 
