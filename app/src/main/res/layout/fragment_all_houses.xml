@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:paddingTop="@dimen/title_size"
-    tools:context=".Fragments.AllHousesPageFragment">
+    tools:context=".Fragments.AllHousesFragment">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/allHouses_LBL_title"
@@ -243,12 +243,31 @@
 
     </androidx.cardview.widget.CardView>
 
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/allHouses_LAY_FRAME"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="15dp"
         android:layout_below="@id/allHouses_CARD_options">
 
-    </FrameLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/allHouses_LBL_no_houses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No Houses Yet"
+            android:textSize="20sp"
+            android:fontFamily="@font/poppins_regular"
+            android:textColor="@color/grey_light"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/allHouses_LST_houses"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            tools:listitem="@layout/house_item"/>
+
+    </RelativeLayout>
 </RelativeLayout>

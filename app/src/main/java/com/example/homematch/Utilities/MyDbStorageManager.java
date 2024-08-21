@@ -46,15 +46,15 @@ public class MyDbStorageManager {
             StorageReference imageRef = rootRef.child(imgId + ".jpg");
             imageRef.delete();
         }
-        rootRef.delete().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                // Folder and images deleted successfully
-                Log.d("Delete","House folder and images deleted successfully");
-            } else {
-                // Handle the error
-                Log.d("Delete","Error deleting house folder and images: " + task.getException().getMessage());
-            }
-        });
+//        rootRef.delete().addOnCompleteListener(task -> {
+//            if (task.isSuccessful()) {
+//                // Folder and images deleted successfully
+//                Log.d("Delete","House folder and images deleted successfully");
+//            } else {
+//                // Handle the error
+//                Log.d("Delete","Error deleting house folder and images: " + task.getException().getMessage());
+//            }
+//        });
     }
 
 

@@ -4,11 +4,6 @@ package com.example.homematch.Utilities;
 import android.app.Dialog;
 import android.content.Context;
 import android.text.TextUtils;
-import android.view.View;
-import android.widget.Toast;
-import androidx.annotation.NonNull;
-
-import com.example.homematch.Adapters.HouseAdapter;
 import com.example.homematch.Interfaces.ScheduleCallBack;
 import com.example.homematch.Models.House;
 import com.example.homematch.R;
@@ -87,20 +82,6 @@ public class ScheduleOpenHouseDialogManager {
     }
 
 
-//    private void showDatePicker(Context context) {
-//        Calendar calendar = Calendar.getInstance();
-//        int year = calendar.get(Calendar.YEAR);
-//        int month = calendar.get(Calendar.MONTH);
-//        int day = calendar.get(Calendar.DAY_OF_MONTH);
-//
-//        android.app.DatePickerDialog datePickerDialog = new android.app.DatePickerDialog(context,
-//                (view, selectedYear, selectedMonth, selectedDay) -> {
-//                    String selectedDate = String.format("%02d/%02d/%d", selectedDay, selectedMonth + 1, selectedYear);
-//                    dateInput.setText(selectedDate);
-//                }, year, month, day);
-//        datePickerDialog.show();
-//    }
-
     private void showDatePicker(Context context) {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -136,6 +117,7 @@ public class ScheduleOpenHouseDialogManager {
     public void setScheduleCallBack(ScheduleCallBack scheduleCallBack) {
         this.scheduleCallBack = scheduleCallBack;
     }
+
 
 
     private void findViews() {

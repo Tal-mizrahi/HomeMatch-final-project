@@ -9,15 +9,10 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
-import com.example.homematch.Fragments.AgentFragment;
-import com.example.homematch.Fragments.AllHousesPageFragment;
+import com.example.homematch.Fragments.AllHousesFragment;
 import com.example.homematch.Fragments.ClientFragment;
-import com.example.homematch.Models.Agent;
 import com.example.homematch.Models.Client;
 import com.example.homematch.Models.ShowPropertiesType;
 import com.example.homematch.Models.User;
@@ -73,10 +68,10 @@ public class ClientActivity extends AppCompatActivity {
                 replaceFragment(clientFragment);
             }
             if (item.getItemId() == R.id.client_ITM_all_houses) {
-                replaceFragment(new AllHousesPageFragment(ShowPropertiesType.ALL_HOUSES_CLIENT));
+                replaceFragment(new AllHousesFragment(ShowPropertiesType.ALL_HOUSES_CLIENT));
             }
             if (item.getItemId() == R.id.client_ITM_open_houses) {
-                replaceFragment(new AllHousesPageFragment(ShowPropertiesType.OPEN_HOUSES_CLIENT));
+                replaceFragment(new AllHousesFragment(ShowPropertiesType.OPEN_HOUSES_CLIENT));
             }
             return true;
         });

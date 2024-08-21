@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -12,13 +11,9 @@ import androidx.fragment.app.Fragment;
 import com.example.homematch.Models.ShowPropertiesType;
 import com.example.homematch.R;
 import com.example.homematch.Fragments.AddingPropertyFragment;
-import com.example.homematch.Fragments.AllHousesPageFragment;
+import com.example.homematch.Fragments.AllHousesFragment;
 import com.example.homematch.Fragments.AgentFragment;
-import com.example.homematch.Models.Agent;
-import com.example.homematch.Models.User;
 import com.example.homematch.Utilities.FullScreenManager;
-import com.example.homematch.Utilities.MyDbDataManager;
-import com.example.homematch.Utilities.MyDbUserManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class AgentActivity extends AppCompatActivity {
@@ -79,7 +74,7 @@ public class AgentActivity extends AppCompatActivity {
                 replaceFragment(agentFragment);
             }
             if (item.getItemId() == R.id.homeMatch_ITM_all_houses) {
-                replaceFragment(new AllHousesPageFragment(ShowPropertiesType.ALL_HOUSES_AGENT));
+                replaceFragment(new AllHousesFragment(ShowPropertiesType.ALL_HOUSES_AGENT));
             }
             //addingPropertyFragment = new AddingPropertyFragment();
             if (item.getItemId() == R.id.homeMatch_ITM_add_house) {
@@ -91,7 +86,7 @@ public class AgentActivity extends AppCompatActivity {
 
         addingPropertyFragment.setHouseAddedCallBack(() -> {
 
-            replaceFragment(new AllHousesPageFragment(ShowPropertiesType.ALL_HOUSES_AGENT));
+            replaceFragment(new AllHousesFragment(ShowPropertiesType.ALL_HOUSES_AGENT));
             bottomNavigationView.setSelectedItemId(R.id.homeMatch_ITM_all_houses);
         });
         setAgentFragmentListeners();
@@ -113,7 +108,7 @@ public class AgentActivity extends AppCompatActivity {
 
         agentFragment.setManagePropertiesCallBack(() -> {
             Log.d("ManageProperties", "show manage properties ");
-            AgentActivity.this.replaceFragment(new AllHousesPageFragment(ShowPropertiesType.AGENT_PROPERTIES));
+            AgentActivity.this.replaceFragment(new AllHousesFragment(ShowPropertiesType.AGENT_PROPERTIES));
         });
     }
 

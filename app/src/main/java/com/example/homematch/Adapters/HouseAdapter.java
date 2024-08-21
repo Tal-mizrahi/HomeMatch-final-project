@@ -2,6 +2,7 @@ package com.example.homematch.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.example.homematch.R;
 import com.example.homematch.Interfaces.HouseDetailsCallBack;
 import com.example.homematch.Models.House;
 import com.example.homematch.Interfaces.OpenHouseSignUpCallBack;
+import com.example.homematch.Utilities.MyDbUserManager;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -41,6 +43,7 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
     private OpenHouseSignUpCallBack openHouseSignUpCallBack;
     private HouseDeleteCallBack houseDeleteCallBack;
     private CancelOpenHouseCallBack cancelOpenHouseCallBack;
+    private boolean isSignUp = true;
 
     public HouseAdapter(Context context, ArrayList<House> allHousesList, ShowPropertiesType showPropertiesType) {
         this.context = context;
@@ -48,6 +51,11 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
         this.showPropertiesType = showPropertiesType;
         imageList = new ArrayList<>();
 
+    }
+
+    public void setAllHousesList(ArrayList<House> allHousesList) {
+        this.allHousesList = allHousesList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -61,12 +69,13 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
     @Override
     public void onBindViewHolder(@NonNull HouseViewHolder holder, int position) {
         House house = getItem(position);
+        Log.d("HouseAdapter", "onBindViewHolder: " + house.toString());
         setAllImagesList(house);
         holder.property_image_slider.setImageList(imageList);
 //        holder.property_IMG_favorite =
-        holder.property_LBL_status.setText(String.valueOf("For " + house.getPurchaseType()));
+        holder.property_LBL_status.setText("For " + house.getPurchaseType());
 //        holder.property_CARD_data =
-        holder.property_LBL_address.setText(String.valueOf(house.getStreet() + " " + house.getStreetNumber() + ",\n" + house.getCity()));
+        holder.property_LBL_address.setText(house.getStreet() + " " + house.getStreetNumber() + ",\n" + house.getCity());
         holder.property_LBL_size.setText(formatWithCommas(house.getAreaSize()) + " m²");
         holder.property_LBL_rooms.setText(formatWithCommas(house.getNumberOfRooms()) + " Rooms" );
         holder.property_LBL_price.setText("₪" + formatWithCommas(house.getPrice()));
@@ -84,12 +93,29 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
             holder.property_LBL_open_day_time.setText(house.getOpenHouseTime());
             if(showPropertiesType.equals(ShowPropertiesType.ALL_HOUSES_CLIENT)) {
                 holder.property_BTN_sign_up_to_house.setVisibility(View.VISIBLE);
+
+            }
+
+
+            if(showPropertiesType.equals(ShowPropertiesType.OPEN_HOUSES_CLIENT) ||
+                    showPropertiesType.equals(ShowPropertiesType.ALL_HOUSES_CLIENT)) {
+                if(house.getOpenHouseSignUps().containsKey(MyDbUserManager.getInstance().getUidOfCurrentUser())) {
+                    holder.property_BTN_sign_up_to_house.setVisibility(View.VISIBLE);
+                    holder.property_BTN_sign_up_to_house.setText("Unregister");
+                    holder.property_BTN_sign_up_to_house.setIconResource(R.drawable.ic_cancel);
+                    isSignUp = false;
+                } else {
+                    isSignUp = true;
+                }
                 holder.property_BTN_sign_up_to_house.setOnClickListener(v -> {
                     if (openHouseSignUpCallBack != null) {
-                        openHouseSignUpCallBack.onSignUpToOpenHouse(house, position);
+                        openHouseSignUpCallBack.onSignUpToOpenHouse(house, position, isSignUp);
 
                     }
                 });
+
+
+
             }
 
             if (showPropertiesType == ShowPropertiesType.AGENT_PROPERTIES){
@@ -103,6 +129,8 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
                 });
 
             }
+        } else {
+            holder.property_LAY_open_day.setVisibility(View.GONE);
         }
 
         if(!showPropertiesType.equals(ShowPropertiesType.AGENT_PROPERTIES)){
@@ -111,7 +139,7 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
 
             holder.agentProperty_BTN_open_house.setOnClickListener(v -> {
                 if(scheduleCallBack != null){
-                    scheduleCallBack.onScheduleOpenHouse(getItem(position), position);
+                    scheduleCallBack.onScheduleOpenHouse(house, position);
                 }
             });
             holder.agentProperty_BTN_purchased.setOnClickListener(v -> {
@@ -148,10 +176,9 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
 
 
     public void setAllImagesList(House house){
-        imageList.clear();
+        imageList = new ArrayList<>();
         for(String imageUrl : house.getImagesUrl()){
             imageList.add(new SlideModel(imageUrl, ScaleTypes.CENTER_CROP));
-            //imageList.add(new SlideModel("https://bit.ly/2YoJ77H", "The animal population decreased by 58 percent in 42 years.", ScaleTypes.CENTER_CROP));
         }
     }
 
@@ -162,6 +189,7 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
 
     @Override
     public int getItemCount() {
+        Log.d("HouseAdapter", "getItemCount: " + allHousesList.size());
         return allHousesList == null ? 0 : allHousesList.size();
 
     }
@@ -175,7 +203,6 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
 
         private ImageSlider property_image_slider;
         private MaterialButton property_LBL_status;
-        private CardView property_CARD_data;
         private MaterialTextView property_LBL_address;
         private MaterialTextView property_LBL_size;
         private MaterialTextView property_LBL_rooms;
@@ -197,7 +224,6 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
             imageList = new ArrayList<>();
             property_image_slider = itemView.findViewById(R.id.property_image_slider);
             property_LBL_status = itemView.findViewById(R.id.property_LBL_status);
-            property_CARD_data = itemView.findViewById(R.id.property_CARD_data);
             property_LBL_address = itemView.findViewById(R.id.property_LBL_address);
             property_LBL_size = itemView.findViewById(R.id.property_LBL_size);
             property_LBL_rooms = itemView.findViewById(R.id.property_LBL_rooms);
